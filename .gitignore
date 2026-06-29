@@ -24,6 +24,7 @@
 .agents/*
 skills-lock.json
 GOVERNANCE.md
+REPORT.md
 ARCHITECTURE.md
 GUIDE.md
 AGENTS.md
