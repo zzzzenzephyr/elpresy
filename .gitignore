@@ -21,7 +21,8 @@
 /build
 
 # agents and skills
-.agents
+.agents/private
+.agents/skills
 skills-lock.json
 GOVERNANCE.md
 REPORT.md
