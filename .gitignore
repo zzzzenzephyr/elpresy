@@ -20,6 +20,18 @@
 # production
 /build
 
+# agents and skills
+.agents/*
+skills-lock.json
+AGENT.md
+AGENTS.md
+CLAUDE.md
+PRD.md
+DESIGN.md
+PROJECT.md
+UPDATE.md
+RULES.md
+
 # misc
 .DS_Store
 *.pem
