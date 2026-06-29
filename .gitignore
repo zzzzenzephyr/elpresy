@@ -23,7 +23,9 @@
 # agents and skills
 .agents/*
 skills-lock.json
-AGENT.md
+GOVERNANCE.md
+ARCHITECTURE.md
+GUIDE.md
 AGENTS.md
 CLAUDE.md
 PRD.md
@@ -31,6 +33,7 @@ DESIGN.md
 PROJECT.md
 UPDATE.md
 RULES.md
+SKILLS.md
 
 # misc
 .DS_Store
