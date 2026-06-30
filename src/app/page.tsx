@@ -25,7 +25,7 @@ export default function Home() {
           <div className="relative max-w-[1152px] mx-auto px-6 flex flex-col xl:grid xl:grid-cols-12 gap-12 xl:gap-8 items-center">
             {/* Left Column (7 columns) */}
             <div className="flex flex-col w-full xl:col-span-7 xl:pr-8 xl:self-center items-start text-left">
-              <h1 className="text-heading text-h1 font-extrabold tracking-tight max-w-xl mb-4 leading-[1.1]">
+              <h1 className="text-heading text-h1 font-extrabold tracking-tight max-w-xl mb-4 leading-[1.1] shimmer">
                 Predict with confidence
               </h1>
               <p className="text-body text-body-lg max-w-lg mb-8">
