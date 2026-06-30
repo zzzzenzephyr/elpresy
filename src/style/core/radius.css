@@ -1,0 +1,6 @@
+@theme inline {
+  --radius-sm: 4px;
+  --radius-default: 8px;
+  --radius-base: 8px;
+  --radius-full: 9999px;
+}
