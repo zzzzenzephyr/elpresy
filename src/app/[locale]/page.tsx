@@ -1,4 +1,13 @@
-export default function Home() {
+import { useTranslations } from 'next-intl';
+import { setRequestLocale } from 'next-intl/server';
+import { Link } from '@/i18n/routing';
+
+export default function Home({ params }: { params: { locale: string } }) {
+  // Enable static rendering
+  setRequestLocale(params.locale);
+
+  const t = useTranslations('HomePage');
+
   return (
     <div className="flex flex-col min-h-screen bg-neutral-primary-soft text-body font-sans">
       {/* Navigation */}
@@ -6,6 +15,10 @@ export default function Home() {
         <div className="max-w-[1152px] mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="text-heading font-semibold text-lg">ELPRESY</span>
+          </div>
+          <div className="flex items-center gap-4 text-sm font-medium">
+            <Link href="/" locale="en" className={params.locale === 'en' ? 'text-brand' : 'text-body hover:text-brand'}>EN</Link>
+            <Link href="/" locale="id" className={params.locale === 'id' ? 'text-brand' : 'text-body hover:text-brand'}>ID</Link>
           </div>
         </div>
       </header>
@@ -26,11 +39,10 @@ export default function Home() {
             {/* Left Column (7 columns) */}
             <div className="flex flex-col w-full xl:col-span-7 xl:pr-8 xl:self-center items-start text-left">
               <h1 className="text-heading text-h1 font-extrabold tracking-tight max-w-xl mb-4 leading-[1.1] shimmer">
-                Predict with confidence
+                {t('title')}
               </h1>
               <p className="text-body text-body-lg max-w-lg mb-8">
-                The complete toolkit for modern energy predictions. Build, ship,
-                and scale with our comprehensive machine learning system.
+                {t('subtitle')}
               </p>
 
               <a
@@ -54,7 +66,7 @@ export default function Home() {
                     clipRule="evenodd"
                   />
                 </svg>
-                Watch Demo
+                {t('watchDemo')}
               </a>
 
               {/* Stat Row */}
@@ -64,9 +76,7 @@ export default function Home() {
                     99%
                   </div>
                   <div className="text-body-sm leading-tight text-body-subtle">
-                    Prediction
-                    <br />
-                    Accuracy
+                    {t('accuracyLabel')}
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
@@ -74,9 +84,7 @@ export default function Home() {
                     10k+
                   </div>
                   <div className="text-body-sm leading-tight text-body-subtle">
-                    Active
-                    <br />
-                    Models
+                    {t('activeModelsLabel')}
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
@@ -84,9 +92,7 @@ export default function Home() {
                     24/7
                   </div>
                   <div className="text-body-sm leading-tight text-body-subtle">
-                    System
-                    <br />
-                    Uptime
+                    {t('uptimeLabel')}
                   </div>
                 </div>
               </div>
@@ -96,15 +102,15 @@ export default function Home() {
             <div className="w-full max-w-md mx-auto xl:col-span-5 xl:ml-auto">
               <div className="bg-neutral-primary border border-border-default rounded-base shadow-lg p-8 w-full flex flex-col">
                 <h2 className="text-heading text-h4 font-semibold mb-1">
-                  Log in to your account
+                  {t('loginTitle')}
                 </h2>
                 <p className="text-body-sm text-body mb-6">
-                  Don't have an account?{" "}
+                  {t('noAccount')}{" "}
                   <a
                     href="/register"
                     className="text-brand hover:underline font-medium"
                   >
-                    Sign up
+                    {t('signUp')}
                   </a>
                 </p>
 
@@ -136,7 +142,7 @@ export default function Home() {
                         fill="#EA4335"
                       />
                     </svg>
-                    Google
+                    {t('loginGoogle')}
                   </button>
                   <button
                     type="button"
@@ -155,7 +161,7 @@ export default function Home() {
                         clipRule="evenodd"
                       />
                     </svg>
-                    GitHub
+                    {t('loginGithub')}
                   </button>
                 </div>
 
@@ -168,7 +174,7 @@ export default function Home() {
                   </div>
                   <div className="relative flex justify-center text-body-sm">
                     <span className="bg-neutral-primary px-2 text-body-subtle">
-                      Or continue with
+                      {t('continueWith')}
                     </span>
                   </div>
                 </div>
@@ -179,7 +185,7 @@ export default function Home() {
                       className="text-body-sm font-medium text-heading"
                       htmlFor="email"
                     >
-                      Email
+                      {t('emailLabel')}
                     </label>
                     <input
                       id="email"
@@ -193,7 +199,7 @@ export default function Home() {
                       className="text-body-sm font-medium text-heading"
                       htmlFor="password"
                     >
-                      Password
+                      {t('passwordLabel')}
                     </label>
                     <input
                       id="password"
@@ -210,14 +216,14 @@ export default function Home() {
                         className="w-4 h-4 rounded-sm border-border-default bg-neutral-primary-soft text-brand focus:ring-brand-subtle"
                       />
                       <span className="text-body-sm text-body">
-                        Remember me
+                        {t('rememberMe')}
                       </span>
                     </label>
                     <a
                       href="/"
                       className="text-body-sm text-brand hover:underline font-medium"
                     >
-                      Lost password?
+                      {t('lostPassword')}
                     </a>
                   </div>
 
@@ -229,18 +235,18 @@ export default function Home() {
                         "var(--shadow-xs), inset var(--color-1-400) 0 6px 0px -5px, var(--color-1-700) 0 4px 10px -5px",
                     }}
                   >
-                    Sign In
+                    {t('signIn')}
                   </button>
                 </form>
 
                 <p className="text-body-sm text-body text-center mt-6">
-                  By continuing, you agree to our{" "}
+                  {t('termsAgree')}{" "}
                   <a href="/" className="text-brand hover:underline">
-                    Terms of Service
+                    {t('termsOfService')}
                   </a>{" "}
-                  and{" "}
+                  {t('and')}{" "}
                   <a href="/" className="text-brand hover:underline">
-                    Privacy Policy
+                    {t('privacyPolicy')}
                   </a>
                   .
                 </p>
@@ -254,36 +260,35 @@ export default function Home() {
           <div className="max-w-[1152px] mx-auto px-6">
             <div className="mb-12 text-center">
               <h2 className="text-heading text-h2 font-semibold">
-                Everything you need
+                {t('featuresTitle')}
               </h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {/* Card 1 */}
               <div className="bg-neutral-primary-soft border border-border-default rounded-base p-6 shadow-xs hover:bg-neutral-secondary-medium transition-colors cursor-pointer">
                 <h3 className="text-heading text-h5 font-medium mb-2">
-                  Beautiful Design
+                  {t('feature1Title')}
                 </h3>
                 <p className="text-body text-body-sm">
-                  Carefully crafted components following strict design
-                  guidelines.
+                  {t('feature1Desc')}
                 </p>
               </div>
               {/* Card 2 */}
               <div className="bg-neutral-primary-soft border border-border-default rounded-base p-6 shadow-xs hover:bg-neutral-secondary-medium transition-colors cursor-pointer">
                 <h3 className="text-heading text-h5 font-medium mb-2">
-                  Fully Responsive
+                  {t('feature2Title')}
                 </h3>
                 <p className="text-body text-body-sm">
-                  Looks great on any device, from mobile to desktop screens.
+                  {t('feature2Desc')}
                 </p>
               </div>
               {/* Card 3 */}
               <div className="bg-neutral-primary-soft border border-border-default rounded-base p-6 shadow-xs hover:bg-neutral-secondary-medium transition-colors cursor-pointer">
                 <h3 className="text-heading text-h5 font-medium mb-2">
-                  Accessible
+                  {t('feature3Title')}
                 </h3>
                 <p className="text-body text-body-sm">
-                  Built with accessibility in mind to reach all your users.
+                  {t('feature3Desc')}
                 </p>
               </div>
             </div>
@@ -294,7 +299,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="w-full border-t border-border-default py-8 bg-neutral-primary-soft">
         <div className="max-w-[1152px] mx-auto px-6 text-center text-body-sm">
-          &copy; {new Date().getFullYear()} Elpresy. All rights reserved.
+          {t('footer', { year: new Date().getFullYear() })}
         </div>
       </footer>
     </div>

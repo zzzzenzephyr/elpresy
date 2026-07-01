@@ -1,0 +1,33 @@
+{
+  "HomePage": {
+    "title": "Prediksi dengan percaya diri",
+    "subtitle": "Perangkat lengkap untuk prediksi energi modern. Bangun, luncurkan, dan skalakan dengan sistem machine learning komprehensif kami.",
+    "watchDemo": "Tonton Demo",
+    "accuracyLabel": "Akurasi Prediksi",
+    "activeModelsLabel": "Model Aktif",
+    "uptimeLabel": "Waktu Aktif Sistem",
+    "loginTitle": "Masuk ke akun Anda",
+    "noAccount": "Belum punya akun?",
+    "signUp": "Daftar",
+    "loginGoogle": "Google",
+    "loginGithub": "GitHub",
+    "continueWith": "Atau lanjutkan dengan",
+    "emailLabel": "Email",
+    "passwordLabel": "Kata Sandi",
+    "rememberMe": "Ingat saya",
+    "lostPassword": "Lupa kata sandi?",
+    "signIn": "Masuk",
+    "termsAgree": "Dengan melanjutkan, Anda menyetujui",
+    "termsOfService": "Syarat Layanan",
+    "and": "dan",
+    "privacyPolicy": "Kebijakan Privasi",
+    "featuresTitle": "Semua yang Anda butuhkan",
+    "feature1Title": "Desain Indah",
+    "feature1Desc": "Komponen yang dibuat dengan cermat mengikuti pedoman desain yang ketat.",
+    "feature2Title": "Sangat Responsif",
+    "feature2Desc": "Terlihat menawan di perangkat apa pun, dari layar seluler hingga desktop.",
+    "feature3Title": "Aksesibel",
+    "feature3Desc": "Dibangun dengan mempertimbangkan aksesibilitas untuk menjangkau semua pengguna Anda.",
+    "footer": "© {year} Elpresy. Hak cipta dilindungi undang-undang."
+  }
+}

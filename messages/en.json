@@ -1,0 +1,33 @@
+{
+  "HomePage": {
+    "title": "Predict with confidence",
+    "subtitle": "The complete toolkit for modern energy predictions. Build, ship, and scale with our comprehensive machine learning system.",
+    "watchDemo": "Watch Demo",
+    "accuracyLabel": "Prediction Accuracy",
+    "activeModelsLabel": "Active Models",
+    "uptimeLabel": "System Uptime",
+    "loginTitle": "Log in to your account",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign up",
+    "loginGoogle": "Google",
+    "loginGithub": "GitHub",
+    "continueWith": "Or continue with",
+    "emailLabel": "Email",
+    "passwordLabel": "Password",
+    "rememberMe": "Remember me",
+    "lostPassword": "Lost password?",
+    "signIn": "Sign In",
+    "termsAgree": "By continuing, you agree to our",
+    "termsOfService": "Terms of Service",
+    "and": "and",
+    "privacyPolicy": "Privacy Policy",
+    "featuresTitle": "Everything you need",
+    "feature1Title": "Beautiful Design",
+    "feature1Desc": "Carefully crafted components following strict design guidelines.",
+    "feature2Title": "Fully Responsive",
+    "feature2Desc": "Looks great on any device, from mobile to desktop screens.",
+    "feature3Title": "Accessible",
+    "feature3Desc": "Built with accessibility in mind to reach all your users.",
+    "footer": "© {year} Elpresy. All rights reserved."
+  }
+}
