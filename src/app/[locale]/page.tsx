@@ -5,13 +5,15 @@ import { LoginForm } from '@/components/app/page/login-form';
 import { Process } from '@/components/app/page/process';
 import { Footer } from '@/components/app/page/footer';
 
-export default function Home({ params }: { params: { locale: string } }) {
+export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params;
+
   // Enable static rendering
-  setRequestLocale(params.locale);
+  setRequestLocale(locale);
 
   return (
     <div className="flex flex-col min-h-screen bg-neutral-primary-soft text-body font-sans">
-      <Header locale={params.locale} />
+      <Header locale={locale} />
 
       <main className="flex-1 w-full">
         <Hero>
