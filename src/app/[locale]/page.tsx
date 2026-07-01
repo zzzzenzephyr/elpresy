@@ -4,6 +4,7 @@ import { Hero } from '@/components/app/page/hero';
 import { LoginForm } from '@/components/app/page/login-form';
 import { Process } from '@/components/app/page/process';
 import { Footer } from '@/components/app/page/footer';
+import { Features } from '@/components/app/page/features';
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -19,6 +20,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         <Hero>
           <LoginForm />
         </Hero>
+        <Features />
         <Process />
       </main>
 
