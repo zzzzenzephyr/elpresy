@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 3001",
     "lint": "biome check",
     "exe": "pnpm build && pnpm start",
     "format": "biome format --write"
