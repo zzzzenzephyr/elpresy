@@ -23,6 +23,8 @@
 # agents and skills
 .agents/private
 .agents/skills
+.agents/rules
+.agents/workflows
 skills-lock.json
 GOVERNANCE.md
 REPORT.md
