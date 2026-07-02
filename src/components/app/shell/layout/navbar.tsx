@@ -1,5 +1,13 @@
 import { Search, Plus, Bell, User, Menu, Sun } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
 export function Navbar() {
   return (
@@ -12,30 +20,25 @@ export function Navbar() {
           <div className="w-6 h-6 bg-brand rounded-sm flex items-center justify-center text-white font-bold text-xs">E</div>
           <span className="text-heading font-semibold text-lg">ELPRESY</span>
         </div>
-        <div className="hidden md:flex items-center ml-8 relative">
-          <Search className="w-4 h-4 text-body absolute left-3" />
-          <input 
-            type="text" 
-            placeholder="Search..." 
-            className="pl-9 pr-4 py-2 text-sm bg-neutral-primary-soft border border-border-default rounded-md focus:outline-none focus:ring-2 focus:ring-brand w-64 text-heading placeholder:text-body"
-          />
-        </div>
+        <Breadcrumb className="hidden md:flex ml-8">
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/" className="text-body hover:text-heading transition-colors">Home</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage className="text-heading font-medium">Overview</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
       </div>
       <div className="flex items-center gap-3">
-        <Button size="sm" className="hidden sm:flex items-center gap-1.5 px-[12px] py-[6px] h-auto rounded-md">
-          <Plus className="w-4 h-4" />
-          <span className="font-medium text-[12px]">New Action</span>
-        </Button>
         <Button variant="ghost" size="icon" className="w-8 h-8 rounded-full">
-          <Sun className="w-4 h-4 text-body hover:text-heading" />
-        </Button>
-        <Button variant="ghost" size="icon" className="w-8 h-8 rounded-full">
-          <Bell className="w-4 h-4 text-body hover:text-heading" />
+          <Sun className="w-4 h-4 text-body hover:text-heading transition-colors" />
         </Button>
         <div className="w-8 h-8 rounded-full bg-brand-soft border border-border-default flex items-center justify-center overflow-hidden">
           <User className="w-4 h-4 text-brand" />
         </div>
-        <a href="#" className="text-sm font-medium text-body hover:text-brand hidden sm:block">Logout</a>
       </div>
     </header>
   );
