@@ -1,5 +1,4 @@
-import { Search, Plus, Bell, User, Menu, Sun } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { User, Menu } from 'lucide-react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -8,6 +7,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { ThemeToggleButton } from './theme-toggle';
 
 export function Navbar() {
   return (
@@ -33,9 +33,7 @@ export function Navbar() {
         </Breadcrumb>
       </div>
       <div className="flex items-center gap-3">
-        <Button variant="ghost" size="icon" className="w-8 h-8 rounded-full">
-          <Sun className="w-4 h-4 text-body hover:text-heading transition-colors" />
-        </Button>
+        <ThemeToggleButton />
         <div className="w-8 h-8 rounded-full bg-brand-soft border border-border-default flex items-center justify-center overflow-hidden">
           <User className="w-4 h-4 text-brand" />
         </div>
