@@ -20,8 +20,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         <Hero>
           <LoginForm />
         </Hero>
-        <Features />
         <Process />
+        <Features />
       </main>
 
       <Footer />
