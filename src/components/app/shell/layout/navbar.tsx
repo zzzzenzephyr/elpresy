@@ -7,7 +7,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { ThemeToggleButton } from './theme-toggle';
+import { ThemeToggleButton } from './theme';
 
 export function Navbar() {
   return (
