@@ -1,6 +1,6 @@
 import { Separator } from "@/components/ui/separator";
 import { MetricsWidget } from "@/components/app/shell/firebase/page/metrics";
-import { TrendBadge } from "@/components/app/shell/firebase/page/trend-badge";
+import { TrendBadge } from "@/components/app/shell/firebase/page/badge";
 
 export default function FirebasePage() {
   return (
