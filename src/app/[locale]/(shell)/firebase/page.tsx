@@ -1,6 +1,7 @@
 import { Separator } from "@/components/ui/separator";
 import { MetricsWidget } from "@/components/app/shell/firebase/page/metrics";
 import { TrendBadge } from "@/components/app/shell/firebase/page/badge";
+import { RequestsTable } from "@/components/app/shell/firebase/page/requests-table";
 
 export default function FirebasePage() {
   return (
@@ -40,6 +41,13 @@ export default function FirebasePage() {
             comparisonText="vs last week"
           />
         </div>
+      </section>
+
+      <Separator className="my-2 bg-border-default" />
+
+      {/* Requests Data Table */}
+      <section>
+        <RequestsTable />
       </section>
     </div>
   );

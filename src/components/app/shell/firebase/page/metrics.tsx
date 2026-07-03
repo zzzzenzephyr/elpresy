@@ -18,25 +18,20 @@ const chartData = [
   { name: "Desktop", value: 450, fill: "var(--color-desktop)" },
   { name: "Mobile", value: 320, fill: "var(--color-mobile)" },
   { name: "Tablet", value: 180, fill: "var(--color-tablet)" },
-  { name: "Other", value: 90, fill: "var(--color-other)" },
 ];
 
 const chartConfig = {
   desktop: {
     label: "Desktop",
-    color: "hsl(var(--brand, 221 83% 53%))", // Fallback if --brand is missing
+    color: "var(--color-brand)",
   },
   mobile: {
     label: "Mobile",
-    color: "hsl(var(--brand, 221 83% 53%) / 0.8)",
+    color: "var(--color-success)",
   },
   tablet: {
     label: "Tablet",
-    color: "hsl(var(--brand, 221 83% 53%) / 0.6)",
-  },
-  other: {
-    label: "Other",
-    color: "hsl(var(--brand, 221 83% 53%) / 0.4)",
+    color: "var(--color-warning)",
   },
 };
 
@@ -102,7 +97,7 @@ export function MetricsWidget() {
 
           {/* Right side: Chart */}
           <div className="w-full lg:w-[320px] shrink-0 flex items-center justify-center">
-            <ChartContainer config={chartConfig} className="w-full h-full min-h-[200px]">
+            <ChartContainer config={chartConfig} className="w-full h-full min-h-[250px]">
               <RadialBarChart 
                 data={chartData} 
                 innerRadius={40} 
