@@ -6,13 +6,27 @@ import {
   ChevronDown,
   ChevronRight,
 } from "lucide-react";
-import {
-  RadialBarChart,
-  RadialBar,
-  PolarAngleAxis,
-} from "recharts";
+import { RadialBarChart, RadialBar, PolarAngleAxis } from "recharts";
 import { cn } from "@/lib/utils";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import { useFirebaseData } from "@/components/app/shell/firebase/page/provider";
+import { useEffect, useState } from "react";
+
+interface FirebaseData {
+  current?: number;
+  power_watt?: number;
+  voltage?: number;
+  energy_kwh?: number;
+  last_updated?: number;
+}
+
+const defaultFirebaseData: FirebaseData = {
+    "current": 0,
+    "energy_kwh": 0,
+    "last_updated": 0,
+    "power_watt": 0,
+    "voltage": 0,
+}
 
 const chartData = [
   { name: "Desktop", value: 450, fill: "var(--color-desktop)" },
@@ -35,16 +49,77 @@ const chartConfig = {
   },
 };
 
-const metricCells = [
-  { label: "Website visits", value: "163.4M", delta: "+1.45%", isPositive: true },
-  { label: "Monthly revenue", value: "$768k", delta: "+5.12%", isPositive: true },
-  { label: "Active users", value: "6,567", delta: "-2.10%", isPositive: false },
-  { label: "Bounce rate", value: "42.3%", delta: "+1.15%", isPositive: false }, // typically higher bounce rate is bad, but keeping simple semantic
-  { label: "Conversion rate", value: "3.2%", delta: "+0.8%", isPositive: true },
-  { label: "Avg. session length", value: "4m 12s", delta: "-0.5%", isPositive: false },
-];
+// Dynamic metric cells will be generated inside the component
 
 export function MetricsWidget() {
+  const { data, error } = useFirebaseData();
+  const [realtimeData, setRealtimeData] = useState(defaultFirebaseData);
+  const [pastData, setPastData] = useState(defaultFirebaseData);
+
+  useEffect(() => {
+    if (data) {
+      setPastData(realtimeData);
+      setRealtimeData(data);
+
+      console.group(Date.now())
+      console.log("MetricsWidget received data:", data);
+      console.table(pastData);
+      console.table(realtimeData);
+      console.groupEnd()
+    }
+  }, [data]);
+
+  const safeDelta = (curr: number | undefined, past: number | undefined) => {
+    if (curr == null || past == null || past === 0) return { text: "-", isPositive: true };
+    const diff = curr - past;
+    const percent = (diff / past) * 100;
+    
+    // If the difference rounds to 0.00%, show "-"
+    if (Math.abs(percent) < 0.005) {
+      return { text: "-", isPositive: true };
+    }
+    
+    return {
+      text: `${diff > 0 ? "+" : ""}${percent.toFixed(2)}%`,
+      isPositive: diff > 0,
+    };
+  };
+
+  const dynamicMetricCells = [
+    {
+      label: "Current",
+      value: realtimeData?.current != null ? `${realtimeData.current} A` : "-",
+      ...safeDelta(realtimeData?.current, pastData?.current),
+    },
+    {
+      label: "Power Watt",
+      value: realtimeData?.power_watt != null ? `${realtimeData.power_watt} W` : "-",
+      ...safeDelta(realtimeData?.power_watt, pastData?.power_watt),
+    },
+    {
+      label: "Voltage",
+      value: realtimeData?.voltage != null ? `${realtimeData.voltage} V` : "-",
+      ...safeDelta(realtimeData?.voltage, pastData?.voltage),
+    },
+    {
+      label: "Energy kWh",
+      value: realtimeData?.energy_kwh != null ? `${realtimeData.energy_kwh} kWh` : "-",
+      ...safeDelta(realtimeData?.energy_kwh, pastData?.energy_kwh),
+    },
+    {
+      label: "Date",
+      value: realtimeData?.last_updated ? new Date(realtimeData.last_updated * 1000).toLocaleDateString() : "-",
+      text: "-",
+      isPositive: true,
+    },
+    {
+      label: "Time",
+      value: realtimeData?.last_updated ? new Date(realtimeData.last_updated * 1000).toLocaleTimeString() : "-",
+      text: "-",
+      isPositive: true,
+    },
+  ];
+
   return (
     <div className="w-full pb-4">
       <div className="w-full bg-neutral-primary border border-border-default rounded-xl p-4 md:p-6 shadow-sm flex flex-col gap-6">
@@ -72,25 +147,25 @@ export function MetricsWidget() {
           
           {/* Left side: Metric grid */}
           <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-px bg-border-default border border-border-default rounded-lg overflow-hidden">
-            {metricCells.map((cell, idx) => (
+            {dynamicMetricCells.map((cell, idx) => (
               <div key={idx} className="bg-neutral-primary p-4 flex flex-col justify-between">
                 <div className="flex items-start justify-between mb-2">
                   <span className="text-sm text-body-subtle">{cell.label}</span>
                   <span 
                     className={cn(
                       "text-xs font-medium flex items-center gap-0.5",
-                      cell.isPositive ? "text-fg-success-strong" : "text-fg-danger-strong"
+                      cell.text === "-" ? "text-body-subtle" : cell.isPositive ? "text-fg-success-strong" : "text-fg-danger-strong"
                     )}
                   >
-                    {cell.isPositive ? (
+                    {cell.text !== "-" && (cell.isPositive ? (
                       <ArrowUpRight className="w-3 h-3" />
                     ) : (
                       <ArrowDownRight className="w-3 h-3" />
-                    )}
-                    {cell.delta}
+                    ))}
+                    {cell.text}
                   </span>
                 </div>
-                <span className="tabular-nums text-2xl font-bold text-heading">{cell.value}</span>
+                <span className="tabular-nums text-2xl font-bold text-heading">{String(cell.value)}</span>
               </div>
             ))}
           </div>

@@ -2,15 +2,13 @@ import { Separator } from "@/components/ui/separator";
 import { MetricsWidget } from "@/components/app/shell/firebase/page/metrics";
 import { TrendBadge } from "@/components/app/shell/firebase/page/badge";
 import { RTable } from "@/components/app/shell/firebase/page/table";
-import { DatabaseLogger } from "@/components/app/shell/firebase/page/database-logger";
+import { Provider } from "@/components/app/shell/firebase/page/provider";
 
 export default function FirebasePage() {
   return (
-    <div className="flex flex-col gap-8 w-full max-w-7xl mx-auto py-6 px-4 md:px-8">
-      {/* Invisible background polling component */}
-      <DatabaseLogger />
-
-      {/* Metrics Section */}
+    <Provider>
+      <div className="flex flex-col gap-8 w-full max-w-7xl mx-auto py-6 px-4 md:px-8">
+        {/* Metrics Section */}
       <section>
         <MetricsWidget />
       </section>
@@ -54,5 +52,6 @@ export default function FirebasePage() {
         <RTable />
       </section>
     </div>
+    </Provider>
   );
 }
