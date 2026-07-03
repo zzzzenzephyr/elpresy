@@ -8,6 +8,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { ThemeToggleButton } from './theme';
+import { ProfileMenu } from './profile';
 
 export function Navbar() {
   return (
@@ -34,9 +35,7 @@ export function Navbar() {
       </div>
       <div className="flex items-center gap-3">
         <ThemeToggleButton />
-        <div className="w-8 h-8 rounded-full bg-brand-soft border border-border-default flex items-center justify-center overflow-hidden">
-          <User className="w-4 h-4 text-brand" />
-        </div>
+        <ProfileMenu />
       </div>
     </header>
   );
