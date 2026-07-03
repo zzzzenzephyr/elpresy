@@ -1,11 +1,15 @@
 import { Separator } from "@/components/ui/separator";
 import { MetricsWidget } from "@/components/app/shell/firebase/page/metrics";
 import { TrendBadge } from "@/components/app/shell/firebase/page/badge";
-import { RequestsTable } from "@/components/app/shell/firebase/page/requests-table";
+import { RTable } from "@/components/app/shell/firebase/page/table";
+import { DatabaseLogger } from "@/components/app/shell/firebase/page/database-logger";
 
 export default function FirebasePage() {
   return (
     <div className="flex flex-col gap-8 w-full max-w-7xl mx-auto py-6 px-4 md:px-8">
+      {/* Invisible background polling component */}
+      <DatabaseLogger />
+
       {/* Metrics Section */}
       <section>
         <MetricsWidget />
@@ -47,7 +51,7 @@ export default function FirebasePage() {
 
       {/* Requests Data Table */}
       <section>
-        <RequestsTable />
+        <RTable />
       </section>
     </div>
   );
