@@ -1,5 +1,5 @@
 import { setRequestLocale } from 'next-intl/server';
-import { Maintenance } from '@/components/app/shell/page/maintenance';
+import { Maintenance } from '@/components/app/shell/overview/page/maintenance';
 
 export default async function ShellPage(props: {
   params: Promise<{ locale: string }>;
