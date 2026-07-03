@@ -51,11 +51,11 @@ const metricCells = [
 
 export function MetricsWidget() {
   return (
-    <div className="w-full overflow-x-auto pb-4">
-      <div className="w-[1024px] bg-neutral-primary border border-border-default rounded-xl p-6 shadow-sm flex flex-col gap-6">
+    <div className="w-full pb-4">
+      <div className="w-full bg-neutral-primary border border-border-default rounded-xl p-4 md:p-6 shadow-sm flex flex-col gap-6">
         
         {/* Header row */}
-        <div className="flex items-start justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
           <div className="flex flex-col gap-1">
             <div className="flex items-center gap-3">
               <h2 className="text-xl font-bold text-heading">Website performance</h2>
@@ -73,10 +73,10 @@ export function MetricsWidget() {
         </div>
 
         {/* Split body */}
-        <div className="flex gap-8">
+        <div className="flex flex-col lg:flex-row gap-8">
           
           {/* Left side: Metric grid */}
-          <div className="flex-1 grid grid-cols-3 grid-rows-2 gap-px bg-border-default border border-border-default rounded-lg overflow-hidden">
+          <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-px bg-border-default border border-border-default rounded-lg overflow-hidden">
             {metricCells.map((cell, idx) => (
               <div key={idx} className="bg-neutral-primary p-4 flex flex-col justify-between">
                 <div className="flex items-start justify-between mb-2">
@@ -101,7 +101,7 @@ export function MetricsWidget() {
           </div>
 
           {/* Right side: Chart */}
-          <div className="w-[320px] shrink-0 flex items-center justify-center">
+          <div className="w-full lg:w-[320px] shrink-0 flex items-center justify-center">
             <ChartContainer config={chartConfig} className="w-full h-full min-h-[200px]">
               <RadialBarChart 
                 data={chartData} 
@@ -129,13 +129,13 @@ export function MetricsWidget() {
         </div>
 
         {/* Footer row */}
-        <div className="flex items-center justify-between border-t border-border-default pt-6 mt-2">
-          <button className="flex items-center gap-2 px-3 py-2 border border-border-default rounded-md text-sm font-medium text-body hover:bg-neutral-secondary transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring">
+        <div className="flex flex-col-reverse sm:flex-row items-start sm:items-center justify-between gap-4 border-t border-border-default pt-6 mt-2">
+          <button className="w-full sm:w-auto flex items-center justify-center gap-2 px-3 py-2 border border-border-default rounded-md text-sm font-medium text-body hover:bg-neutral-secondary transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring">
             Last 7 days
             <ChevronDown className="w-4 h-4 text-body-subtle" />
           </button>
           
-          <button className="flex items-center gap-1 px-3 py-2 text-sm font-medium text-brand hover:text-brand-strong hover:underline transition-all outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-md">
+          <button className="w-full sm:w-auto flex items-center justify-center sm:justify-start gap-1 px-3 py-2 text-sm font-medium text-brand hover:text-brand-strong hover:underline transition-all outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-md">
             View full report
             <ChevronRight className="w-4 h-4" />
           </button>

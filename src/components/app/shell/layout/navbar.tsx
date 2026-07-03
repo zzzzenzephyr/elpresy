@@ -1,4 +1,4 @@
-import { User, Menu } from 'lucide-react';
+import { User } from 'lucide-react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -9,14 +9,13 @@ import {
 } from "@/components/ui/breadcrumb";
 import { ThemeToggleButton } from './theme';
 import { ProfileMenu } from './profile';
+import { SidebarTrigger } from '@/components/ui/sidebar';
 
 export function Navbar() {
   return (
     <header className="fixed top-0 left-0 right-0 h-16 border-b border-border-default bg-neutral-primary flex items-center px-4 z-50 justify-between">
       <div className="flex items-center gap-4">
-        <button className="p-2 text-body md:hidden">
-          <Menu className="w-5 h-5" />
-        </button>
+        <SidebarTrigger className="text-body -ml-1" />
         <div className="flex items-center gap-2">
           <div className="w-6 h-6 bg-brand rounded-sm flex items-center justify-center text-white font-bold text-xs">E</div>
           <span className="text-heading font-semibold text-lg">ELPRESY</span>

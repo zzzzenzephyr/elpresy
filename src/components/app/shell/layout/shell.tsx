@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { Navbar } from './navbar';
 import { Sidebar } from './sidebar';
-import { SidebarProvider } from '@/components/ui/sidebar';
+import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 
 interface ShellProps {
   children: ReactNode;
@@ -14,12 +14,12 @@ export function Shell({ children }: ShellProps) {
         <Navbar />
         <div className="flex flex-1 pt-16">
           <Sidebar />
-          <main className="flex-1 md:ml-64 relative">
+          <SidebarInset className="flex-1 relative bg-transparent overflow-x-hidden">
             {/* Main content area expands to full viewport width on mobile, and fills remaining space on desktop. */}
             <div className="w-full h-full">
               {children}
             </div>
-          </main>
+          </SidebarInset>
         </div>
       </div>
     </SidebarProvider>
