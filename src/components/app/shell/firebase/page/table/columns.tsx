@@ -22,7 +22,7 @@ import {
   Edit2,
   Trash2,
 } from "lucide-react";
-import { RequestTicket } from "./data";
+import { RequestTicket } from "@/script/app/firebase/data";
 
 export const columns: ColumnDef<RequestTicket>[] = [
   {

@@ -17,10 +17,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { data } from "./table/data";
-import { columns } from "./table/columns";
-import { TableHeader as TableTopBar } from "./table/header";
-import { TablePagination } from "./table/pagination";
+
+import { data } from "@/script/app/firebase/data";
+import { columns } from "@/components/app/shell/firebase/page/table/columns";
+import { TableHeader as TableTopBar } from "@/components/app/shell/firebase/page/table/header";
+import { TablePagination } from "@/components/app/shell/firebase/page/table/pagination";
 
 export function RTable() {
   const [sorting, setSorting] = React.useState<SortingState>([]);

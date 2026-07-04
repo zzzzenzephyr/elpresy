@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
-import { Navbar } from './navbar';
-import { Sidebar } from './sidebar';
+
+import { Navbar } from '@/components/app/shell/layout/navbar';
+import { Sidebar } from '@/components/app/shell/layout/sidebar';
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 
 interface ShellProps {

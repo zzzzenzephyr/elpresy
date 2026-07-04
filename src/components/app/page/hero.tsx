@@ -26,7 +26,7 @@ export function Hero({ children }: { children: React.ReactNode }) {
           </p>
 
           <a
-            href={`/${locale}/dashboard`}
+            href={`/${locale}/overview`}
             className="inline-flex items-center justify-center px-4 py-2.5 bg-brand text-white font-medium rounded-base transition-colors hover:bg-brand-strong w-auto mb-16"
             style={{
               boxShadow:

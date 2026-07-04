@@ -1,5 +1,5 @@
 import { Separator } from "@/components/ui/separator";
-import { MetricsWidget } from "@/components/app/shell/firebase/page/metrics";
+import { MetricsWidget } from "@/components/app/shell/firebase/page/metrics/widget";
 import { TrendBadge } from "@/components/app/shell/firebase/page/badge";
 import { RTable } from "@/components/app/shell/firebase/page/table";
 import { Provider } from "@/components/app/shell/firebase/page/provider";

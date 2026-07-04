@@ -1,4 +1,3 @@
-import { User } from 'lucide-react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -7,8 +6,9 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { ThemeToggleButton } from './theme';
-import { ProfileMenu } from './profile';
+
+import { ThemeToggleButton } from '@/components/app/shell/layout/theme';
+import { ProfileMenu } from '@/components/app/shell/layout/profile';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 
 export function Navbar() {
