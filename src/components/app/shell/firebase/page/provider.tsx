@@ -26,8 +26,11 @@ export const useFirebaseData = () => useContext(FirebaseDataContext);
 export function Provider({ children }: { children: React.ReactNode }) {
   const [data, setData] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
+  const [isSubscribed, setIsSubscribed] = useState(true);
 
   useEffect(() => {
+    if (!isSubscribed) return;
+
     // You can adjust this path based on your exact Firebase structure
     const dataRef = ref(database, "/devices/ESP32_METER_01/live_data"); 
 
@@ -51,10 +54,10 @@ export function Provider({ children }: { children: React.ReactNode }) {
     );
 
     return () => unsubscribe();
-  }, []);
+  }, [isSubscribed]);
 
   return (
-    <FirebaseDataContext.Provider value={{ data, error }}>
+    <FirebaseDataContext.Provider value={{ data, error, isSubscribed, setIsSubscribed }}>
       {children}
     </FirebaseDataContext.Provider>
   );

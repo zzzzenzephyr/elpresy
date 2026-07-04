@@ -49,7 +49,7 @@ export function MetricsWidget() {
           
           <MetricsGrid cells={dynamicMetricCells} />
 
-          <MetricsChart />
+          <MetricsChart data={realtimeData} />
           
         </div>
 

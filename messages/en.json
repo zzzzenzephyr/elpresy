@@ -39,5 +39,28 @@
     "step3Title": "Analyze Results",
     "step3Desc": "Review the detailed wattage forecasts through our intuitive dashboard. Identify usage spikes and implement data-driven strategies to significantly optimize your daily electrical consumption.",
     "poweredBy": "Powered by ml-cart"
+  },
+  "FirebaseMonitoring": {
+    "metricsTitle": "Firebase Realtime Database",
+    "metricsSubtitle": "Live telemetry data from your connected IoT devices.",
+    "domain": "elpresy.com",
+    "totalLogs": "Total Logs: 43,436",
+    "totalLogsTooltip": "Total records from Firebase in the system",
+    "searchLogs": "Search logs...",
+    "actions": "Actions",
+    "filters": "Filters",
+    "addLog": "Add log",
+    "tableSettings": "Table settings",
+    "hideFields": "Hide fields",
+    "settings": "Settings",
+    "hide": "Hide",
+    "liveData": "Live Data",
+    "viewFirebaseConsole": "View Firebase Console",
+    "Current": "Current",
+    "Power Watt": "Power Watt",
+    "Voltage": "Voltage",
+    "Energy kWh": "Energy kWh",
+    "Date": "Date",
+    "Time": "Time"
   }
 }
