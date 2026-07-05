@@ -66,5 +66,29 @@
     "pageInfo": "{start}–{end} of {total}",
     "previous": "Previous",
     "next": "Next"
+  },
+  "PredictPage": {
+    "title": "Frequently Asked Questions",
+    "description": "Find answers to common questions about our prediction engine and data synchronization processes.",
+    "contact": {
+      "address": "123 Innovation Drive\nTech District, City 10110",
+      "label": "Support Team",
+      "email": "support@elpresy.com",
+      "button": "Contact Support"
+    },
+    "questions": {
+      "q1": {
+        "question": "How does the prediction model work?",
+        "answer": "Our model analyzes historical wattage data to forecast future consumption using advanced time-series algorithms."
+      },
+      "q2": {
+        "question": "How often is data synced?",
+        "answer": "Data is synchronized every 15 minutes from connected IoT devices to ensure high accuracy."
+      },
+      "q3": {
+        "question": "Can I export the results?",
+        "answer": "Yes, you can export prediction results as CSV or PDF from the overview dashboard."
+      }
+    }
   }
 }

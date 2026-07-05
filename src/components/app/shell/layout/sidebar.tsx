@@ -1,6 +1,6 @@
 "use client";
 
-import { Home, Flame, Settings, FileText, HelpCircle } from 'lucide-react';
+import { Home, Flame, Settings, FileText, HelpCircle, LineChart } from 'lucide-react';
 import { Link, usePathname } from '@/i18n/routing';
 import { Sidebar as ShadcnSidebar, SidebarContent, SidebarFooter } from '@/components/ui/sidebar';
 import { cn } from '@/lib/utils';
@@ -10,6 +10,7 @@ export function Sidebar() {
   const navItems = [
     { href: '/overview', label: 'Overview', icon: Home },
     { href: '/firebase', label: 'Firebase', icon: Flame },
+    { href: '/predict', label: 'Predict', icon: LineChart },
   ];
 
   return (
