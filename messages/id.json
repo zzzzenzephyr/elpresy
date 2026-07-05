@@ -49,7 +49,7 @@
     "searchData": "Cari data...",
     "actions": "Aksi",
     "filters": "Filter",
-    "addData": "Tambah data",
+    "refreshData": "Segarkan data",
     "tableSettings": "Pengaturan tabel",
     "hideFields": "Sembunyikan kolom",
     "settings": "Pengaturan",
@@ -65,7 +65,14 @@
     "rowsPerPage": "Baris per halaman",
     "pageInfo": "{start}–{end} dari {total}",
     "previous": "Sebelumnya",
-    "next": "Selanjutnya"
+    "next": "Selanjutnya",
+    "recordingLive": "Merekam Langsung",
+    "notRecording": "Tidak Merekam",
+    "avgCurrent": "Rata-rata Arus (A)",
+    "avgVoltage": "Rata-rata Tegangan (V)",
+    "avgPower": "Rata-rata Daya (W)",
+    "avgUpdateFreq": "Frekuensi Pembaruan",
+    "vsRealtime": "vs saat ini"
   },
   "PredictPage": {
     "title": "Pertanyaan yang Sering Diajukan",

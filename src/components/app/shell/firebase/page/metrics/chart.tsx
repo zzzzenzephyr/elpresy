@@ -21,13 +21,13 @@ const chartConfig = {
 
 export function MetricsChart({ data }: { data: FirebaseData }) {
   const currentPercent = Math.min(((data.current || 0) / 5) * 100, 100);
-  const powerPercent = Math.min(((data.power_watt || 0) / 100) * 100, 100);
   const voltagePercent = Math.min(((data.voltage || 0) / 300) * 100, 100);
+  const powerPercent = Math.min(((data.power_watt || 0) / 5000) * 100, 100);
 
   const chartData = [
     { name: "Voltage", value: voltagePercent, fill: "var(--color-voltage)", raw: data.voltage },
-    { name: "Power Watt", value: powerPercent, fill: "var(--color-power)", raw: data.power_watt },
     { name: "Current", value: currentPercent, fill: "var(--color-current)", raw: data.current },
+    { name: "Power Watt", value: powerPercent, fill: "var(--color-power)", raw: data.power_watt },
   ];
   return (
     <div className="w-full lg:w-[320px] shrink-0 flex items-center justify-center">

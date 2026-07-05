@@ -49,7 +49,7 @@
     "searchData": "Search data...",
     "actions": "Actions",
     "filters": "Filters",
-    "addData": "Add data",
+    "refreshData": "Refresh data",
     "tableSettings": "Table settings",
     "hideFields": "Hide fields",
     "settings": "Settings",
@@ -65,7 +65,14 @@
     "rowsPerPage": "Rows per page",
     "pageInfo": "{start}–{end} of {total}",
     "previous": "Previous",
-    "next": "Next"
+    "next": "Next",
+    "recordingLive": "Recording Live",
+    "notRecording": "Not Recording",
+    "avgCurrent": "Avg. Current (A)",
+    "avgVoltage": "Avg. Voltage (V)",
+    "avgPower": "Avg. Power (W)",
+    "avgUpdateFreq": "Update Frequency",
+    "vsRealtime": "vs realtime"
   },
   "PredictPage": {
     "title": "Frequently Asked Questions",

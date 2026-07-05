@@ -1,6 +1,6 @@
 import { Separator } from "@/components/ui/separator";
 import { MetricsWidget } from "@/components/app/shell/firebase/page/metrics/widget";
-import { TrendBadge } from "@/components/app/shell/firebase/page/badge";
+import { TrendBadgesGrid } from "@/components/app/shell/firebase/page/badge";
 import { RTable } from "@/components/app/shell/firebase/page/table";
 import { Provider } from "@/components/app/shell/firebase/page/provider";
 import { db } from "@/lib/db";
@@ -49,32 +49,7 @@ export default async function FirebasePage() {
 
       {/* Trend Badges Grid */}
       <section>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <TrendBadge
-            value="163.4k"
-            label="Last 7 days website visits"
-            percentage={10}
-            comparisonText="vs last week"
-          />
-          <TrendBadge
-            value="$24.5k"
-            label="Total Revenue"
-            percentage={4.2}
-            comparisonText="vs last week"
-          />
-          <TrendBadge
-            value="1,204"
-            label="New Signups"
-            percentage={-2.1}
-            comparisonText="vs last week"
-          />
-          <TrendBadge
-            value="42.3%"
-            label="Bounce Rate"
-            percentage={-1.5}
-            comparisonText="vs last week"
-          />
-        </div>
+        <TrendBadgesGrid data={tableData} />
       </section>
 
       <Separator className="my-2 bg-border-default" />

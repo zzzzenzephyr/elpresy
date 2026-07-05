@@ -3,7 +3,7 @@ import { useTranslations } from "next-intl";
 import {
   Search,
   Filter,
-  Plus,
+  RefreshCw,
   Settings,
   EyeOff,
   ChevronDown,
@@ -11,6 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Table } from "@tanstack/react-table";
+import { useRouter } from "next/navigation";
 
 interface TableHeaderProps<TData> {
   table: Table<TData>;
@@ -18,6 +19,7 @@ interface TableHeaderProps<TData> {
 
 export function TableHeader<TData>({ table }: TableHeaderProps<TData>) {
   const t = useTranslations("FirebaseMonitoring");
+  const router = useRouter();
   const count = table.getFilteredRowModel().rows.length;
 
   return (
@@ -54,9 +56,12 @@ export function TableHeader<TData>({ table }: TableHeaderProps<TData>) {
           </Button>
         </div>
         <div className="flex items-center gap-2 w-full xl:w-auto grid grid-cols-2 xl:flex">
-          <Button className="h-9 px-3 bg-brand hover:bg-brand-strong text-white font-medium col-span-2 xl:col-span-1 shadow-sm">
-            <Plus className="mr-2 h-4 w-4" />
-            {t("addData")}
+          <Button 
+            onClick={() => router.refresh()}
+            className="h-9 px-3 bg-brand hover:bg-brand-strong text-white font-medium col-span-2 xl:col-span-1 shadow-sm"
+          >
+            <RefreshCw className="mr-2 h-4 w-4" />
+            {t("refreshData")}
           </Button>
           <Button variant="outline" className="h-9 px-3 border-border-default text-body font-medium hover:bg-neutral-secondary">
             <Settings className="mr-2 h-4 w-4" />

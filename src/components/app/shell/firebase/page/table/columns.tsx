@@ -63,14 +63,14 @@ export const columns: ColumnDef<FirebaseDataRow>[] = [
     }
   },
   {
-    accessorKey: "current",
-    header: "Current (A)",
-    cell: ({ row }) => <div className="font-medium text-brand">{row.getValue("current")}</div>,
-  },
-  {
     accessorKey: "voltage",
     header: "Voltage (V)",
     cell: ({ row }) => <div className="font-medium text-warning">{row.getValue("voltage")}</div>,
+  },
+  {
+    accessorKey: "current",
+    header: "Current (A)",
+    cell: ({ row }) => <div className="font-medium text-brand">{row.getValue("current")}</div>,
   },
   {
     accessorKey: "power_watt",
@@ -100,12 +100,10 @@ export const columns: ColumnDef<FirebaseDataRow>[] = [
         </Button>
       );
     },
-    accessorFn: (row) => row.createdAt,
+    accessorFn: (row) => row.last_updated,
     cell: ({ row }) => {
-      // Parse the createdAt string: "2026-06-24 06:37:28.787197"
-      const createdAtStr = row.getValue("date") as string;
-      const datePart = createdAtStr.split(" ")[0]; // "2026-06-24"
-      const date = new Date(datePart);
+      const createdAtStr = row.getValue("date") as number;
+      const date = new Date(createdAtStr * 1000);
       const formatted = date.toLocaleDateString("en-US", {
         month: "short",
         day: "numeric",
@@ -114,7 +112,7 @@ export const columns: ColumnDef<FirebaseDataRow>[] = [
       return (
         <div className="flex items-center gap-2 text-body tabular-nums">
           <Calendar className="h-4 w-4 text-body-subtle" />
-          {formatted !== "Invalid Date" ? formatted : datePart}
+          {formatted !== "Invalid Date" ? formatted : `${date}`}
         </div>
       );
     },
@@ -122,11 +120,10 @@ export const columns: ColumnDef<FirebaseDataRow>[] = [
   {
     id: "time",
     header: "Time",
-    accessorFn: (row) => row.createdAt,
+    accessorFn: (row) => row.last_updated,
     cell: ({ row }) => {
-      const createdAtStr = row.getValue("time") as string;
-      const timePart = createdAtStr.split(" ")[1]; // "06:37:28.787197"
-      const formattedTime = timePart ? timePart.split(".")[0] : ""; // "06:37:28"
+      const createdAtStr = row.getValue("last_updated") as number;
+      const formattedTime = new Date(createdAtStr * 1000).toLocaleTimeString();
       return (
         <div className="flex items-center gap-2 text-body tabular-nums">
           <Clock className="h-4 w-4 text-body-subtle" />

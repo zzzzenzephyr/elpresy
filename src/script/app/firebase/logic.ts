@@ -36,9 +36,9 @@ export function generateMetricCells(realtimeData: FirebaseData, pastData: Fireba
   };
 
   return [
+    createMetric("Voltage", "voltage", "V"),
     createMetric("Current", "current", "A"),
     createMetric("Power Watt", "power_watt", "W"),
-    createMetric("Voltage", "voltage", "V"),
     createMetric("Energy kWh", "energy_kwh", "kWh"),
     {
       label: "Date",

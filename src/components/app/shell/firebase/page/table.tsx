@@ -23,7 +23,7 @@ import { TableHeader as TableTopBar } from "@/components/app/shell/firebase/page
 import { TablePagination } from "@/components/app/shell/firebase/page/table/pagination";
 
 export function RTable({ data }: { data: FirebaseDataRow[] }) {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [sorting, setSorting] = React.useState<SortingState>([{ id: "date", desc: true }]);
   const [rowSelection, setRowSelection] = React.useState({});
 
   const table = useReactTable({

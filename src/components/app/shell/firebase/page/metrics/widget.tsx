@@ -27,12 +27,6 @@ export function MetricsWidget() {
     if (data) {
       setPastData(realtimeData);
       setRealtimeData(data);
-
-      console.group(Date.now())
-      console.log("MetricsWidget received data:", data);
-      console.table(pastData);
-      console.table(realtimeData);
-      console.groupEnd()
     }
   }, [data]);
 
