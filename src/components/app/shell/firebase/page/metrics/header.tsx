@@ -9,20 +9,10 @@ import { recordFirebaseData } from "@/app/actions/firebase";
 import type { FirebaseData } from "@/script/app/firebase/types";
 import { cn } from "@/lib/utils";
 
-export function MetricsHeader() {
-  const t = useTranslations("FirebaseMonitoring");
+function useFirebaseRecorder(data: FirebaseData | null, isRecording: boolean) {
   const router = useRouter();
-  const { data } = useFirebaseData();
-  const [isRecording, setIsRecording] = useState(false);
   const queueRef = useRef<FirebaseData[]>([]);
   const isFlushingRef = useRef(false);
-
-  useEffect(() => {
-    if (isRecording && data) {
-      queueRef.current.push(data);
-      flushQueue();
-    }
-  }, [data, isRecording]);
 
   const flushQueue = async () => {
     if (isFlushingRef.current || queueRef.current.length === 0) return;
@@ -44,6 +34,21 @@ export function MetricsHeader() {
       isFlushingRef.current = false;
     }
   };
+
+  useEffect(() => {
+    if (isRecording && data) {
+      queueRef.current.push(data);
+      flushQueue();
+    }
+  }, [data, isRecording]);
+}
+
+export function MetricsHeader() {
+  const t = useTranslations("FirebaseMonitoring");
+  const { data } = useFirebaseData();
+  const [isRecording, setIsRecording] = useState(false);
+
+  useFirebaseRecorder(data, isRecording);
 
   const toggleRecording = () => {
     setIsRecording(prev => !prev);
