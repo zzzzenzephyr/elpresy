@@ -44,12 +44,12 @@
     "metricsTitle": "Database Realtime Firebase",
     "metricsSubtitle": "Data telemetri langsung dari perangkat IoT Anda.",
     "domain": "elpresy.com",
-    "totalLogs": "Total Log: 43,436",
-    "totalLogsTooltip": "Total data dari Firebase di sistem",
-    "searchLogs": "Cari log...",
+    "totalData": "Total Data: {count}",
+    "totalDataTooltip": "Total data dari Firebase di sistem",
+    "searchData": "Cari data...",
     "actions": "Aksi",
     "filters": "Filter",
-    "addLog": "Tambah log",
+    "addData": "Tambah data",
     "tableSettings": "Pengaturan tabel",
     "hideFields": "Sembunyikan kolom",
     "settings": "Pengaturan",
@@ -61,6 +61,10 @@
     "Voltage": "Tegangan",
     "Energy kWh": "Energi kWh",
     "Date": "Tanggal",
-    "Time": "Waktu"
+    "Time": "Waktu",
+    "rowsPerPage": "Baris per halaman",
+    "pageInfo": "{start}–{end} dari {total}",
+    "previous": "Sebelumnya",
+    "next": "Selanjutnya"
   }
 }

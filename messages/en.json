@@ -44,12 +44,12 @@
     "metricsTitle": "Firebase Realtime Database",
     "metricsSubtitle": "Live telemetry data from your connected IoT devices.",
     "domain": "elpresy.com",
-    "totalLogs": "Total Logs: 43,436",
-    "totalLogsTooltip": "Total records from Firebase in the system",
-    "searchLogs": "Search logs...",
+    "totalData": "Total Data: {count}",
+    "totalDataTooltip": "Total records from Firebase in the system",
+    "searchData": "Search data...",
     "actions": "Actions",
     "filters": "Filters",
-    "addLog": "Add log",
+    "addData": "Add data",
     "tableSettings": "Table settings",
     "hideFields": "Hide fields",
     "settings": "Settings",
@@ -61,6 +61,10 @@
     "Voltage": "Voltage",
     "Energy kWh": "Energy kWh",
     "Date": "Date",
-    "Time": "Time"
+    "Time": "Time",
+    "rowsPerPage": "Rows per page",
+    "pageInfo": "{start}–{end} of {total}",
+    "previous": "Previous",
+    "next": "Next"
   }
 }

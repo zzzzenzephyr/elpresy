@@ -10,16 +10,27 @@ import {
 } from "@/components/ui/select";
 import { Table } from "@tanstack/react-table";
 
+import { useTranslations } from "next-intl";
+
 interface TablePaginationProps<TData> {
   table: Table<TData>;
 }
 
 export function TablePagination<TData>({ table }: TablePaginationProps<TData>) {
+  const t = useTranslations("FirebaseMonitoring");
+
+  const pageIndex = table.getState().pagination.pageIndex;
+  const pageSize = table.getState().pagination.pageSize;
+  const totalRows = table.getFilteredRowModel().rows.length;
+
+  const startRow = totalRows === 0 ? 0 : pageIndex * pageSize + 1;
+  const endRow = Math.min((pageIndex + 1) * pageSize, totalRows);
+
   return (
     <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 border-t border-border-default bg-neutral-primary-soft">
       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 w-full sm:w-auto justify-between sm:justify-start">
         <div className="flex items-center gap-2">
-          <span className="text-sm text-body font-medium">Rows per page</span>
+          <span className="text-sm text-body font-medium">{t("rowsPerPage")}</span>
           <Select
             value={`${table.getState().pagination.pageSize}`}
             onValueChange={(value) => {
@@ -39,7 +50,7 @@ export function TablePagination<TData>({ table }: TablePaginationProps<TData>) {
           </Select>
         </div>
         <span className="text-sm text-body-subtle tabular-nums mt-2 sm:mt-0">
-          1–10 of 8967
+          {t("pageInfo", { start: startRow, end: endRow, total: totalRows })}
         </span>
       </div>
       <div className="flex items-center gap-2 w-full sm:w-auto grid grid-cols-2 sm:flex">
@@ -51,7 +62,7 @@ export function TablePagination<TData>({ table }: TablePaginationProps<TData>) {
           className="h-8 px-3 border-border-default text-body hover:bg-neutral-secondary flex items-center gap-1 justify-center sm:justify-start"
         >
           <ChevronLeft className="h-4 w-4" />
-          <span>Previous</span>
+          <span>{t("previous")}</span>
         </Button>
         <Button
           variant="outline"
@@ -60,7 +71,7 @@ export function TablePagination<TData>({ table }: TablePaginationProps<TData>) {
           disabled={!table.getCanNextPage()}
           className="h-8 px-3 border-border-default text-body hover:bg-neutral-secondary flex items-center gap-1 justify-center sm:justify-start"
         >
-          <span>Next</span>
+          <span>{t("next")}</span>
           <ChevronRight className="h-4 w-4" />
         </Button>
       </div>

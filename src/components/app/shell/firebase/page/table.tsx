@@ -18,12 +18,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { data } from "@/script/app/firebase/data";
-import { columns } from "@/components/app/shell/firebase/page/table/columns";
+import { FirebaseDataRow, columns } from "@/components/app/shell/firebase/page/table/columns";
 import { TableHeader as TableTopBar } from "@/components/app/shell/firebase/page/table/header";
 import { TablePagination } from "@/components/app/shell/firebase/page/table/pagination";
 
-export function RTable() {
+export function RTable({ data }: { data: FirebaseDataRow[] }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [rowSelection, setRowSelection] = React.useState({});
 
@@ -43,7 +42,7 @@ export function RTable() {
 
   return (
     <div className="w-full bg-neutral-primary rounded-[12px] border border-border-default shadow-sm overflow-hidden flex flex-col">
-      <TableTopBar />
+      <TableTopBar table={table} />
 
       {/* Table Content */}
       <div className="w-full overflow-x-auto">

@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import { ColumnDef } from "@tanstack/react-table";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -15,16 +14,24 @@ import {
 import {
   ArrowUpDown,
   Calendar,
-  CheckCircle2,
   Clock,
   MoreHorizontal,
   Archive,
   Edit2,
   Trash2,
+  Zap
 } from "lucide-react";
-import { RequestTicket } from "@/script/app/firebase/data";
 
-export const columns: ColumnDef<RequestTicket>[] = [
+export type FirebaseDataRow = {
+  id: string;
+  current: number;
+  voltage: number;
+  power_watt: number;
+  last_updated: string;
+  createdAt: string;
+};
+
+export const columns: ColumnDef<FirebaseDataRow>[] = [
   {
     id: "select",
     header: ({ table }) => (
@@ -49,82 +56,38 @@ export const columns: ColumnDef<RequestTicket>[] = [
   {
     accessorKey: "id",
     header: "ID",
-    cell: ({ row }) => <div className="tabular-nums font-medium text-body">{row.getValue("id")}</div>,
-  },
-  {
-    accessorKey: "requestBy",
-    header: "Request by",
     cell: ({ row }) => {
-      const user = row.getValue("requestBy") as RequestTicket["requestBy"];
-      return (
-        <div className="flex items-center gap-3">
-          <Avatar className="h-8 w-8">
-            <AvatarImage src={user.avatar} alt={user.name} />
-            <AvatarFallback className="bg-brand-soft text-brand font-medium text-xs">
-              {user.name.substring(0, 2).toUpperCase()}
-            </AvatarFallback>
-          </Avatar>
-          <div className="flex flex-col">
-            <span className="font-semibold text-sm text-heading">{user.name}</span>
-            <span className="text-xs text-body-subtle hidden sm:block">{user.email}</span>
-          </div>
-        </div>
-      );
-    },
+      const id = row.getValue("id") as string;
+      // Show short ID for readability
+      return <div className="tabular-nums font-medium text-body">{id.substring(0, 8)}...</div>;
+    }
   },
   {
-    accessorKey: "subject",
-    header: "Subject",
+    accessorKey: "current",
+    header: "Current (A)",
+    cell: ({ row }) => <div className="font-medium text-brand">{row.getValue("current")}</div>,
+  },
+  {
+    accessorKey: "voltage",
+    header: "Voltage (V)",
+    cell: ({ row }) => <div className="font-medium text-warning">{row.getValue("voltage")}</div>,
+  },
+  {
+    accessorKey: "power_watt",
+    header: "Power (W)",
+    cell: ({ row }) => <div className="font-medium text-success">{row.getValue("power_watt")}</div>,
+  },
+  {
+    accessorKey: "last_updated",
+    header: "Last Updated",
     cell: ({ row }) => (
-      <div className="text-body max-w-[150px] sm:max-w-[200px] truncate" title={row.getValue("subject")}>
-        {row.getValue("subject")}
-      </div>
+      <Badge variant="outline" className="bg-neutral-secondary text-body border-border-default">
+        {row.getValue("last_updated")} ms
+      </Badge>
     ),
   },
   {
-    accessorKey: "priority",
-    header: "Priority",
-    cell: ({ row }) => {
-      const priority = row.getValue("priority") as string;
-      return (
-        <Badge
-          variant="outline"
-          className={
-            priority === "High"
-              ? "bg-danger-soft text-danger border-danger-subtle"
-              : priority === "Medium"
-              ? "bg-warning-soft text-warning border-warning-subtle"
-              : "bg-success-soft text-success border-success-subtle"
-          }
-        >
-          {priority}
-        </Badge>
-      );
-    },
-  },
-  {
-    accessorKey: "agent",
-    header: "Agent",
-    cell: ({ row }) => {
-      const user = row.getValue("agent") as RequestTicket["agent"];
-      return (
-        <div className="flex items-center gap-3">
-          <Avatar className="h-8 w-8">
-            <AvatarImage src={user.avatar} alt={user.name} />
-            <AvatarFallback className="bg-neutral-tertiary text-body font-medium text-xs">
-              {user.name.substring(0, 2).toUpperCase()}
-            </AvatarFallback>
-          </Avatar>
-          <div className="flex flex-col">
-            <span className="font-semibold text-sm text-heading">{user.name}</span>
-            <span className="text-xs text-body-subtle hidden sm:block">{user.email}</span>
-          </div>
-        </div>
-      );
-    },
-  },
-  {
-    accessorKey: "createDate",
+    id: "date",
     header: ({ column }) => {
       return (
         <Button
@@ -132,13 +95,17 @@ export const columns: ColumnDef<RequestTicket>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           className="h-8 px-2 hover:bg-neutral-secondary text-body font-medium -ml-2"
         >
-          Create date
+          Date
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
+    accessorFn: (row) => row.createdAt,
     cell: ({ row }) => {
-      const date = new Date(row.getValue("createDate"));
+      // Parse the createdAt string: "2026-06-24 06:37:28.787197"
+      const createdAtStr = row.getValue("date") as string;
+      const datePart = createdAtStr.split(" ")[0]; // "2026-06-24"
+      const date = new Date(datePart);
       const formatted = date.toLocaleDateString("en-US", {
         month: "short",
         day: "numeric",
@@ -147,32 +114,24 @@ export const columns: ColumnDef<RequestTicket>[] = [
       return (
         <div className="flex items-center gap-2 text-body tabular-nums">
           <Calendar className="h-4 w-4 text-body-subtle" />
-          {formatted}
+          {formatted !== "Invalid Date" ? formatted : datePart}
         </div>
       );
     },
   },
   {
-    accessorKey: "status",
-    header: "Status",
+    id: "time",
+    header: "Time",
+    accessorFn: (row) => row.createdAt,
     cell: ({ row }) => {
-      const status = row.getValue("status") as string;
+      const createdAtStr = row.getValue("time") as string;
+      const timePart = createdAtStr.split(" ")[1]; // "06:37:28.787197"
+      const formattedTime = timePart ? timePart.split(".")[0] : ""; // "06:37:28"
       return (
-        <Badge
-          variant="outline"
-          className={
-            status === "Solved"
-              ? "bg-success-soft text-success border-success-subtle gap-1"
-              : "bg-neutral-secondary text-body border-border-default gap-1"
-          }
-        >
-          {status === "Solved" ? (
-            <CheckCircle2 className="h-3 w-3" />
-          ) : (
-            <Clock className="h-3 w-3" />
-          )}
-          {status}
-        </Badge>
+        <div className="flex items-center gap-2 text-body tabular-nums">
+          <Clock className="h-4 w-4 text-body-subtle" />
+          {formattedTime || "N/A"}
+        </div>
       );
     },
   },
