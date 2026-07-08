@@ -5,12 +5,12 @@ import { useTranslations } from 'next-intl';
 import { MapPin, Info, MessageCircle, HelpCircle, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-interface FaqItemProps {
+interface ProcessItemProps {
   question: string;
   answer: string;
 }
 
-function FaqAccordionItem({ question, answer }: FaqItemProps) {
+function ProcessAccordionItem({ question, answer }: ProcessItemProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -47,21 +47,21 @@ function FaqAccordionItem({ question, answer }: FaqItemProps) {
   );
 }
 
-export function Faq() {
+export function Process() {
   const t = useTranslations('PredictPage');
 
-  const faqs = [
+  const steps = [
     {
-      question: t('questions.q1.question'),
-      answer: t('questions.q1.answer'),
+      question: t('steps.s1.title'),
+      answer: t('steps.s1.description'),
     },
     {
-      question: t('questions.q2.question'),
-      answer: t('questions.q2.answer'),
+      question: t('steps.s2.title'),
+      answer: t('steps.s2.description'),
     },
     {
-      question: t('questions.q3.question'),
-      answer: t('questions.q3.answer'),
+      question: t('steps.s3.title'),
+      answer: t('steps.s3.description'),
     },
   ];
 
@@ -109,8 +109,8 @@ export function Faq() {
           {/* Right Column */}
           <div className="w-full lg:w-2/3 flex flex-col">
             <div className="flex flex-col w-full">
-              {faqs.map((faq, idx) => (
-                <FaqAccordionItem key={idx} question={faq.question} answer={faq.answer} />
+              {steps.map((step, idx) => (
+                <ProcessAccordionItem key={idx} question={step.question} answer={step.answer} />
               ))}
             </div>
           </div>

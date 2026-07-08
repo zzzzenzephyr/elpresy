@@ -1,5 +1,5 @@
 import { setRequestLocale } from 'next-intl/server';
-import { Faq } from '@/components/app/shell/predict/page/faq';
+import { Process } from '@/components/app/shell/predict/page/process';
 
 export default async function PredictPage(props: {
   params: Promise<{ locale: string }>;
@@ -9,7 +9,7 @@ export default async function PredictPage(props: {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Faq />
+      <Process />
     </div>
   );
 }

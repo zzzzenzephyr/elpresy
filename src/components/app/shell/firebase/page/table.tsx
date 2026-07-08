@@ -3,10 +3,13 @@
 import * as React from "react";
 import {
   SortingState,
+  VisibilityState,
   flexRender,
   getCoreRowModel,
   getPaginationRowModel,
   getSortedRowModel,
+  getFilteredRowModel,
+  FilterFn,
   useReactTable,
 } from "@tanstack/react-table";
 import {
@@ -25,6 +28,29 @@ import { TablePagination } from "@/components/app/shell/firebase/page/table/pagi
 export function RTable({ data }: { data: FirebaseDataRow[] }) {
   const [sorting, setSorting] = React.useState<SortingState>([{ id: "date", desc: true }]);
   const [rowSelection, setRowSelection] = React.useState({});
+  const [globalFilter, setGlobalFilter] = React.useState({ query: "", columns: [] as string[] });
+  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({
+    id: false,
+    date: false,
+    time: false,
+    select: true,
+    actions: true,
+  });
+
+  const customGlobalFilterFn: FilterFn<FirebaseDataRow> = (row, columnId, filterValue) => {
+    const { query, columns } = filterValue as { query: string; columns: string[] };
+    if (!query) return true;
+
+    if (columns && columns.length > 0) {
+      if (!columns.includes(columnId)) {
+        return false;
+      }
+    }
+
+    const value = row.getValue(columnId);
+    if (value == null) return false;
+    return String(value).toLowerCase().includes(String(query).toLowerCase());
+  };
 
   const table = useReactTable({
     data,
@@ -34,9 +60,15 @@ export function RTable({ data }: { data: FirebaseDataRow[] }) {
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
     onRowSelectionChange: setRowSelection,
+    getFilteredRowModel: getFilteredRowModel(),
+    onColumnVisibilityChange: setColumnVisibility,
+    onGlobalFilterChange: setGlobalFilter,
+    globalFilterFn: customGlobalFilterFn,
     state: {
       sorting,
       rowSelection,
+      columnVisibility,
+      globalFilter,
     },
   });
 

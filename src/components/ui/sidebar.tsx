@@ -187,7 +187,7 @@ function Sidebar({
           data-sidebar="sidebar"
           data-slot="sidebar"
           data-mobile="true"
-          className="w-(--sidebar-width) bg-oklch(0.985 0 0) p-0 text-oklch(0.145 0 0) [&>button]:hidden dark:bg-oklch(0.205 0 0) dark:text-oklch(0.985 0 0)"
+          className="w-(--sidebar-width) bg-neutral-primary p-0 text-body [&>button]:hidden"
           style={
             {
               "--sidebar-width": SIDEBAR_WIDTH_MOBILE,
@@ -242,7 +242,7 @@ function Sidebar({
         <div
           data-sidebar="sidebar"
           data-slot="sidebar-inner"
-          className="flex size-full flex-col bg-oklch(0.985 0 0) group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:shadow-sm group-data-[variant=floating]:ring-1 group-data-[variant=floating]:ring-oklch(0.922 0 0) dark:bg-oklch(0.205 0 0) dark:group-data-[variant=floating]:ring-oklch(1 0 0 / 10%)"
+          className="flex size-full flex-col bg-neutral-primary group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:shadow-sm group-data-[variant=floating]:ring-1 group-data-[variant=floating]:ring-border-default"
         >
           {children}
         </div>

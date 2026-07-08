@@ -75,26 +75,26 @@
     "vsRealtime": "vs saat ini"
   },
   "PredictPage": {
-    "title": "Pertanyaan yang Sering Diajukan",
-    "description": "Temukan jawaban atas pertanyaan umum tentang mesin prediksi kami dan proses sinkronisasi data.",
+    "title": "Prapemrosesan Data",
+    "description": "Alur kerja prapemrosesan data langkah demi langkah yang diterapkan sebelum menghasilkan prediksi.",
     "contact": {
       "address": "123 Innovation Drive\nTech District, City 10110",
       "label": "Tim Dukungan",
       "email": "support@elpresy.com",
       "button": "Hubungi Dukungan"
     },
-    "questions": {
-      "q1": {
-        "question": "Bagaimana cara kerja model prediksi?",
-        "answer": "Model kami menganalisis data riwayat watt untuk memprediksi konsumsi di masa depan menggunakan algoritma time-series canggih."
+    "steps": {
+      "s1": {
+        "title": "Filter nilai yang hilang",
+        "description": "Mendeteksi dan menangani titik data yang hilang untuk memastikan dataset lengkap dan andal untuk prediksi."
       },
-      "q2": {
-        "question": "Seberapa sering data disinkronkan?",
-        "answer": "Data disinkronkan setiap 15 menit dari perangkat IoT yang terhubung untuk memastikan akurasi yang tinggi."
+      "s2": {
+        "title": "Deteksi outlier",
+        "description": "Mengidentifikasi dan mengelola titik data anomali yang menyimpang secara signifikan dari pola yang diharapkan."
       },
-      "q3": {
-        "question": "Bisakah saya mengekspor hasilnya?",
-        "answer": "Ya, Anda dapat mengekspor hasil prediksi sebagai CSV atau PDF dari dashboard ringkasan."
+      "s3": {
+        "title": "Verifikasi konsistensi waktu",
+        "description": "Memeriksa urutan kronologis dan interval seragam dalam data deret waktu untuk menjaga integritas temporal."
       }
     }
   }

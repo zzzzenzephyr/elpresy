@@ -75,26 +75,26 @@
     "vsRealtime": "vs realtime"
   },
   "PredictPage": {
-    "title": "Frequently Asked Questions",
-    "description": "Find answers to common questions about our prediction engine and data synchronization processes.",
+    "title": "Data Preprocessing",
+    "description": "Step-by-step data preprocessing workflow applied before generating predictions.",
     "contact": {
       "address": "123 Innovation Drive\nTech District, City 10110",
       "label": "Support Team",
       "email": "support@elpresy.com",
       "button": "Contact Support"
     },
-    "questions": {
-      "q1": {
-        "question": "How does the prediction model work?",
-        "answer": "Our model analyzes historical wattage data to forecast future consumption using advanced time-series algorithms."
+    "steps": {
+      "s1": {
+        "title": "Missing values filter",
+        "description": "Detects and handles missing data points to ensure the dataset is complete and reliable for prediction."
       },
-      "q2": {
-        "question": "How often is data synced?",
-        "answer": "Data is synchronized every 15 minutes from connected IoT devices to ensure high accuracy."
+      "s2": {
+        "title": "Outlier detection",
+        "description": "Identifies and manages anomalous data points that deviate significantly from expected patterns."
       },
-      "q3": {
-        "question": "Can I export the results?",
-        "answer": "Yes, you can export prediction results as CSV or PDF from the overview dashboard."
+      "s3": {
+        "title": "Verify time consistency",
+        "description": "Checks chronological order and uniform intervals in the time series data to maintain temporal integrity."
       }
     }
   }
