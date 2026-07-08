@@ -2,23 +2,21 @@
 
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { MapPin, Info, MessageCircle, HelpCircle, ChevronDown } from 'lucide-react';
+import { HelpCircle, ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface ProcessItemProps {
   question: string;
   answer: string;
+  isOpen: boolean;
 }
 
-function ProcessAccordionItem({ question, answer }: ProcessItemProps) {
-  const [isOpen, setIsOpen] = useState(false);
-
+function ProcessAccordionItem({ question, answer, isOpen }: ProcessItemProps) {
   return (
     <div className="border border-border-default rounded-base mb-2 shadow-xs overflow-hidden bg-neutral-primary-soft">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className={`w-full flex items-center justify-between px-5 py-4 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand text-left ${
-          isOpen ? 'bg-neutral-tertiary-soft' : 'bg-neutral-secondary-soft hover:bg-neutral-tertiary-soft'
+      <div
+        className={`w-full flex items-center justify-between px-5 py-4 transition-colors text-left ${
+          isOpen ? 'bg-neutral-tertiary-soft' : 'bg-neutral-secondary-soft'
         }`}
         aria-expanded={isOpen}
       >
@@ -31,7 +29,7 @@ function ProcessAccordionItem({ question, answer }: ProcessItemProps) {
             isOpen ? 'rotate-180' : 'rotate-0'
           }`}
         />
-      </button>
+      </div>
       <div 
         className={`grid transition-all duration-300 ease-in-out ${
           isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
@@ -49,6 +47,7 @@ function ProcessAccordionItem({ question, answer }: ProcessItemProps) {
 
 export function Process() {
   const t = useTranslations('PredictPage');
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const steps = [
     {
@@ -65,6 +64,14 @@ export function Process() {
     },
   ];
 
+  const handleNext = () => {
+    setActiveIndex((prev) => (prev + 1) % steps.length);
+  };
+
+  const handlePrev = () => {
+    setActiveIndex((prev) => (prev - 1 + steps.length) % steps.length);
+  };
+
   return (
     <section className="w-full py-16 lg:py-24 bg-neutral-primary-soft">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -79,38 +86,36 @@ export function Process() {
               {t('description')}
             </p>
             
-            <div className="flex flex-col gap-4 mb-8 w-full">
-              {/* Location Group */}
-              <div className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-body-subtle mt-0.5 shrink-0" />
-                <span className="text-body text-sm">
-                  {t('contact.address')}
-                </span>
-              </div>
-              
-              {/* Contact Group */}
-              <div className="flex items-start gap-3">
-                <Info className="w-5 h-5 text-body-subtle mt-0.5 shrink-0" />
-                <div className="flex flex-col">
-                  <span className="text-heading text-sm font-medium">{t('contact.label')}</span>
-                  <a href={`mailto:${t('contact.email')}`} className="text-fg-brand text-sm hover:underline">
-                    {t('contact.email')}
-                  </a>
-                </div>
-              </div>
+            <div className="flex items-center gap-3 mt-4 lg:mt-auto">
+              <Button 
+                variant="outline" 
+                size="icon"
+                onClick={handlePrev}
+                aria-label="Previous step"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </Button>
+              <Button 
+                variant="outline" 
+                size="icon"
+                onClick={handleNext}
+                aria-label="Next step"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </Button>
             </div>
-
-            <Button variant="secondary" size="sm" className="gap-2">
-              <MessageCircle className="w-4 h-4" />
-              {t('contact.button')}
-            </Button>
           </div>
 
           {/* Right Column */}
           <div className="w-full lg:w-2/3 flex flex-col">
             <div className="flex flex-col w-full">
               {steps.map((step, idx) => (
-                <ProcessAccordionItem key={idx} question={step.question} answer={step.answer} />
+                <ProcessAccordionItem 
+                  key={idx} 
+                  question={step.question} 
+                  answer={step.answer} 
+                  isOpen={activeIndex === idx}
+                />
               ))}
             </div>
           </div>
