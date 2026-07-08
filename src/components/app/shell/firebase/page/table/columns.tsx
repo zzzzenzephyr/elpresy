@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef, Column } from "@tanstack/react-table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -53,10 +53,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 
-const ActionCell = ({ row }: { row: Row<FirebaseDataRow> }) => {
-  const [dropdownOpen, setDropdownOpen] = React.useState(false);
-  const [editOpen, setEditOpen] = React.useState(false);
-  
+const EditForm = ({ row }: { row: Row<FirebaseDataRow> }) => {
   const initialTimestamp = Number(row.getValue("last_updated"));
   const initialDate = !isNaN(initialTimestamp) && initialTimestamp > 0 
     ? new Date(initialTimestamp * 1000) 
@@ -78,15 +75,7 @@ const ActionCell = ({ row }: { row: Row<FirebaseDataRow> }) => {
     return format(d, "MMM d, yyyy HH:mm:ss");
   }, [date, time]);
 
-  const isMobile = useIsMobile();
-
-  const handleEditClick = (e: React.MouseEvent) => {
-    e.preventDefault(); // Prevent default to stop bubbling if needed
-    setDropdownOpen(false); // Close dropdown
-    setEditOpen(true); // Open edit modal
-  };
-
-  const editFormContent = (
+  return (
     <div className="flex flex-col gap-4 mt-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="flex flex-col gap-2">
@@ -151,6 +140,18 @@ const ActionCell = ({ row }: { row: Row<FirebaseDataRow> }) => {
       </Button>
     </div>
   );
+};
+
+const ActionCell = ({ row }: { row: Row<FirebaseDataRow> }) => {
+  const [dropdownOpen, setDropdownOpen] = React.useState(false);
+  const [editOpen, setEditOpen] = React.useState(false);
+  const isMobile = useIsMobile();
+
+  const handleEditClick = (e: React.MouseEvent) => {
+    e.preventDefault(); // Prevent default to stop bubbling if needed
+    setDropdownOpen(false); // Close dropdown
+    setEditOpen(true); // Open edit modal
+  };
 
   return (
     <>
@@ -191,7 +192,7 @@ const ActionCell = ({ row }: { row: Row<FirebaseDataRow> }) => {
               </DrawerDescription>
             </DrawerHeader>
             <div className="px-4">
-              {editFormContent}
+              <EditForm row={row} />
             </div>
             <DrawerFooter className="pt-4 px-0">
               <Button variant="outline" onClick={() => setEditOpen(false)}>
@@ -209,13 +210,24 @@ const ActionCell = ({ row }: { row: Row<FirebaseDataRow> }) => {
                 Make changes to item ID: {row.getValue("id") as string}
               </DialogDescription>
             </DialogHeader>
-            {editFormContent}
+            <EditForm row={row} />
           </DialogContent>
         </Dialog>
       )}
     </>
   );
 };
+
+const SortableHeader = ({ column, title }: { column: Column<FirebaseDataRow, unknown>, title: string }) => (
+  <Button
+    variant="ghost"
+    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+    className="h-8 px-2 hover:bg-neutral-secondary text-body font-medium -ml-2"
+  >
+    {title}
+    <ArrowUpDown className="ml-2 h-4 w-4" />
+  </Button>
+);
 
 export const columns: ColumnDef<FirebaseDataRow>[] = [
   {
@@ -241,18 +253,7 @@ export const columns: ColumnDef<FirebaseDataRow>[] = [
   },
   {
     accessorKey: "id",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="h-8 px-2 hover:bg-neutral-secondary text-body font-medium -ml-2"
-        >
-          ID
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
+    header: ({ column }) => <SortableHeader column={column} title="ID" />,
     cell: ({ row }) => {
       const id = row.getValue("id") as string;
       // Show short ID for readability
@@ -261,66 +262,22 @@ export const columns: ColumnDef<FirebaseDataRow>[] = [
   },
   {
     accessorKey: "voltage",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="h-8 px-2 hover:bg-neutral-secondary text-body font-medium -ml-2"
-        >
-          Voltage (V)
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
+    header: ({ column }) => <SortableHeader column={column} title="Voltage (V)" />,
     cell: ({ row }) => <div className="font-medium text-warning">{row.getValue("voltage")}</div>,
   },
   {
     accessorKey: "current",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="h-8 px-2 hover:bg-neutral-secondary text-body font-medium -ml-2"
-        >
-          Current (A)
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
+    header: ({ column }) => <SortableHeader column={column} title="Current (A)" />,
     cell: ({ row }) => <div className="font-medium text-brand">{row.getValue("current")}</div>,
   },
   {
     accessorKey: "power_watt",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="h-8 px-2 hover:bg-neutral-secondary text-body font-medium -ml-2"
-        >
-          Power (W)
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
+    header: ({ column }) => <SortableHeader column={column} title="Power (W)" />,
     cell: ({ row }) => <div className="font-medium text-success">{row.getValue("power_watt")}</div>,
   },
   {
     accessorKey: "last_updated",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="h-8 px-2 hover:bg-neutral-secondary text-body font-medium -ml-2"
-        >
-          Last Updated
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
+    header: ({ column }) => <SortableHeader column={column} title="Last Updated" />,
     cell: ({ row }) => (
       <Badge variant="outline" className="bg-neutral-secondary text-body border-border-default">
         {row.getValue("last_updated")} ms
@@ -329,18 +286,7 @@ export const columns: ColumnDef<FirebaseDataRow>[] = [
   },
   {
     id: "date",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="h-8 px-2 hover:bg-neutral-secondary text-body font-medium -ml-2"
-        >
-          Date
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
+    header: ({ column }) => <SortableHeader column={column} title="Date" />,
     accessorFn: (row) => row.last_updated,
     cell: ({ row }) => {
       const createdAtStr = row.getValue("date") as number;
@@ -360,18 +306,7 @@ export const columns: ColumnDef<FirebaseDataRow>[] = [
   },
   {
     id: "time",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-          className="h-8 px-2 hover:bg-neutral-secondary text-body font-medium -ml-2"
-        >
-          Time
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
+    header: ({ column }) => <SortableHeader column={column} title="Time" />,
     accessorFn: (row) => row.last_updated,
     cell: ({ row }) => {
       const createdAtStr = row.getValue("last_updated") as number;
