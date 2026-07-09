@@ -8,13 +8,14 @@ import { FirebaseDataRow } from '@/components/app/shell/firebase/page/table/colu
 
 interface TimeStepProps {
   data: FirebaseDataRow[];
+  setDataFilter: React.Dispatch<React.SetStateAction<FirebaseDataRow[]>>;
   openAccordionId: string;
   toggleAccordion: (id: string) => void;
   getSelectColumn: () => ColumnDef<FirebaseDataRow>;
   answerContent: React.ReactNode;
 }
 
-export const TimeStep = ({ data, openAccordionId, toggleAccordion, getSelectColumn, answerContent }: TimeStepProps) => {
+export const TimeStep = ({ data, setDataFilter, openAccordionId, toggleAccordion, getSelectColumn, answerContent }: TimeStepProps) => {
   const t = useTranslations('PredictPage.Process');
 
   const ExplanationItem = () => (

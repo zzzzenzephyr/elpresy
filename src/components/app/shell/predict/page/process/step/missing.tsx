@@ -8,13 +8,14 @@ import { FirebaseDataRow } from '@/components/app/shell/firebase/page/table/colu
 
 interface MissingStepProps {
   data: FirebaseDataRow[];
+  setDataFilter: React.Dispatch<React.SetStateAction<FirebaseDataRow[]>>;
   openAccordionId: string;
   toggleAccordion: (id: string) => void;
   getSelectColumn: () => ColumnDef<FirebaseDataRow>;
   answerContent: React.ReactNode;
 }
 
-export const MissingStep = ({ data, openAccordionId, toggleAccordion, getSelectColumn, answerContent }: MissingStepProps) => {
+export const MissingStep = ({ data, setDataFilter, openAccordionId, toggleAccordion, getSelectColumn, answerContent }: MissingStepProps) => {
   const t = useTranslations('PredictPage.Process');
 
   const ExplanationItem = () => (

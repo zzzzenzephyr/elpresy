@@ -7,13 +7,14 @@ import { FirebaseDataRow } from '@/components/app/shell/firebase/page/table/colu
 
 interface SplitStepProps {
   data: FirebaseDataRow[];
+  setDataFilter: React.Dispatch<React.SetStateAction<FirebaseDataRow[]>>;
   openAccordionId: string;
   toggleAccordion: (id: string) => void;
   getStandardColumns: () => ColumnDef<FirebaseDataRow>[];
   answerContent: React.ReactNode;
 }
 
-export const SplitStep = ({ data, openAccordionId, toggleAccordion, getStandardColumns, answerContent }: SplitStepProps) => {
+export const SplitStep = ({ data, setDataFilter, openAccordionId, toggleAccordion, getStandardColumns, answerContent }: SplitStepProps) => {
   const t = useTranslations('PredictPage.Process');
 
   const ExplanationItem = () => (

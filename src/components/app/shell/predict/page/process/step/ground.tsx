@@ -58,12 +58,13 @@ const ErrorAccordion = ({
 
 interface GroundStepProps {
   data: FirebaseDataRow[];
+  setDataFilter: React.Dispatch<React.SetStateAction<FirebaseDataRow[]>>;
   openAccordionId: string;
   toggleAccordion: (id: string) => void;
   answerContent: React.ReactNode;
 }
 
-export const GroundStep = ({ data, openAccordionId, toggleAccordion, answerContent }: GroundStepProps) => {
+export const GroundStep = ({ data, setDataFilter, openAccordionId, toggleAccordion, answerContent }: GroundStepProps) => {
   const t = useTranslations('PredictPage.Process');
 
   const ExplanationItem = () => (

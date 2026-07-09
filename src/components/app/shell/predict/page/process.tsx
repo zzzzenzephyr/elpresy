@@ -23,6 +23,13 @@ export function Process({ data = [] }: { data?: FirebaseDataRow[] }) {
   const t = useTranslations('PredictPage.Process');
   const [activeIndex, setActiveIndex] = useState(0);
   const [openAccordionId, setOpenAccordionId] = useState<string>('0');
+  const [dataFilter, setDataFilter] = useState<FirebaseDataRow[]>(data || []);
+
+  useEffect(() => {
+    if (data && data.length > 0 && dataFilter.length === 0) {
+      setDataFilter(data);
+    }
+  }, [data]);
 
   // Automatically open the first accordion item when changing steps
   useEffect(() => {
@@ -100,7 +107,8 @@ export function Process({ data = [] }: { data?: FirebaseDataRow[] }) {
     }
 
     const commonProps = {
-      data,
+      data: dataFilter,
+      setDataFilter,
       openAccordionId,
       toggleAccordion,
       answerContent: steps[index].answer
