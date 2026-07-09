@@ -1,5 +1,6 @@
 import { setRequestLocale } from 'next-intl/server';
 import { Process } from '@/components/app/shell/predict/page/process';
+import { fetchNeonData } from '@/script/app/firebase/actions';
 
 export default async function PredictPage(props: {
   params: Promise<{ locale: string }>;
@@ -7,9 +8,11 @@ export default async function PredictPage(props: {
   const { locale } = await props.params;
   setRequestLocale(locale);
 
+  const data = await fetchNeonData();
+
   return (
     <div className="flex flex-col min-h-screen">
-      <Process />
+      <Process data={data} />
     </div>
   );
 }
