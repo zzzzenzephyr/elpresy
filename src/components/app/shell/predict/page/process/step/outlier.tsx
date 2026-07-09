@@ -3,13 +3,14 @@ import { useTranslations } from 'next-intl';
 import { ColumnDef } from '@tanstack/react-table';
 import { ProcessTable } from '@/components/app/shell/predict/page/table';
 import { SortableHeader, ActionCell } from '@/components/app/shell/predict/page/table/columns';
-import { AccordionItem } from './accordion';
+import { AccordionItem } from '../accordion';
+import { FirebaseDataRow } from '@/components/app/shell/firebase/page/table/columns';
 
 interface OutlierStepProps {
-  data: any[];
+  data: FirebaseDataRow[];
   openAccordionId: string;
   toggleAccordion: (id: string) => void;
-  getSelectColumn: () => ColumnDef<any>;
+  getSelectColumn: () => ColumnDef<FirebaseDataRow>;
   answerContent: React.ReactNode;
 }
 
@@ -52,7 +53,7 @@ export const OutlierStep = ({ data, openAccordionId, toggleAccordion, getSelectC
            (statsP && (p < statsP.lower || p > statsP.upper));
   });
 
-  const columns: ColumnDef<any>[] = [
+  const columns: ColumnDef<FirebaseDataRow>[] = [
     getSelectColumn(),
     {
       accessorKey: "id",

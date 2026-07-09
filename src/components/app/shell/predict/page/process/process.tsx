@@ -6,7 +6,9 @@ import { ChevronLeft, ChevronRight, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
+import { ProcessTable } from "@/components/app/shell/predict/page/table";
 import { SortableHeader, ActionCell } from "@/components/app/shell/predict/page/table/columns";
+import { FirebaseDataRow } from "@/components/app/shell/firebase/page/table/columns";
 
 import { OutlierStep } from './step/outlier';
 import { MissingStep } from './step/missing';
@@ -15,7 +17,7 @@ import { TimeStep } from './step/time';
 import { SanityStep } from './step/sanity';
 import { SplitStep } from './step/split';
 
-export function Process({ data = [] }: { data?: any[] }) {
+export function Process({ data = [] }: { data?: FirebaseDataRow[] }) {
   const tRoot = useTranslations('PredictPage');
   const t = useTranslations('PredictPage.Process');
   const [activeIndex, setActiveIndex] = useState(0);
@@ -140,7 +142,7 @@ export function Process({ data = [] }: { data?: any[] }) {
     }
   ];
 
-  const getSelectColumn = (): ColumnDef<any> => ({
+  const getSelectColumn = (): ColumnDef<FirebaseDataRow> => ({
     id: "select",
     header: ({ table }) => (
       <Checkbox
@@ -162,7 +164,7 @@ export function Process({ data = [] }: { data?: any[] }) {
     enableHiding: false,
   });
 
-  const getStandardColumns = (): ColumnDef<any>[] => [
+  const getStandardColumns = (): ColumnDef<FirebaseDataRow>[] => [
     getSelectColumn(),
     {
       accessorKey: "id",

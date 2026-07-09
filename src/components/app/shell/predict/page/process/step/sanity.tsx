@@ -4,12 +4,13 @@ import { ColumnDef } from '@tanstack/react-table';
 import { ProcessTable } from '@/components/app/shell/predict/page/table';
 import { SortableHeader, ActionCell } from '@/components/app/shell/predict/page/table/columns';
 import { AccordionItem } from '../accordion';
+import { FirebaseDataRow } from '@/components/app/shell/firebase/page/table/columns';
 
 interface SanityStepProps {
-  data: any[];
+  data: FirebaseDataRow[];
   openAccordionId: string;
   toggleAccordion: (id: string) => void;
-  getSelectColumn: () => ColumnDef<any>;
+  getSelectColumn: () => ColumnDef<FirebaseDataRow>;
   answerContent: React.ReactNode;
 }
 
@@ -30,7 +31,7 @@ export const SanityStep = ({ data, openAccordionId, toggleAccordion, getSelectCo
 
   const zeroData = data.filter(d => Number(d.power_watt) <= 0 || Number(d.current) <= 0 || Number(d.voltage) <= 0);
   
-  const columns: ColumnDef<any>[] = [
+  const columns: ColumnDef<FirebaseDataRow>[] = [
     getSelectColumn(),
     {
       accessorKey: "id",

@@ -36,15 +36,7 @@ import {
 } from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
 
-// Define the generic Row type we expect across process tables
-export type ProcessDataRow = {
-  id: string;
-  current: number | string;
-  voltage: number | string;
-  power_watt: number | string;
-  last_updated: string;
-  [key: string]: any;
-};
+import { FirebaseDataRow } from "@/components/app/shell/firebase/page/table/columns";
 
 export const SortableHeader = ({ column, title }: { column: Column<any, unknown>, title: string }) => (
   <Button
@@ -59,7 +51,7 @@ export const SortableHeader = ({ column, title }: { column: Column<any, unknown>
 
 import { useTranslations } from "next-intl";
 
-const EditForm = ({ row }: { row: Row<ProcessDataRow> }) => {
+const EditForm = ({ row }: { row: Row<FirebaseDataRow> }) => {
   const t = useTranslations("PredictPage.Process");
   return (
     <div className="flex flex-col gap-4 mt-4">
@@ -86,7 +78,7 @@ const EditForm = ({ row }: { row: Row<ProcessDataRow> }) => {
   );
 };
 
-export const ActionCell = ({ row }: { row: Row<ProcessDataRow> }) => {
+export const ActionCell = ({ row }: { row: Row<FirebaseDataRow> }) => {
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
   const [editOpen, setEditOpen] = React.useState(false);
   const isMobile = useIsMobile();

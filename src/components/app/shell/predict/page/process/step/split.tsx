@@ -3,12 +3,13 @@ import { useTranslations } from 'next-intl';
 import { ColumnDef } from '@tanstack/react-table';
 import { ProcessTable } from '@/components/app/shell/predict/page/table';
 import { AccordionItem } from '../accordion';
+import { FirebaseDataRow } from '@/components/app/shell/firebase/page/table/columns';
 
 interface SplitStepProps {
-  data: any[];
+  data: FirebaseDataRow[];
   openAccordionId: string;
   toggleAccordion: (id: string) => void;
-  getStandardColumns: () => ColumnDef<any>[];
+  getStandardColumns: () => ColumnDef<FirebaseDataRow>[];
   answerContent: React.ReactNode;
 }
 

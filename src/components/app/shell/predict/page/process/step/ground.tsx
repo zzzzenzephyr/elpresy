@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useTranslations } from 'next-intl';
 import { AccordionItem } from '../accordion';
+import { FirebaseDataRow } from '@/components/app/shell/firebase/page/table/columns';
 
 interface ErrorAccordionProps {
   idKey: string;
@@ -56,7 +57,7 @@ const ErrorAccordion = ({
 };
 
 interface GroundStepProps {
-  data: any[];
+  data: FirebaseDataRow[];
   openAccordionId: string;
   toggleAccordion: (id: string) => void;
   answerContent: React.ReactNode;
