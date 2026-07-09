@@ -90,7 +90,7 @@ export function Process({ data = [] }: { data?: FirebaseDataRow[] }) {
     }
   ];
 
-  const renderRightColumn = (index: number) => {
+  const renderColumn = (index: number) => {
     if (!data || data.length === 0) {
       return (
         <div className="text-center text-body-subtle mt-8">
@@ -197,7 +197,7 @@ export function Process({ data = [] }: { data?: FirebaseDataRow[] }) {
             <div className="flex flex-col gap-6 sm:gap-8 h-full">
               {/* Accordion Stack */}
               <div className="w-full max-w-5xl mx-auto flex flex-col justify-start pb-4">
-                 {renderRightColumn(activeIndex)}
+                 {renderColumn(activeIndex)}
               </div>
             </div>
           </div>
