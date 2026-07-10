@@ -12,10 +12,11 @@ interface TimeStepProps {
   openAccordionId: string;
   toggleAccordion: (id: string) => void;
   getSelectColumn: () => ColumnDef<FirebaseDataRow>;
+  getStandardColumns: () => ColumnDef<FirebaseDataRow>[];
   answerContent: React.ReactNode;
 }
 
-export const TimeStep = ({ data, setDataFilter, openAccordionId, toggleAccordion, getSelectColumn, answerContent }: TimeStepProps) => {
+export const TimeStep = ({ data, setDataFilter, openAccordionId, toggleAccordion, getSelectColumn, getStandardColumns, answerContent }: TimeStepProps) => {
   const t = useTranslations('PredictPage.Process');
 
   const ExplanationItem = () => (
@@ -93,6 +94,15 @@ export const TimeStep = ({ data, setDataFilter, openAccordionId, toggleAccordion
         onToggle={() => toggleAccordion('1')}
       >
         <ProcessTable data={data} columns={columns} setDataFilter={setDataFilter} />
+      </AccordionItem>
+      <AccordionItem 
+        id="2" 
+        title={t('currentDataTitle', { count: data.length })} 
+        numberSeq={3} 
+        isOpen={openAccordionId === '2'} 
+        onToggle={() => toggleAccordion('2')}
+      >
+        <ProcessTable data={data} columns={getStandardColumns()} setDataFilter={setDataFilter} />
       </AccordionItem>
     </div>
   );

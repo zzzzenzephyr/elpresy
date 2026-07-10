@@ -6,6 +6,22 @@ export function useProcessStepsData() {
   
   return [
     {
+      label: t('steps.sanity.label'),
+      question: t('steps.sanity.question'),
+      answer: (
+        <div className="space-y-4 text-body text-sm leading-relaxed">
+          <p>{t('steps.sanity.p1')}</p>
+          <div className="bg-neutral-secondary-soft p-4 rounded-md border border-border-default">
+            <ul className="list-disc pl-5 space-y-2">
+              <li>{t('steps.sanity.rule1')}</li>
+              <li>{t('steps.sanity.rule2')}</li>
+              <li><strong>{t('steps.sanity.action')}</strong> {t('steps.sanity.actionDesc')}</li>
+            </ul>
+          </div>
+        </div>
+      )
+    },
+    {
       label: t('steps.outlier.label'),
       question: t('steps.outlier.question'),
       answer: (
@@ -24,6 +40,21 @@ export function useProcessStepsData() {
               </li>
               <li><strong>{t('steps.outlier.step4Action')}</strong> {t('steps.outlier.step4Desc')}</li>
             </ol>
+          </div>
+        </div>
+      )
+    },
+    {
+      label: t('steps.timeCheck.label'),
+      question: t('steps.timeCheck.question'),
+      answer: (
+        <div className="space-y-4 text-body text-sm leading-relaxed">
+          <p>{t('steps.timeCheck.p1')}</p>
+          <div className="bg-neutral-secondary-soft p-4 rounded-md border border-border-default">
+            <ul className="list-disc pl-5 space-y-2">
+              <li><strong>{t('steps.timeCheck.requirement')}</strong> {t('steps.timeCheck.reqDesc')}</li>
+              <li><strong>{t('steps.timeCheck.action')}</strong> {t('steps.timeCheck.actionDesc')}</li>
+            </ul>
           </div>
         </div>
       )
@@ -62,37 +93,6 @@ export function useProcessStepsData() {
             </ul>
           </div>
           <p><strong>{t('steps.groundTruth.action')}</strong> {t('steps.groundTruth.actionDesc')}</p>
-        </div>
-      )
-    },
-    {
-      label: t('steps.timeCheck.label'),
-      question: t('steps.timeCheck.question'),
-      answer: (
-        <div className="space-y-4 text-body text-sm leading-relaxed">
-          <p>{t('steps.timeCheck.p1')}</p>
-          <div className="bg-neutral-secondary-soft p-4 rounded-md border border-border-default">
-            <ul className="list-disc pl-5 space-y-2">
-              <li><strong>{t('steps.timeCheck.requirement')}</strong> {t('steps.timeCheck.reqDesc')}</li>
-              <li><strong>{t('steps.timeCheck.action')}</strong> {t('steps.timeCheck.actionDesc')}</li>
-            </ul>
-          </div>
-        </div>
-      )
-    },
-    {
-      label: t('steps.sanity.label'),
-      question: t('steps.sanity.question'),
-      answer: (
-        <div className="space-y-4 text-body text-sm leading-relaxed">
-          <p>{t('steps.sanity.p1')}</p>
-          <div className="bg-neutral-secondary-soft p-4 rounded-md border border-border-default">
-            <ul className="list-disc pl-5 space-y-2">
-              <li>{t('steps.sanity.rule1')}</li>
-              <li>{t('steps.sanity.rule2')}</li>
-              <li><strong>{t('steps.sanity.action')}</strong> {t('steps.sanity.actionDesc')}</li>
-            </ul>
-          </div>
         </div>
       )
     },

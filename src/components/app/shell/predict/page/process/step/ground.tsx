@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { useTranslations } from 'next-intl';
+import { ColumnDef } from '@tanstack/react-table';
+import { ProcessTable } from '@/components/app/shell/predict/page/table';
 import { AccordionItem } from '../accordion';
 import { FirebaseDataRow } from '@/components/app/shell/firebase/page/table/columns';
 
@@ -61,10 +63,11 @@ interface GroundStepProps {
   setDataFilter: React.Dispatch<React.SetStateAction<FirebaseDataRow[]>>;
   openAccordionId: string;
   toggleAccordion: (id: string) => void;
+  getStandardColumns: () => ColumnDef<FirebaseDataRow>[];
   answerContent: React.ReactNode;
 }
 
-export const GroundStep = ({ data, setDataFilter, openAccordionId, toggleAccordion, answerContent }: GroundStepProps) => {
+export const GroundStep = ({ data, setDataFilter, openAccordionId, toggleAccordion, getStandardColumns, answerContent }: GroundStepProps) => {
   const t = useTranslations('PredictPage.Process');
 
   const ExplanationItem = () => (
@@ -119,6 +122,15 @@ export const GroundStep = ({ data, setDataFilter, openAccordionId, toggleAccordi
         openAccordionId={openAccordionId}
         toggleAccordion={toggleAccordion}
       />
+      <AccordionItem 
+        id="4" 
+        title={t('currentDataTitle', { count: data.length })} 
+        numberSeq={5} 
+        isOpen={openAccordionId === '4'} 
+        onToggle={() => toggleAccordion('4')}
+      >
+        <ProcessTable data={data} columns={getStandardColumns()} setDataFilter={setDataFilter} />
+      </AccordionItem>
     </div>
   );
 };

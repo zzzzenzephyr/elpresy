@@ -118,15 +118,15 @@ export function Process({ data = [] }: { data?: FirebaseDataRow[] }) {
 
     switch (index) {
       case 0:
-        return <OutlierStep {...commonProps} getSelectColumn={getSelectColumn} />;
+        return <SanityStep {...commonProps} getSelectColumn={getSelectColumn} getStandardColumns={getStandardColumns} />;
       case 1:
-        return <MissingStep {...commonProps} getSelectColumn={getSelectColumn} />;
+        return <OutlierStep {...commonProps} getSelectColumn={getSelectColumn} getStandardColumns={getStandardColumns} />;
       case 2:
-        return <GroundStep {...commonProps} />;
+        return <TimeStep {...commonProps} getSelectColumn={getSelectColumn} getStandardColumns={getStandardColumns} />;
       case 3:
-        return <TimeStep {...commonProps} getSelectColumn={getSelectColumn} />;
+        return <MissingStep {...commonProps} getSelectColumn={getSelectColumn} getStandardColumns={getStandardColumns} />;
       case 4:
-        return <SanityStep {...commonProps} getSelectColumn={getSelectColumn} />;
+        return <GroundStep {...commonProps} getStandardColumns={getStandardColumns} />;
       case 5:
         return <SplitStep {...commonProps} getStandardColumns={getStandardColumns} />;
       default:

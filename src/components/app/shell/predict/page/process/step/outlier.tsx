@@ -12,10 +12,11 @@ interface OutlierStepProps {
   openAccordionId: string;
   toggleAccordion: (id: string) => void;
   getSelectColumn: () => ColumnDef<FirebaseDataRow>;
+  getStandardColumns: () => ColumnDef<FirebaseDataRow>[];
   answerContent: React.ReactNode;
 }
 
-export const OutlierStep = ({ data, setDataFilter, openAccordionId, toggleAccordion, getSelectColumn, answerContent }: OutlierStepProps) => {
+export const OutlierStep = ({ data, setDataFilter, openAccordionId, toggleAccordion, getSelectColumn, getStandardColumns, answerContent }: OutlierStepProps) => {
   const t = useTranslations('PredictPage.Process');
 
   const ExplanationItem = () => (
@@ -97,43 +98,57 @@ export const OutlierStep = ({ data, setDataFilter, openAccordionId, toggleAccord
   return (
     <div className="flex flex-col w-full">
       <ExplanationItem />
-      {[
-        { label: t('calcIqrV'), s: statsV, seq: 2, key: '1' },
-        { label: t('calcIqrI'), s: statsI, seq: 3, key: '2' },
-        { label: t('calcIqrP'), s: statsP, seq: 4, key: '3' }
-      ].map(item => (
-        <AccordionItem 
-          key={item.key} 
-          id={item.key} 
-          title={item.label} 
-          numberSeq={item.seq} 
-          isOpen={openAccordionId === item.key} 
-          onToggle={() => toggleAccordion(item.key)}
-        >
-           {item.s ? (
-             <div className="text-sm font-mono text-body-subtle space-y-3 p-4 sm:p-5 bg-neutral-secondary-soft rounded-[12px] border border-border-default overflow-x-auto custom-scrollbar">
-               <p>Q₁ = {item.s.q1.toFixed(2)}</p>
-               <p>Q₃ = {item.s.q3.toFixed(2)}</p>
-               <p className="whitespace-nowrap sm:whitespace-normal">IQR = {item.s.q3.toFixed(2)} - {item.s.q1.toFixed(2)} = <span className="text-brand font-bold text-base">{item.s.iqr.toFixed(2)}</span></p>
-               <div className="pt-4 mt-2 border-t border-border-default space-y-3 whitespace-nowrap sm:whitespace-normal">
-                 <p>{t('lowerBound')} = {item.s.q1.toFixed(2)} - (1.5 × {item.s.iqr.toFixed(2)}) = <span className="text-danger font-bold text-base">{item.s.lower.toFixed(2)}</span></p>
-                 <p>{t('upperBound')} = {item.s.q3.toFixed(2)} + (1.5 × {item.s.iqr.toFixed(2)}) = <span className="text-danger font-bold text-base">{item.s.upper.toFixed(2)}</span></p>
-               </div>
-             </div>
-           ) : (
-             <p className="text-sm text-body-subtle">{t('insufficientData')}</p>
-           )}
-        </AccordionItem>
-      ))}
+      <AccordionItem 
+        id="1" 
+        title={t('calcIqr')} 
+        numberSeq={2} 
+        isOpen={openAccordionId === '1'} 
+        onToggle={() => toggleAccordion('1')}
+      >
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {[
+            { label: t('voltage'), s: statsV },
+            { label: t('current'), s: statsI },
+            { label: t('power'), s: statsP }
+          ].map(item => (
+            <div key={item.label} className="text-sm font-mono text-body-subtle space-y-3 p-4 sm:p-5 bg-neutral-secondary-soft rounded-[12px] border border-border-default overflow-x-auto custom-scrollbar flex flex-col">
+              <h4 className="font-semibold text-heading mb-2">{item.label}</h4>
+              {item.s ? (
+                <>
+                  <p>Q₁ = {item.s.q1.toFixed(2)}</p>
+                  <p>Q₃ = {item.s.q3.toFixed(2)}</p>
+                  <p className="whitespace-nowrap sm:whitespace-normal">IQR = {item.s.q3.toFixed(2)} - {item.s.q1.toFixed(2)} = <span className="text-brand font-bold text-base">{item.s.iqr.toFixed(2)}</span></p>
+                  <div className="pt-4 mt-2 border-t border-border-default space-y-3 whitespace-nowrap sm:whitespace-normal">
+                    <p>{t('lowerBound')} = {item.s.q1.toFixed(2)} - (1.5 × {item.s.iqr.toFixed(2)}) = <span className="text-danger font-bold text-base">{item.s.lower.toFixed(2)}</span></p>
+                    <p>{t('upperBound')} = {item.s.q3.toFixed(2)} + (1.5 × {item.s.iqr.toFixed(2)}) = <span className="text-danger font-bold text-base">{item.s.upper.toFixed(2)}</span></p>
+                  </div>
+                </>
+              ) : (
+                <p className="text-sm text-body-subtle">{t('insufficientData')}</p>
+              )}
+            </div>
+          ))}
+        </div>
+      </AccordionItem>
       
       <AccordionItem 
-        id="4" 
+        id="2" 
         title={t('outlierTableTitle', { count: outliers.length })} 
-        numberSeq={5} 
-        isOpen={openAccordionId === '4'} 
-        onToggle={() => toggleAccordion('4')}
+        numberSeq={3} 
+        isOpen={openAccordionId === '2'} 
+        onToggle={() => toggleAccordion('2')}
       >
         <ProcessTable data={outliers} columns={columns} setDataFilter={setDataFilter} />
+      </AccordionItem>
+      
+      <AccordionItem 
+        id="3" 
+        title={t('currentDataTitle', { count: data.length })} 
+        numberSeq={4} 
+        isOpen={openAccordionId === '3'} 
+        onToggle={() => toggleAccordion('3')}
+      >
+        <ProcessTable data={data} columns={getStandardColumns()} setDataFilter={setDataFilter} />
       </AccordionItem>
     </div>
   );

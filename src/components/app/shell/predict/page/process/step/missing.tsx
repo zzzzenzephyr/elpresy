@@ -12,10 +12,11 @@ interface MissingStepProps {
   openAccordionId: string;
   toggleAccordion: (id: string) => void;
   getSelectColumn: () => ColumnDef<FirebaseDataRow>;
+  getStandardColumns: () => ColumnDef<FirebaseDataRow>[];
   answerContent: React.ReactNode;
 }
 
-export const MissingStep = ({ data, setDataFilter, openAccordionId, toggleAccordion, getSelectColumn, answerContent }: MissingStepProps) => {
+export const MissingStep = ({ data, setDataFilter, openAccordionId, toggleAccordion, getSelectColumn, getStandardColumns, answerContent }: MissingStepProps) => {
   const t = useTranslations('PredictPage.Process');
 
   const ExplanationItem = () => (
@@ -121,6 +122,15 @@ export const MissingStep = ({ data, setDataFilter, openAccordionId, toggleAccord
         onToggle={() => toggleAccordion('2')}
       >
         <ProcessTable data={gapRows} columns={columns} setDataFilter={setDataFilter} />
+      </AccordionItem>
+      <AccordionItem 
+        id="3" 
+        title={t('currentDataTitle', { count: data.length })} 
+        numberSeq={4} 
+        isOpen={openAccordionId === '3'} 
+        onToggle={() => toggleAccordion('3')}
+      >
+        <ProcessTable data={data} columns={getStandardColumns()} setDataFilter={setDataFilter} />
       </AccordionItem>
     </div>
   );

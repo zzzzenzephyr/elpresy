@@ -57,6 +57,16 @@ export const SplitStep = ({ data, setDataFilter, openAccordionId, toggleAccordio
       >
         <ProcessTable data={testData} columns={getStandardColumns()} setDataFilter={setDataFilter} />
       </AccordionItem>
+      
+      <AccordionItem 
+        id="3" 
+        title={t('currentDataTitle', { count: data.length })} 
+        numberSeq={4} 
+        isOpen={openAccordionId === '3'} 
+        onToggle={() => toggleAccordion('3')}
+      >
+        <ProcessTable data={data} columns={getStandardColumns()} setDataFilter={setDataFilter} />
+      </AccordionItem>
     </div>
   );
 };
