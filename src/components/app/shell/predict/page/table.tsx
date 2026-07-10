@@ -26,7 +26,7 @@ import { TableHeader as TableTopBar } from "@/components/app/shell/predict/page/
 import { TablePagination } from "@/components/app/shell/predict/page/table/pagination";
 import { useTranslations } from "next-intl";
 
-export function ProcessTable<TData>({ data, columns }: { data: TData[], columns: ColumnDef<TData, any>[] }) {
+export function ProcessTable<TData>({ data, columns, setDataFilter }: { data: TData[], columns: ColumnDef<TData, any>[], setDataFilter?: React.Dispatch<React.SetStateAction<TData[]>> }) {
   const t = useTranslations("PredictPage.Process");
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [rowSelection, setRowSelection] = React.useState({});
@@ -65,6 +65,31 @@ export function ProcessTable<TData>({ data, columns }: { data: TData[], columns:
       rowSelection,
       columnVisibility,
       globalFilter,
+    },
+    meta: {
+      updateData: (id: string, updatedRow: Partial<TData>) => {
+        if (setDataFilter) {
+          setDataFilter(old =>
+            old.map(row => {
+              if ((row as any).id === id) {
+                return { ...row, ...updatedRow };
+              }
+              return row;
+            })
+          );
+        }
+      },
+      deleteData: (id: string) => {
+        if (setDataFilter) {
+          setDataFilter(old => old.filter(row => (row as any).id !== id));
+        }
+      },
+      deleteBulkData: (ids: string[]) => {
+        if (setDataFilter) {
+          setDataFilter(old => old.filter(row => !ids.includes((row as any).id)));
+          setRowSelection({}); // Clear selection after deletion
+        }
+      }
     },
   });
 

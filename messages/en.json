@@ -41,6 +41,7 @@
     "poweredBy": "Powered by ml-cart"
   },
   "FirebaseMonitoring": {
+    "deleteSelected": "Delete {count}",
     "metricsTitle": "Firebase Realtime Database",
     "metricsSubtitle": "Live telemetry data from your connected IoT devices.",
     "domain": "elpresy.com",

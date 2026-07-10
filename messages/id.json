@@ -41,6 +41,7 @@
     "poweredBy": "Didukung oleh ml-cart"
   },
   "FirebaseMonitoring": {
+    "deleteSelected": "Hapus {count}",
     "metricsTitle": "Database Realtime Firebase",
     "metricsSubtitle": "Data telemetri langsung dari perangkat IoT Anda.",
     "domain": "elpresy.com",

@@ -79,7 +79,7 @@ export const SanityStep = ({ data, setDataFilter, openAccordionId, toggleAccordi
         isOpen={openAccordionId === '1'} 
         onToggle={() => toggleAccordion('1')}
       >
-        <ProcessTable data={zeroData} columns={columns} />
+        <ProcessTable data={zeroData} columns={columns} setDataFilter={setDataFilter} />
       </AccordionItem>
     </div>
   );

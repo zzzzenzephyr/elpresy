@@ -92,7 +92,7 @@ export const TimeStep = ({ data, setDataFilter, openAccordionId, toggleAccordion
         isOpen={openAccordionId === '1'} 
         onToggle={() => toggleAccordion('1')}
       >
-        <ProcessTable data={data} columns={columns} />
+        <ProcessTable data={data} columns={columns} setDataFilter={setDataFilter} />
       </AccordionItem>
     </div>
   );

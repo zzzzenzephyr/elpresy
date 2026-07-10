@@ -133,7 +133,7 @@ export const OutlierStep = ({ data, setDataFilter, openAccordionId, toggleAccord
         isOpen={openAccordionId === '4'} 
         onToggle={() => toggleAccordion('4')}
       >
-        <ProcessTable data={outliers} columns={columns} />
+        <ProcessTable data={outliers} columns={columns} setDataFilter={setDataFilter} />
       </AccordionItem>
     </div>
   );

@@ -51,27 +51,45 @@ export const SortableHeader = ({ column, title }: { column: Column<any, unknown>
 
 import { useTranslations } from "next-intl";
 
-const EditForm = ({ row }: { row: Row<FirebaseDataRow> }) => {
+const EditForm = ({ row, onClose }: { row: Row<FirebaseDataRow>, onClose: () => void }) => {
   const t = useTranslations("PredictPage.Process");
+  const meta = row.getAllCells()[0].getContext().table.options.meta as any;
+  const [voltage, setVoltage] = React.useState(row.getValue("voltage") as string | number);
+  const [current, setCurrent] = React.useState(row.getValue("current") as string | number);
+  const [power, setPower] = React.useState(row.getValue("power_watt") as string | number);
+
+  const handleSave = () => {
+    if (meta?.updateData) {
+      meta.updateData(row.getValue("id"), {
+        voltage,
+        current,
+        power_watt: power
+      });
+      onClose();
+    }
+  };
   return (
     <div className="flex flex-col gap-4 mt-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="flex flex-col gap-2">
           <label className="text-sm font-medium text-heading">{t('voltage')}</label>
-          <Input defaultValue={row.getValue("voltage")} />
+          <Input value={voltage} onChange={(e) => setVoltage(e.target.value)} />
         </div>
         <div className="flex flex-col gap-2">
           <label className="text-sm font-medium text-heading">{t('current')}</label>
-          <Input defaultValue={row.getValue("current")} />
+          <Input value={current} onChange={(e) => setCurrent(e.target.value)} />
         </div>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="flex flex-col gap-2">
           <label className="text-sm font-medium text-heading">{t('power')}</label>
-          <Input defaultValue={row.getValue("power_watt")} />
+          <Input value={power} onChange={(e) => setPower(e.target.value)} />
         </div>
       </div>
-      <Button className="mt-2 bg-brand text-white hover:bg-brand-strong w-full sm:w-auto self-end">
+      <Button 
+        onClick={handleSave}
+        className="mt-2 bg-brand text-white hover:bg-brand-strong w-full sm:w-auto self-end"
+      >
         {t('saveChanges')}
       </Button>
     </div>
@@ -84,10 +102,18 @@ export const ActionCell = ({ row }: { row: Row<FirebaseDataRow> }) => {
   const isMobile = useIsMobile();
   const t = useTranslations("PredictPage.Process");
 
+  const meta = row.getAllCells()[0].getContext().table.options.meta as any;
+
   const handleEditClick = (e: React.MouseEvent) => {
     e.preventDefault();
     setDropdownOpen(false);
     setEditOpen(true);
+  };
+
+  const handleDelete = () => {
+    if (meta?.deleteData) {
+      meta.deleteData(row.getValue("id"));
+    }
   };
 
   return (
@@ -112,7 +138,10 @@ export const ActionCell = ({ row }: { row: Row<FirebaseDataRow> }) => {
             <Edit2 className="h-4 w-4" />
             {t('editItem')}
           </DropdownMenuItem>
-          <DropdownMenuItem className="flex items-center gap-2 px-2 py-2 text-sm text-danger hover:bg-danger-soft hover:text-danger-strong cursor-pointer rounded-[12px]">
+          <DropdownMenuItem 
+            onClick={handleDelete}
+            className="flex items-center gap-2 px-2 py-2 text-sm text-danger hover:bg-danger-soft hover:text-danger-strong cursor-pointer rounded-[12px]"
+          >
             <Trash2 className="h-4 w-4" />
             {t('deleteItem')}
           </DropdownMenuItem>
@@ -129,7 +158,7 @@ export const ActionCell = ({ row }: { row: Row<FirebaseDataRow> }) => {
               </DrawerDescription>
             </DrawerHeader>
             <div className="px-4">
-              <EditForm row={row} />
+              <EditForm row={row} onClose={() => setEditOpen(false)} />
             </div>
             <DrawerFooter className="pt-4 px-0">
               <Button variant="outline" onClick={() => setEditOpen(false)}>
@@ -147,7 +176,7 @@ export const ActionCell = ({ row }: { row: Row<FirebaseDataRow> }) => {
                 {t('editItemDesc', { id: row.getValue("id") as string })}
               </DialogDescription>
             </DialogHeader>
-            <EditForm row={row} />
+            <EditForm row={row} onClose={() => setEditOpen(false)} />
           </DialogContent>
         </Dialog>
       )}

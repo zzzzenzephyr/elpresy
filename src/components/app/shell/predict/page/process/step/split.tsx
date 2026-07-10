@@ -45,7 +45,7 @@ export const SplitStep = ({ data, setDataFilter, openAccordionId, toggleAccordio
         isOpen={openAccordionId === '1'} 
         onToggle={() => toggleAccordion('1')}
       >
-        <ProcessTable data={trainData} columns={getStandardColumns()} />
+        <ProcessTable data={trainData} columns={getStandardColumns()} setDataFilter={setDataFilter} />
       </AccordionItem>
 
       <AccordionItem 
@@ -55,7 +55,7 @@ export const SplitStep = ({ data, setDataFilter, openAccordionId, toggleAccordio
         isOpen={openAccordionId === '2'} 
         onToggle={() => toggleAccordion('2')}
       >
-        <ProcessTable data={testData} columns={getStandardColumns()} />
+        <ProcessTable data={testData} columns={getStandardColumns()} setDataFilter={setDataFilter} />
       </AccordionItem>
     </div>
   );

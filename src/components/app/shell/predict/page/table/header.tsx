@@ -6,6 +6,7 @@ import {
   RefreshCw,
   Info,
   ChevronDown,
+  Trash2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -31,6 +32,17 @@ export function TableHeader<TData>({ table }: TableHeaderProps<TData>) {
   const searchQuery = globalFilter?.query || "";
   const searchColumns = globalFilter?.columns || [];
 
+  const selectedCount = Object.keys(table.getState().rowSelection).length;
+  const meta = table.options.meta as any;
+
+  const handleDeleteSelected = () => {
+    if (meta?.deleteBulkData) {
+      const selectedRows = table.getFilteredSelectedRowModel().rows;
+      const ids = selectedRows.map(row => (row.original as any).id);
+      meta.deleteBulkData(ids);
+    }
+  };
+
   return (
     <>
       {/* Top metadata row */}
@@ -44,6 +56,15 @@ export function TableHeader<TData>({ table }: TableHeaderProps<TData>) {
               <Info className="h-4 w-4 text-body-subtle" />
             </span>
           </div>
+          {selectedCount > 0 && (
+            <Button 
+              onClick={handleDeleteSelected}
+              className="h-9 px-3 bg-danger hover:bg-danger-strong text-white font-medium shadow-sm w-auto"
+            >
+              <Trash2 className="mr-2 h-4 w-4" />
+              {t("deleteSelected", { count: selectedCount })}
+            </Button>
+          )}
           <Button 
             onClick={() => router.refresh()}
             className="h-9 px-3 bg-brand hover:bg-brand-strong text-white font-medium shadow-sm w-auto"

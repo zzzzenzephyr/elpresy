@@ -72,7 +72,7 @@ export const MissingStep = ({ data, setDataFilter, openAccordionId, toggleAccord
     },
     {
       id: "keterangan",
-      accessorFn: (row) => row.diff > 1800 ? t('gapLarge') : row.diff > 60 ? t('gapSmall') : t('normal'),
+      accessorFn: (row: any) => row.diff > 1800 ? t('gapLarge') : row.diff > 60 ? t('gapSmall') : t('normal'),
       header: ({ column }) => <SortableHeader column={column} title={t('description')} />,
       cell: ({ row }) => <div className="text-body">{row.getValue("keterangan") as string}</div>
     },
@@ -120,7 +120,7 @@ export const MissingStep = ({ data, setDataFilter, openAccordionId, toggleAccord
         isOpen={openAccordionId === '2'} 
         onToggle={() => toggleAccordion('2')}
       >
-        <ProcessTable data={gapRows} columns={columns} />
+        <ProcessTable data={gapRows} columns={columns} setDataFilter={setDataFilter} />
       </AccordionItem>
     </div>
   );
