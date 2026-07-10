@@ -137,7 +137,7 @@
       "usingRowId": "Menggunakan Baris ID",
       "sensorValue": "Nilai Sensor",
       "stdValue": "Nilai Standar",
-      "anomalyStatus": "Anomali (Mundur/Sama)",
+      "anomalyStatus": "Anomali",
       "affectedStatus": "Terdampak",
       "timeCheckTableTitle": "Tabel Hasil Pengecekan Waktu",
       "illogicalTableTitle": "Daftar Data Tidak Logis (V, I, atau P bernilai 0)",

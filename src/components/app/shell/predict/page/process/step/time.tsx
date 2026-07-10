@@ -33,6 +33,7 @@ export const TimeStep = ({ data, setDataFilter, openAccordionId, toggleAccordion
 
   let anomalyRows: Set<number> = new Set();
   let affectedRows: Set<number> = new Set();
+  let rowsToShow: Set<number> = new Set();
   
   for (let i = 1; i < data.length; i++) {
      const prev = Number(data[i-1].last_updated);
@@ -40,15 +41,23 @@ export const TimeStep = ({ data, setDataFilter, openAccordionId, toggleAccordion
      if (curr <= prev) {
        anomalyRows.add(i);
        affectedRows.add(i-1);
-       affectedRows.add(i+1);
+       if (i+1 < data.length) affectedRows.add(i+1);
+       
+       if (i-2 >= 0) rowsToShow.add(i-2);
+       rowsToShow.add(i-1);
+       rowsToShow.add(i);
+       if (i+1 < data.length) rowsToShow.add(i+1);
+       if (i+2 < data.length) rowsToShow.add(i+2);
      }
   }
+
+  const displayData = Array.from(rowsToShow).sort((a, b) => a - b).map(idx => data[idx]);
 
   const columns: ColumnDef<FirebaseDataRow>[] = [
     getSelectColumn(),
     {
       id: "indeks",
-      accessorFn: (_, idx) => idx,
+      accessorFn: (row) => data.indexOf(row),
       header: ({ column }) => <SortableHeader column={column} title={t('index')} />,
       cell: ({ row }) => <div className="tabular-nums font-medium text-body">{row.getValue("indeks") as number}</div>
     },
@@ -64,9 +73,10 @@ export const TimeStep = ({ data, setDataFilter, openAccordionId, toggleAccordion
     },
     {
       id: "status",
-      accessorFn: (row, idx) => {
-        if (anomalyRows.has(idx)) return t('anomalyStatus');
-        if (affectedRows.has(idx) && !anomalyRows.has(idx)) return t('affectedStatus');
+      accessorFn: (row) => {
+        const origIdx = data.indexOf(row);
+        if (anomalyRows.has(origIdx)) return t('anomalyStatus');
+        if (affectedRows.has(origIdx) && !anomalyRows.has(origIdx)) return t('affectedStatus');
         return t('normal');
       },
       header: ({ column }) => <SortableHeader column={column} title={t('status')} />,
@@ -93,7 +103,7 @@ export const TimeStep = ({ data, setDataFilter, openAccordionId, toggleAccordion
         isOpen={openAccordionId === '1'} 
         onToggle={() => toggleAccordion('1')}
       >
-        <ProcessTable data={data} columns={columns} setDataFilter={setDataFilter} />
+        <ProcessTable data={displayData} columns={columns} setDataFilter={setDataFilter} />
       </AccordionItem>
       <AccordionItem 
         id="2" 

@@ -118,11 +118,11 @@ export function Process({ data = [] }: { data?: FirebaseDataRow[] }) {
 
     switch (index) {
       case 0:
-        return <SanityStep {...commonProps} getSelectColumn={getSelectColumn} getStandardColumns={getStandardColumns} />;
-      case 1:
-        return <OutlierStep {...commonProps} getSelectColumn={getSelectColumn} getStandardColumns={getStandardColumns} />;
-      case 2:
         return <TimeStep {...commonProps} getSelectColumn={getSelectColumn} getStandardColumns={getStandardColumns} />;
+      case 1:
+        return <SanityStep {...commonProps} getSelectColumn={getSelectColumn} getStandardColumns={getStandardColumns} />;
+      case 2:
+        return <OutlierStep {...commonProps} getSelectColumn={getSelectColumn} getStandardColumns={getStandardColumns} />;
       case 3:
         return <MissingStep {...commonProps} getSelectColumn={getSelectColumn} getStandardColumns={getStandardColumns} />;
       case 4:

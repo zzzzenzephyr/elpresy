@@ -137,7 +137,7 @@
       "usingRowId": "Using Row ID",
       "sensorValue": "Sensor Value",
       "stdValue": "Standard Value",
-      "anomalyStatus": "Anomaly (Backward/Same)",
+      "anomalyStatus": "Anomaly",
       "affectedStatus": "Affected",
       "timeCheckTableTitle": "Time Check Results Table",
       "illogicalTableTitle": "Illogical Data List (V, I, or P is 0)",
