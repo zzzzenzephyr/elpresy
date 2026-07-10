@@ -25,11 +25,13 @@ export function Process({ data = [] }: { data?: FirebaseDataRow[] }) {
   const [openAccordionId, setOpenAccordionId] = useState<string>('0');
   const [dataFilter, setDataFilter] = useState<FirebaseDataRow[]>(data || []);
 
+  const shouldInitializeDataFilter = data && data.length > 0 && dataFilter.length === 0;
+
   useEffect(() => {
-    if (data && data.length > 0 && dataFilter.length === 0) {
+    if (shouldInitializeDataFilter) {
       setDataFilter(data);
     }
-  }, [data]);
+  }, [data, shouldInitializeDataFilter]);
 
   // Automatically open the first accordion item when changing steps
   useEffect(() => {
