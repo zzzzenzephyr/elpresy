@@ -19,7 +19,7 @@ export function Sidebar() {
   const navItems = [
     { href: '/overview', label: 'Overview', icon: Home },
     { href: '/firebase', label: 'Firebase', icon: Flame },
-    { href: '/predict', label: 'Preprocessing', icon: LineChart },
+    { href: '/preprocessing', label: 'Preprocessing', icon: LineChart },
   ];
 
   return (
