@@ -1,5 +1,5 @@
 import { setRequestLocale } from 'next-intl/server';
-import { Process } from '@/components/app/shell/predict/page/process';
+import { Process } from '@/components/app/shell/preprocessing/page/process';
 import { fetchNeonData } from '@/script/app/firebase/actions';
 import { FirebaseDataRow } from '@/components/app/shell/firebase/page/table/columns';
 export default async function PredictPage(props: {

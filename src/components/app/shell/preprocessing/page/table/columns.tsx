@@ -54,16 +54,21 @@ import { useTranslations } from "next-intl";
 const EditForm = ({ row, onClose }: { row: Row<FirebaseDataRow>, onClose: () => void }) => {
   const t = useTranslations("PredictPage.Process");
   const meta = row.getAllCells()[0].getContext().table.options.meta as any;
+  const editConfig = meta?.editConfig || {};
+  
   const [voltage, setVoltage] = React.useState(row.getValue("voltage") as string | number);
   const [current, setCurrent] = React.useState(row.getValue("current") as string | number);
   const [power, setPower] = React.useState(row.getValue("power_watt") as string | number);
+  // Timestamp might not be in columns, but is available in original data
+  const [timestamp, setTimestamp] = React.useState(row.original.last_updated as string | number);
 
   const handleSave = () => {
     if (meta?.updateData) {
-      meta.updateData(row.getValue("id"), {
+      meta.updateData(row.original.id, {
         voltage,
         current,
-        power_watt: power
+        power_watt: power,
+        last_updated: timestamp
       });
       onClose();
     }
@@ -73,18 +78,24 @@ const EditForm = ({ row, onClose }: { row: Row<FirebaseDataRow>, onClose: () => 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="flex flex-col gap-2">
           <label className="text-sm font-medium text-heading">{t('voltage')}</label>
-          <Input value={voltage} onChange={(e) => setVoltage(e.target.value)} />
+          <Input value={voltage} onChange={(e) => setVoltage(e.target.value)} disabled={editConfig.disableOthers} />
         </div>
         <div className="flex flex-col gap-2">
           <label className="text-sm font-medium text-heading">{t('current')}</label>
-          <Input value={current} onChange={(e) => setCurrent(e.target.value)} />
+          <Input value={current} onChange={(e) => setCurrent(e.target.value)} disabled={editConfig.disableOthers} />
         </div>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="flex flex-col gap-2">
           <label className="text-sm font-medium text-heading">{t('power')}</label>
-          <Input value={power} onChange={(e) => setPower(e.target.value)} />
+          <Input value={power} onChange={(e) => setPower(e.target.value)} disabled={editConfig.disableOthers} />
         </div>
+        {editConfig.showTimestamp !== false && (
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-medium text-heading">{t('timestamp')}</label>
+            <Input value={timestamp} onChange={(e) => setTimestamp(e.target.value)} disabled={editConfig.disableTimestamp} />
+          </div>
+        )}
       </div>
       <Button 
         onClick={handleSave}

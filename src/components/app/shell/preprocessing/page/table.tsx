@@ -22,11 +22,27 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { TableHeader as TableTopBar } from "@/components/app/shell/predict/page/table/header";
-import { TablePagination } from "@/components/app/shell/predict/page/table/pagination";
+import { TableHeader as TableTopBar } from "@/components/app/shell/preprocessing/page/table/header";
+import { TablePagination } from "@/components/app/shell/preprocessing/page/table/pagination";
 import { useTranslations } from "next-intl";
 
-export function ProcessTable<TData>({ data, columns, setDataFilter }: { data: TData[], columns: ColumnDef<TData, any>[], setDataFilter?: React.Dispatch<React.SetStateAction<TData[]>> }) {
+export interface EditConfig {
+  showTimestamp?: boolean;
+  disableTimestamp?: boolean;
+  disableOthers?: boolean;
+}
+
+export function ProcessTable<TData>({ 
+  data, 
+  columns, 
+  setDataFilter,
+  editConfig
+}: { 
+  data: TData[], 
+  columns: ColumnDef<TData, any>[], 
+  setDataFilter?: React.Dispatch<React.SetStateAction<TData[]>>,
+  editConfig?: EditConfig
+}) {
   const t = useTranslations("PredictPage.Process");
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [rowSelection, setRowSelection] = React.useState({});
@@ -67,6 +83,7 @@ export function ProcessTable<TData>({ data, columns, setDataFilter }: { data: TD
       globalFilter,
     },
     meta: {
+      editConfig,
       updateData: (id: string, updatedRow: Partial<TData>) => {
         if (setDataFilter) {
           setDataFilter(old =>

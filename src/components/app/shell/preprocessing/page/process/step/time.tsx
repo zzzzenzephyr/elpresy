@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useTranslations } from 'next-intl';
 import { ColumnDef } from '@tanstack/react-table';
-import { ProcessTable } from '@/components/app/shell/predict/page/table';
-import { SortableHeader, ActionCell } from '@/components/app/shell/predict/page/table/columns';
+import { ProcessTable } from '@/components/app/shell/preprocessing/page/table';
+import { SortableHeader, ActionCell } from '@/components/app/shell/preprocessing/page/table/columns';
 import { AccordionItem } from '../accordion';
 import { FirebaseDataRow } from '@/components/app/shell/firebase/page/table/columns';
 
@@ -72,6 +72,25 @@ export const TimeStep = ({ data, setDataFilter, openAccordionId, toggleAccordion
       cell: ({ row }) => <div className="text-body-subtle tabular-nums">{row.getValue("last_updated")}</div>
     },
     {
+      id: "gap",
+      accessorFn: (row) => {
+        const origIdx = data.indexOf(row);
+        if (origIdx + 1 < data.length) {
+          const curr = Number(data[origIdx].last_updated);
+          const next = Number(data[origIdx + 1].last_updated);
+          return next - curr;
+        }
+        return "-";
+      },
+      header: ({ column }) => <SortableHeader column={column} title={t('gapDuration')} />,
+      cell: ({ row }) => {
+        const val = row.getValue("gap");
+        if (val === "-") return <span className="text-body-subtle">-</span>;
+        const gapVal = val as number;
+        return <span className={gapVal < 0 ? "text-danger font-bold" : "text-body tabular-nums"}>{gapVal} {t('seconds')}</span>;
+      }
+    },
+    {
       id: "status",
       accessorFn: (row) => {
         const origIdx = data.indexOf(row);
@@ -103,7 +122,7 @@ export const TimeStep = ({ data, setDataFilter, openAccordionId, toggleAccordion
         isOpen={openAccordionId === '1'} 
         onToggle={() => toggleAccordion('1')}
       >
-        <ProcessTable data={displayData} columns={columns} setDataFilter={setDataFilter} />
+        <ProcessTable data={displayData} columns={columns} setDataFilter={setDataFilter} editConfig={{ disableOthers: true }} />
       </AccordionItem>
       <AccordionItem 
         id="2" 
@@ -112,7 +131,7 @@ export const TimeStep = ({ data, setDataFilter, openAccordionId, toggleAccordion
         isOpen={openAccordionId === '2'} 
         onToggle={() => toggleAccordion('2')}
       >
-        <ProcessTable data={data} columns={getStandardColumns()} setDataFilter={setDataFilter} />
+        <ProcessTable data={data} columns={getStandardColumns()} setDataFilter={setDataFilter} editConfig={{ disableOthers: true }} />
       </AccordionItem>
     </div>
   );

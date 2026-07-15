@@ -1,13 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import { ChevronLeft, ChevronRight, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
-import { ProcessTable } from "@/components/app/shell/predict/page/table";
-import { SortableHeader, ActionCell } from "@/components/app/shell/predict/page/table/columns";
+import { ProcessTable } from "@/components/app/shell/preprocessing/page/table";
+import { SortableHeader, ActionCell } from "@/components/app/shell/preprocessing/page/table/columns";
 import { FirebaseDataRow } from "@/components/app/shell/firebase/page/table/columns";
 
 import { OutlierStep } from './process/step/outlier';
@@ -108,8 +108,12 @@ export function Process({ data = [] }: { data?: FirebaseDataRow[] }) {
       );
     }
 
+    const sortedDataFilter = useMemo(() => {
+      return [...dataFilter].sort((a, b) => Number(a.last_updated) - Number(b.last_updated));
+    }, [dataFilter]);
+
     const commonProps = {
-      data: dataFilter,
+      data: sortedDataFilter,
       setDataFilter,
       openAccordionId,
       toggleAccordion,

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useTranslations } from 'next-intl';
 import { ColumnDef } from '@tanstack/react-table';
-import { ProcessTable } from '@/components/app/shell/predict/page/table';
+import { ProcessTable } from '@/components/app/shell/preprocessing/page/table';
 import { AccordionItem } from '../accordion';
 import { FirebaseDataRow } from '@/components/app/shell/firebase/page/table/columns';
 
@@ -129,7 +129,7 @@ export const GroundStep = ({ data, setDataFilter, openAccordionId, toggleAccordi
         isOpen={openAccordionId === '4'} 
         onToggle={() => toggleAccordion('4')}
       >
-        <ProcessTable data={data} columns={getStandardColumns()} setDataFilter={setDataFilter} />
+        <ProcessTable data={data} columns={getStandardColumns()} setDataFilter={setDataFilter} editConfig={{ disableTimestamp: true }} />
       </AccordionItem>
     </div>
   );

@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useTranslations } from 'next-intl';
 import { ColumnDef } from '@tanstack/react-table';
-import { ProcessTable } from '@/components/app/shell/predict/page/table';
-import { SortableHeader, ActionCell } from '@/components/app/shell/predict/page/table/columns';
+import { ProcessTable } from '@/components/app/shell/preprocessing/page/table';
+import { SortableHeader, ActionCell } from '@/components/app/shell/preprocessing/page/table/columns';
 import { AccordionItem } from '../accordion';
 import { FirebaseDataRow } from '@/components/app/shell/firebase/page/table/columns';
 
@@ -80,7 +80,7 @@ export const SanityStep = ({ data, setDataFilter, openAccordionId, toggleAccordi
         isOpen={openAccordionId === '1'} 
         onToggle={() => toggleAccordion('1')}
       >
-        <ProcessTable data={zeroData} columns={columns} setDataFilter={setDataFilter} />
+        <ProcessTable data={zeroData} columns={columns} setDataFilter={setDataFilter} editConfig={{ disableTimestamp: true }} />
       </AccordionItem>
       <AccordionItem 
         id="2" 
@@ -89,7 +89,7 @@ export const SanityStep = ({ data, setDataFilter, openAccordionId, toggleAccordi
         isOpen={openAccordionId === '2'} 
         onToggle={() => toggleAccordion('2')}
       >
-        <ProcessTable data={data} columns={getStandardColumns()} setDataFilter={setDataFilter} />
+        <ProcessTable data={data} columns={getStandardColumns()} setDataFilter={setDataFilter} editConfig={{ disableTimestamp: true }} />
       </AccordionItem>
     </div>
   );
