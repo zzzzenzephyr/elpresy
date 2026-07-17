@@ -17,7 +17,7 @@ interface MissingStepProps {
 }
 
 export const MissingStep = ({ data, setDataFilter, openAccordionId, toggleAccordion, getSelectColumn, getStandardColumns, answerContent }: MissingStepProps) => {
-  const t = useTranslations('PredictPage.Process');
+  const t = useTranslations('PreprocessingPage.Process');
 
   const ExplanationItem = () => (
     <AccordionItem 

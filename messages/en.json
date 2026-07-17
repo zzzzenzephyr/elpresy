@@ -75,7 +75,7 @@
     "avgUpdateFreq": "Update Frequency",
     "vsRealtime": "vs realtime"
   },
-  "PredictPage": {
+  "PreprocessingPage": {
     "title": "Data Preprocessing",
     "description": "Step-by-step data preprocessing workflow applied before generating predictions.",
     "contact": {
@@ -210,6 +210,37 @@
           "test": "The latest 30% of data",
           "testDesc": "becomes the Testing Set.",
           "note": "This method is realistic for simulating future modeling based on the past."
+        }
+      }
+    }
+  },
+  "PredictPage": {
+    "title": "Predict",
+    "description": "Model configuration and prediction generation workflow.",
+    "Process": {
+      "prev": "Previous",
+      "next": "Next",
+      "steps": {
+        "specification": {
+          "label": "Data Specification",
+          "question": "Data Specification",
+          "p1": "Select preprocessed data and determine input variables (time per day or per date, voltage, and current) as well as the target variable (power)."
+        },
+        "tuning": {
+          "label": "Hyperparameter Tuning",
+          "question": "Parameter Configuration",
+          "p1": "Configure the hyperparameters for the CART Decision Tree model."
+        },
+        "split": {
+          "label": "Recursive Splitting",
+          "question": "Tree Splitting",
+          "p1": "Observe how the model partitions the feature space recursively."
+        },
+        "upload": {
+          "label": "Data Generation",
+          "question": "Generate Data",
+          "p1": "Upload the final configuration and data to the predict table.",
+          "uploadButton": "Upload Data"
         }
       }
     }

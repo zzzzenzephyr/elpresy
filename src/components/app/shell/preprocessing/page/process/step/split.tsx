@@ -19,7 +19,7 @@ interface SplitStepProps {
 }
 
 export const SplitStep = ({ data, setDataFilter, openAccordionId, toggleAccordion, getStandardColumns, answerContent }: SplitStepProps) => {
-  const t = useTranslations('PredictPage.Process');
+  const t = useTranslations('PreprocessingPage.Process');
   const [isPending, startTransition] = React.useTransition();
 
   const handleSave = () => {

@@ -52,7 +52,7 @@ export const SortableHeader = ({ column, title }: { column: Column<any, unknown>
 import { useTranslations } from "next-intl";
 
 const EditForm = ({ row, onClose }: { row: Row<FirebaseDataRow>, onClose: () => void }) => {
-  const t = useTranslations("PredictPage.Process");
+  const t = useTranslations("PreprocessingPage.Process");
   const meta = row.getAllCells()[0].getContext().table.options.meta as any;
   const editConfig = meta?.editConfig || {};
   
@@ -111,7 +111,7 @@ export const ActionCell = ({ row }: { row: Row<FirebaseDataRow> }) => {
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
   const [editOpen, setEditOpen] = React.useState(false);
   const isMobile = useIsMobile();
-  const t = useTranslations("PredictPage.Process");
+  const t = useTranslations("PreprocessingPage.Process");
 
   const meta = row.getAllCells()[0].getContext().table.options.meta as any;
 

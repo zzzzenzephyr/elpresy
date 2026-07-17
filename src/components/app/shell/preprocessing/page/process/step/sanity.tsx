@@ -17,7 +17,7 @@ interface SanityStepProps {
 }
 
 export const SanityStep = ({ data, setDataFilter, openAccordionId, toggleAccordion, getSelectColumn, getStandardColumns, answerContent }: SanityStepProps) => {
-  const t = useTranslations('PredictPage.Process');
+  const t = useTranslations('PreprocessingPage.Process');
 
   const ExplanationItem = () => (
     <AccordionItem 

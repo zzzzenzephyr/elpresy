@@ -75,7 +75,7 @@
     "avgUpdateFreq": "Frekuensi Pembaruan",
     "vsRealtime": "vs saat ini"
   },
-  "PredictPage": {
+  "PreprocessingPage": {
     "title": "Prapemrosesan Data",
     "description": "Alur kerja prapemrosesan data langkah demi langkah yang diterapkan sebelum menghasilkan prediksi.",
     "contact": {
@@ -210,6 +210,37 @@
           "test": "30% data terbaru",
           "testDesc": "menjadi Data Uji (Testing Set).",
           "note": "Metode ini realistis untuk mensimulasikan pemodelan masa depan berdasarkan masa lalu."
+        }
+      }
+    }
+  },
+  "PredictPage": {
+    "title": "Prediksi",
+    "description": "Konfigurasi model dan alur kerja pembuatan prediksi.",
+    "Process": {
+      "prev": "Sebelumnya",
+      "next": "Selanjutnya",
+      "steps": {
+        "specification": {
+          "label": "Penetapan Data",
+          "question": "Penetapan Data",
+          "p1": "Memilih data praproses dan menentukan variabel masukan (waktu perhari atau pertanggal, voltage dan current) serta target (power)."
+        },
+        "tuning": {
+          "label": "Konfigurasi Parameter",
+          "question": "Konfigurasi Parameter",
+          "p1": "Konfigurasi hyperparameter untuk model pohon keputusan CART."
+        },
+        "split": {
+          "label": "Pembelahan Pohon",
+          "question": "Pembelahan Pohon",
+          "p1": "Mengamati bagaimana model mempartisi ruang fitur secara rekursif."
+        },
+        "upload": {
+          "label": "Pembentukan Data",
+          "question": "Pembentukan Data",
+          "p1": "Unggah data ke tabel baru bernama 'predict'.",
+          "uploadButton": "Unggah Data"
         }
       }
     }

@@ -26,7 +26,7 @@ const ErrorAccordion = ({
   openAccordionId,
   toggleAccordion
 }: ErrorAccordionProps) => {
-  const t = useTranslations('PredictPage.Process');
+  const t = useTranslations('PreprocessingPage.Process');
   const step1 = `Error(%) = |(${sensor} - ${std}) / ${std}| × 100%`;
   const diff = (sensor - std).toFixed(4);
   const step2 = `Error(%) = |(${diff}) / ${std}| × 100%`;
@@ -68,7 +68,7 @@ interface GroundStepProps {
 }
 
 export const GroundStep = ({ data, setDataFilter, openAccordionId, toggleAccordion, getStandardColumns, answerContent }: GroundStepProps) => {
-  const t = useTranslations('PredictPage.Process');
+  const t = useTranslations('PreprocessingPage.Process');
 
   const ExplanationItem = () => (
     <AccordionItem 
@@ -82,9 +82,9 @@ export const GroundStep = ({ data, setDataFilter, openAccordionId, toggleAccordi
     </AccordionItem>
   );
 
-  const stdV = 220;
-  const stdP = 1810;
-  const stdI = 9.975;
+  const stdV = 250;
+  const stdP = 512;
+  const stdI = 2.05;
   
   const r = data[0]; // Example row
   if (!r) return null;

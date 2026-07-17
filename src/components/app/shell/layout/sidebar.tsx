@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Home, Flame, Settings, FileText, HelpCircle, LineChart } from 'lucide-react';
+import { Home, Flame, Settings, FileText, HelpCircle, LineChart, Layers, Brain } from 'lucide-react';
 import { Link, usePathname } from '@/i18n/routing';
 import { Sidebar as ShadcnSidebar, SidebarContent, SidebarFooter } from '@/components/ui/sidebar';
 import {
@@ -19,7 +19,8 @@ export function Sidebar() {
   const navItems = [
     { href: '/overview', label: 'Overview', icon: Home },
     { href: '/firebase', label: 'Firebase', icon: Flame },
-    { href: '/preprocessing', label: 'Preprocessing', icon: LineChart },
+    { href: '/preprocessing', label: 'Preprocessing', icon: Layers },
+    { href: '/predict', label: 'Predict', icon: Brain },
   ];
 
   return (

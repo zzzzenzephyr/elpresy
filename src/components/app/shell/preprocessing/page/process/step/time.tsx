@@ -17,7 +17,7 @@ interface TimeStepProps {
 }
 
 export const TimeStep = ({ data, setDataFilter, openAccordionId, toggleAccordion, getSelectColumn, getStandardColumns, answerContent }: TimeStepProps) => {
-  const t = useTranslations('PredictPage.Process');
+  const t = useTranslations('PreprocessingPage.Process');
 
   const ExplanationItem = () => (
     <AccordionItem 

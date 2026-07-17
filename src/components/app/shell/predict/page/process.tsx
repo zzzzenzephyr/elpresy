@@ -1,37 +1,22 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { ChevronLeft, ChevronRight, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Checkbox } from "@/components/ui/checkbox";
-import { ColumnDef } from "@tanstack/react-table";
-import { ProcessTable } from "@/components/app/shell/preprocessing/page/table";
-import { SortableHeader, ActionCell } from "@/components/app/shell/preprocessing/page/table/columns";
-import { FirebaseDataRow } from "@/components/app/shell/firebase/page/table/columns";
+import { FirebaseDataRow } from '@/components/app/shell/firebase/page/table/columns';
 
-import { OutlierStep } from './process/step/outlier';
-import { MissingStep } from './process/step/missing';
-import { GroundStep } from './process/step/ground';
-import { TimeStep } from './process/step/time';
-import { SanityStep } from './process/step/sanity';
+import { SpecificationStep } from './process/step/specification';
+import { TuningStep } from './process/step/tuning';
 import { SplitStep } from './process/step/split';
+import { UploadStep } from './process/step/upload';
 import { useProcessStepsData } from './process/step/data';
 
 export function Process({ data = [] }: { data?: FirebaseDataRow[] }) {
-  const tRoot = useTranslations('PreprocessingPage');
-  const t = useTranslations('PreprocessingPage.Process');
+  const tRoot = useTranslations('PredictPage');
+  const t = useTranslations('PredictPage.Process');
   const [activeIndex, setActiveIndex] = useState(0);
   const [openAccordionId, setOpenAccordionId] = useState<string>('0');
-  const [dataFilter, setDataFilter] = useState<FirebaseDataRow[]>(data || []);
-
-  const shouldInitializeDataFilter = data && data.length > 0 && dataFilter.length === 0;
-
-  useEffect(() => {
-    if (shouldInitializeDataFilter) {
-      setDataFilter(data);
-    }
-  }, [data, shouldInitializeDataFilter]);
 
   // Automatically open the first accordion item when changing steps
   useEffect(() => {
@@ -44,77 +29,8 @@ export function Process({ data = [] }: { data?: FirebaseDataRow[] }) {
 
   const steps = useProcessStepsData();
 
-  const getSelectColumn = (): ColumnDef<FirebaseDataRow> => ({
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected()}
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-        className="translate-y-[2px]"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-        className="translate-y-[2px]"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  });
-
-  const getStandardColumns = (): ColumnDef<FirebaseDataRow>[] => [
-    getSelectColumn(),
-    {
-      accessorKey: "id",
-      header: ({ column }) => <SortableHeader column={column} title={t('dataId')} />,
-      cell: ({ row }) => <div className="tabular-nums font-medium text-body">{String(row.getValue("id")).substring(0, 8)}...</div>
-    },
-    {
-      accessorKey: "voltage",
-      header: ({ column }) => <SortableHeader column={column} title={t('voltage')} />,
-      cell: ({ row }) => <div className="font-medium text-warning">{row.getValue("voltage")}</div>,
-    },
-    {
-      accessorKey: "current",
-      header: ({ column }) => <SortableHeader column={column} title={t('current')} />,
-      cell: ({ row }) => <div className="font-medium text-brand">{row.getValue("current")}</div>,
-    },
-    {
-      accessorKey: "power_watt",
-      header: ({ column }) => <SortableHeader column={column} title={t('power')} />,
-      cell: ({ row }) => <div className="font-medium text-success">{row.getValue("power_watt")}</div>,
-    },
-    {
-      accessorKey: "last_updated",
-      header: ({ column }) => <SortableHeader column={column} title={t('timestamp')} />,
-      cell: ({ row }) => <div className="text-body-subtle tabular-nums">{row.getValue("last_updated")}</div>,
-    },
-    {
-      id: "actions",
-      cell: ({ row }) => <ActionCell row={row} />
-    }
-  ];
-
   const renderColumn = (index: number) => {
-    if (!data || data.length === 0) {
-      return (
-        <div className="text-center text-body-subtle mt-8">
-          <p>{t('noData')}</p>
-        </div>
-      );
-    }
-
-    const sortedDataFilter = useMemo(() => {
-      return [...dataFilter].sort((a, b) => Number(a.last_updated) - Number(b.last_updated));
-    }, [dataFilter]);
-
     const commonProps = {
-      data: sortedDataFilter,
-      setDataFilter,
       openAccordionId,
       toggleAccordion,
       answerContent: steps[index].answer
@@ -122,17 +38,13 @@ export function Process({ data = [] }: { data?: FirebaseDataRow[] }) {
 
     switch (index) {
       case 0:
-        return <TimeStep {...commonProps} getSelectColumn={getSelectColumn} getStandardColumns={getStandardColumns} />;
+        return <SpecificationStep {...commonProps} />;
       case 1:
-        return <SanityStep {...commonProps} getSelectColumn={getSelectColumn} getStandardColumns={getStandardColumns} />;
+        return <TuningStep {...commonProps} />;
       case 2:
-        return <OutlierStep {...commonProps} getSelectColumn={getSelectColumn} getStandardColumns={getStandardColumns} />;
+        return <SplitStep {...commonProps} />;
       case 3:
-        return <MissingStep {...commonProps} getSelectColumn={getSelectColumn} getStandardColumns={getStandardColumns} />;
-      case 4:
-        return <GroundStep {...commonProps} getStandardColumns={getStandardColumns} />;
-      case 5:
-        return <SplitStep {...commonProps} getStandardColumns={getStandardColumns} />;
+        return <UploadStep {...commonProps} />;
       default:
         return null;
     }

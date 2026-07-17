@@ -43,7 +43,7 @@ export function ProcessTable<TData>({
   setDataFilter?: React.Dispatch<React.SetStateAction<TData[]>>,
   editConfig?: EditConfig
 }) {
-  const t = useTranslations("PredictPage.Process");
+  const t = useTranslations("PreprocessingPage.Process");
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [rowSelection, setRowSelection] = React.useState({});
   const [globalFilter, setGlobalFilter] = React.useState({ query: "", columns: [] as string[] });

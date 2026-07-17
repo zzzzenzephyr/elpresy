@@ -17,7 +17,7 @@ interface OutlierStepProps {
 }
 
 export const OutlierStep = ({ data, setDataFilter, openAccordionId, toggleAccordion, getSelectColumn, getStandardColumns, answerContent }: OutlierStepProps) => {
-  const t = useTranslations('PredictPage.Process');
+  const t = useTranslations('PreprocessingPage.Process');
 
   const ExplanationItem = () => (
     <AccordionItem 

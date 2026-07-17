@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useTranslations } from 'next-intl';
 
 export function useProcessStepsData() {
-  const t = useTranslations('PredictPage.Process');
+  const t = useTranslations('PreprocessingPage.Process');
   
   return [
     {
