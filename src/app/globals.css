@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @import "shadcn/tailwind.css";
 @import "tw-animate-css";
-
+@import "flag-icons/css/flag-icons.min.css";
 @custom-variant dark (&:is(.dark *));
 
 @import "../style/core/color.css";

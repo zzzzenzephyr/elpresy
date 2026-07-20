@@ -114,8 +114,7 @@
     --border-orange: #fb923c;
   }
 
-  @media (prefers-color-scheme: dark) {
-    :root {
+  .dark {
       /* Background Tokens - Neutral */
       --neutral-primary-soft: #101828;
       --neutral-primary: #030712;
@@ -210,7 +209,6 @@
       --border-brand: #51a2ff;
       --border-dark-subtle: #374151;
     }
-  }
 }
 
 @theme inline {

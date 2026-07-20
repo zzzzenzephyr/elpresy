@@ -1,7 +1,7 @@
 import { setRequestLocale } from 'next-intl/server';
 import { Header } from '@/components/app/page/header';
 import { Hero } from '@/components/app/page/hero';
-import { LoginForm } from '@/components/app/page/login-form';
+import { LoginForm } from '@/components/app/page/login';
 import { Process } from '@/components/app/page/process';
 import { Footer } from '@/components/app/page/footer';
 import { Features } from '@/components/app/page/features';

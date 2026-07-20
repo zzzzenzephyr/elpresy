@@ -39,5 +39,210 @@
     "step3Title": "Analyze Results",
     "step3Desc": "Review the detailed wattage forecasts through our intuitive dashboard. Identify usage spikes and implement data-driven strategies to significantly optimize your daily electrical consumption.",
     "poweredBy": "Powered by ml-cart"
+  },
+  "FirebaseMonitoring": {
+    "deleteSelected": "Delete {count}",
+    "metricsTitle": "Firebase Realtime Database",
+    "metricsSubtitle": "Live telemetry data from your connected IoT devices.",
+    "domain": "elpresy.com",
+    "totalData": "Total Data: {count}",
+    "totalDataTooltip": "Total records from Firebase in the system",
+    "searchData": "Search data...",
+    "actions": "Actions",
+    "filters": "Filters",
+    "refreshData": "Refresh",
+    "tableSettings": "Table settings",
+    "hideFields": "Hide fields",
+    "settings": "Settings",
+    "hide": "Hide",
+    "liveData": "Live Data",
+    "viewFirebaseConsole": "View Firebase Console",
+    "Current": "Current",
+    "Power Watt": "Power Watt",
+    "Voltage": "Voltage",
+    "Energy kWh": "Energy kWh",
+    "Date": "Date",
+    "Time": "Time",
+    "rowsPerPage": "Rows per page",
+    "pageInfo": "{start}–{end} of {total}",
+    "previous": "Previous",
+    "next": "Next",
+    "recordingLive": "Recording Live",
+    "notRecording": "Not Recording",
+    "avgCurrent": "Avg. Current (A)",
+    "avgVoltage": "Avg. Voltage (V)",
+    "avgPower": "Avg. Power (W)",
+    "avgUpdateFreq": "Update Frequency",
+    "vsRealtime": "vs realtime"
+  },
+  "PreprocessingPage": {
+    "title": "Data Preprocessing",
+    "description": "Step-by-step data preprocessing workflow applied before generating predictions.",
+    "contact": {
+      "address": "123 Innovation Drive\nTech District, City 10110",
+      "label": "Support Team",
+      "email": "support@elpresy.com",
+      "button": "Contact Support"
+    },
+    "steps": {
+      "s1": {
+        "title": "Missing values filter",
+        "description": "Detects and handles missing data points to ensure the dataset is complete and reliable for prediction."
+      },
+      "s2": {
+        "title": "Outlier detection",
+        "description": "Identifies and manages anomalous data points that deviate significantly from expected patterns."
+      },
+      "s3": {
+        "title": "Verify time consistency",
+        "description": "Checks chronological order and uniform intervals in the time series data to maintain temporal integrity."
+      }
+    },
+    "Process": {
+      "prev": "Previous",
+      "next": "Next",
+      "noData": "Data is unavailable for analysis.",
+      "insufficientData": "Insufficient data.",
+      "index": "Index",
+      "dataId": "Data ID",
+      "timestamp": "Timestamp",
+      "status": "Status",
+      "description": "Description",
+      "voltage": "Voltage (V)",
+      "current": "Current (I)",
+      "power": "Power (P)",
+      "explanation": "Explanation & Concept",
+      "calcIqr": "IQR Calculation (V, I, P)",
+      "calcIqrV": "IQR Calculation (Voltage / V)",
+      "calcIqrI": "IQR Calculation (Current / I)",
+      "calcIqrP": "IQR Calculation (Active Power / P)",
+      "lowerBound": "Lower Bound",
+      "upperBound": "Upper Bound",
+      "outlierTableTitle": "Outlier Data Table ({count} rows)",
+      "currentDataTitle": "Realtime Data ({count} rows)",
+      "gapSmall": "Small Gap",
+      "gapLarge": "Large Gap",
+      "normal": "Normal",
+      "gapDuration": "Gap duration",
+      "seconds": "seconds",
+      "formula": "Formula",
+      "exampleMidpoint": "For example, finding Voltage (V) at the midpoint of the gap (x = {mid}):",
+      "result": "Result",
+      "allNormalTitle": "All data in sequence is normal!",
+      "allNormalDesc": "Interval between data < 60 seconds. No interpolation calculation is needed.",
+      "sampleInterpolationTitle": "Linear Interpolation Example (Small Gap)",
+      "normalConditionTitle": "Normal Condition (No gap)",
+      "sequenceTableTitle": "Data Sequence with Gap Estimation",
+      "simError": "Error Simulation ({name})",
+      "usingRowId": "Using Row ID",
+      "sensorValue": "Sensor Value",
+      "stdValue": "Standard Value",
+      "anomalyStatus": "Anomaly",
+      "affectedStatus": "Affected",
+      "timeCheckTableTitle": "Time Check Results Table",
+      "illogicalTableTitle": "Illogical Data List (V, I, or P is 0)",
+      "trainSetTitle": "Training Set (70% - {count} rows)",
+      "testSetTitle": "Testing Set (30% - {count} rows)",
+      "editItem": "Edit item",
+      "deleteItem": "Delete item",
+      "editItemTitle": "Edit Item",
+      "editItemDesc": "Make changes to item ID: {id}",
+      "saveChanges": "Save Changes",
+      "cancel": "Cancel",
+      "steps": {
+        "outlier": {
+          "label": "Outlier Detection",
+          "question": "Detection and Removal of Outliers",
+          "p1": "Outlier data is a value that deviates significantly from normal patterns. The author uses the Interquartile Range (IQR) method on the variables Current (I), Voltage (V), and Active Power (P) to detect them.",
+          "stepsLabel": "IQR Steps:",
+          "step1": "Determine Quartile 1 (Q₁) and Quartile 3 (Q₃) of the dataset.",
+          "step2": "Calculate IQR:",
+          "step3": "Determine filtering bounds:",
+          "step4Action": "Action:",
+          "step4Desc": "If there is data outside the bounds, it is flagged or removed."
+        },
+        "missing": {
+          "label": "Missing Data",
+          "question": "Handling Missing Data",
+          "p1": "Because the system transmits data over Wi-Fi, there are sometimes gaps. Handling scenarios:",
+          "smallGap": "Small Gap (< 1 minute):",
+          "smallGapDesc": "Filled using Linear Interpolation.",
+          "formulaNote": "(Interpolation formula:",
+          "largeGap": "Large Gap (> 30 minutes):",
+          "largeGapDesc": "Interpolation is no longer accurate. Data during this period is removed or analyzed separately."
+        },
+        "groundTruth": {
+          "label": "Ground Truth",
+          "question": "Validation against Ground Truth",
+          "p1": "Sensor readings are cross-checked with standard measuring instruments (multimeter/clamp meter) to ensure their calibration does not drift.",
+          "calcTitle": "Calculating percentage deviation:",
+          "stdValuesTitle": "Fixed Standard Instrument values:",
+          "stdV": "Voltage: 220V",
+          "stdP": "Active Power: 1810 Watt",
+          "stdI": "Current: 8.35A - 11.6A (Average: 9.975A)",
+          "action": "Action:",
+          "actionDesc": "If Error > 5%, the data is flagged for investigation / recalibration."
+        },
+        "timeCheck": {
+          "label": "Time Consistency",
+          "question": "Time Consistency Check",
+          "p1": "Since this regression is time-series based, the sequence of data capture times is crucial.",
+          "requirement": "Absolute Requirement:",
+          "reqDesc": "Timestamps must continuously increase.",
+          "action": "Action:",
+          "actionDesc": "There must be no duplicate or backward times. If a temporal anomaly (system restart) is found, the data is discarded."
+        },
+        "sanity": {
+          "label": "Sanity Check",
+          "question": "Value Validity Check (Sanity Check)",
+          "p1": "Verification of basic electrical logic on the reading results.",
+          "rule1": "Electrical values (P, V, I) must not be zero or negative simultaneously in normal operation.",
+          "rule2": "If current is 0 (AC off), then Active Power (P) must 0.",
+          "action": "Action:",
+          "actionDesc": "Violation of this logic will cause the data row to be deleted."
+        },
+        "split": {
+          "label": "Data Splitting",
+          "question": "Time-Based Split",
+          "p1": "After the dataset is clean, a division is performed using the Time-Based Split method (not random).",
+          "train": "The first 70% of data (chronological)",
+          "trainDesc": "becomes the Training Set.",
+          "test": "The latest 30% of data",
+          "testDesc": "becomes the Testing Set.",
+          "note": "This method is realistic for simulating future modeling based on the past."
+        }
+      }
+    }
+  },
+  "PredictPage": {
+    "title": "Predict",
+    "description": "Model configuration and prediction generation workflow.",
+    "Process": {
+      "prev": "Previous",
+      "next": "Next",
+      "steps": {
+        "specification": {
+          "label": "Data Specification",
+          "question": "Data Specification",
+          "p1": "Select preprocessed data and determine input variables (time per day or per date, voltage, and current) as well as the target variable (power)."
+        },
+        "tuning": {
+          "label": "Hyperparameter Tuning",
+          "question": "Parameter Configuration",
+          "p1": "Configure the hyperparameters for the CART Decision Tree model."
+        },
+        "split": {
+          "label": "Recursive Splitting",
+          "question": "Tree Splitting",
+          "p1": "Observe how the model partitions the feature space recursively."
+        },
+        "upload": {
+          "label": "Data Generation",
+          "question": "Generate Data",
+          "p1": "Upload the final configuration and data to the predict table.",
+          "uploadButton": "Upload Data"
+        }
+      }
+    }
   }
 }
