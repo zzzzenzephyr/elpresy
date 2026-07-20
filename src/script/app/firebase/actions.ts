@@ -22,9 +22,19 @@ async function fetchWithRetry<T>(
   }
 }
 
-export async function fetchNeonData() {
+export async function fetchFirebaseData() {
   try {
     const result = await fetchWithRetry(() => db.execute(sql`SELECT * FROM firebase`));
+    return result.rows;
+  } catch (error) {
+    console.error("Final Neon Database Error after retries:", error);
+    return [];
+  }
+}
+
+export async function fetchPreprocessData() {
+  try {
+    const result = await fetchWithRetry(() => db.execute(sql`SELECT * FROM preprocess`));
     return result.rows;
   } catch (error) {
     console.error("Final Neon Database Error after retries:", error);

@@ -18,6 +18,10 @@ export function Process({ data = [] }: { data?: FirebaseDataRow[] }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [openAccordionId, setOpenAccordionId] = useState<string>('0');
 
+  useEffect(() => {
+    console.log("data: ", data);
+  }, [data]);
+
   // Automatically open the first accordion item when changing steps
   useEffect(() => {
     setOpenAccordionId('0');
@@ -33,7 +37,8 @@ export function Process({ data = [] }: { data?: FirebaseDataRow[] }) {
     const commonProps = {
       openAccordionId,
       toggleAccordion,
-      answerContent: steps[index].answer
+      answerContent: steps[index].answer,
+      data,
     };
 
     switch (index) {
