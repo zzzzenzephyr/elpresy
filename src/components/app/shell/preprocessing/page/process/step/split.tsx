@@ -7,7 +7,7 @@ import { FirebaseDataRow } from '@/components/app/shell/firebase/page/table/colu
 import { Button } from '@/components/ui/button';
 import { Save, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
-import { savePreprocessData } from '@/app/actions/preprocess';
+import { savePreprocessData } from '@/script/app/actions/preprocess';
 
 interface SplitStepProps {
   data: FirebaseDataRow[];

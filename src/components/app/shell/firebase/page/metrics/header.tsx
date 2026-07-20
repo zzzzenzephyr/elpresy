@@ -5,7 +5,7 @@ import { CheckCircle2, XCircle } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useFirebaseData } from "@/components/app/shell/firebase/page/provider";
 import { useRouter } from "next/navigation";
-import { recordFirebaseData } from "@/app/actions/firebase";
+import { recordFirebaseData } from "@/script/app/actions/firebase";
 import type { FirebaseData } from "@/script/app/firebase/types";
 import { cn } from "@/lib/utils";
 
