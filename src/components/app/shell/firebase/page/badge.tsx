@@ -90,7 +90,7 @@ function useTrendMetrics(data: FirebaseDataRow[], realtimeData: any) {
   };
 }
 
-export function TrendBadgesGrid({ data }: { data: FirebaseDataRow[] }) {
+export function TrendBadgesGrid({ data = [] }: { data: FirebaseDataRow[] }) {
   const t = useTranslations("FirebaseMonitoring");
   const { data: realtimeData } = useFirebaseData();
   const metrics = useTrendMetrics(data, realtimeData);
