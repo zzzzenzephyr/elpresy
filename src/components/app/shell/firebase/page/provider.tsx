@@ -40,13 +40,7 @@ export function Provider({ children }: { children: React.ReactNode }) {
         const val = snapshot.val();
         // Output console data for debugging only
         if (val) {
-          const calibrated = {
-            ...val,
-            voltage: val.voltage - 8,
-            current: (val.current * 2.09).toFixed(2),
-            power_watt: ((val.voltage - 8) * (val.current * 2.09)).toFixed(2)
-          }
-          setData(calibrated);
+          setData(val);
           // console.log("Firebase Realtime Data Updated:", calibrated);
         } else {
           setError("No data found in Firebase.");
