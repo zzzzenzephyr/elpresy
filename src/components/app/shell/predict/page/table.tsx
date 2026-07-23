@@ -25,7 +25,13 @@ import { PreprocessDataRow, columns } from "@/components/app/shell/predict/page/
 import { TableHeader as TableTopBar } from "@/components/app/shell/firebase/page/table/header";
 import { TablePagination } from "@/components/app/shell/firebase/page/table/pagination";
 
-export function PredictTable({ data }: { data: any[] }) {
+interface PredictItem {
+  id: string;
+  created_at: string | Date;
+  data: Array<{ current?: number; voltage?: number; power_watt?: number }>;
+}
+
+export function PredictTable({ data }: { data: PredictItem[] }) {
   const tableData = React.useMemo(() => {
     return data
       .filter((item: any) => {
