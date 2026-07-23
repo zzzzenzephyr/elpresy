@@ -25,7 +25,47 @@ import { PreprocessDataRow, columns } from "@/components/app/shell/predict/page/
 import { TableHeader as TableTopBar } from "@/components/app/shell/firebase/page/table/header";
 import { TablePagination } from "@/components/app/shell/firebase/page/table/pagination";
 
-export function PredictTable({ data }: { data: PreprocessDataRow[] }) {
+interface PredictItem {
+  id: string;
+  created_at: string | Date;
+  data: Array<{ current?: number; voltage?: number; power_watt?: number }>;
+}
+
+export function PredictTable({ data }: { data: PredictItem[] }) {
+  const tableData = React.useMemo(() => {
+    return data
+      .filter((item: any) => {
+        const records = Array.isArray(item.data) ? item.data : [];
+        return records.some((r: any) => r.current != null && r.voltage != null && r.power_watt != null);
+      })
+      .map((item: any) => {
+        const records = (Array.isArray(item.data) ? item.data : []).filter(
+          (r: any) => r.current != null && r.voltage != null && r.power_watt != null
+        );
+        let sumCurrent = 0;
+        let sumVoltage = 0;
+        let sumPower = 0;
+
+        records.forEach((record: any) => {
+          sumCurrent += record.current || 0;
+          sumVoltage += record.voltage || 0;
+          sumPower += record.power_watt || 0;
+        });
+
+        const count = records.length || 1;
+      return {
+        id: item.id,
+        created_at: item.created_at,
+        data: {
+          avgCurrent: Number((sumCurrent / count).toFixed(2)),
+          avgVoltage: Number((sumVoltage / count).toFixed(2)),
+          avgPower: Number((sumPower / count).toFixed(2)),
+          totalData: records.length,
+        }
+      };
+    });
+  }, [data]);
+
   const [sorting, setSorting] = React.useState<SortingState>([{ id: "Timestamp", desc: true }]);
   const [rowSelection, setRowSelection] = React.useState({});
   const [globalFilter, setGlobalFilter] = React.useState({ query: "", columns: [] as string[] });
@@ -50,7 +90,7 @@ export function PredictTable({ data }: { data: PreprocessDataRow[] }) {
   };
 
   const table = useReactTable({
-    data,
+    data: tableData,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),

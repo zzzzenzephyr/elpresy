@@ -6,7 +6,7 @@ import { Provider } from "@/components/app/shell/firebase/page/provider";
 import { FirebaseDataRow } from "@/components/app/shell/firebase/page/table/columns";
 import { fetchFirebaseData } from "@/script/app/firebase/actions";
 
-export const revalidate = 60; // Next.js ISR: Cache page for 60 seconds, serving stale data on DB failure
+export const revalidate = 60;
 
 export default async function FirebasePage() {
   const tableData = await fetchFirebaseData() as FirebaseDataRow[];

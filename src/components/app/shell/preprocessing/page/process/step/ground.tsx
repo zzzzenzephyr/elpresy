@@ -45,7 +45,7 @@ const ErrorAccordion = ({
       >
          <div className="text-sm font-mono text-body-subtle space-y-3 p-4 sm:p-5 bg-neutral-secondary-soft rounded-[12px] border border-border-default overflow-x-auto custom-scrollbar">
            <p>{t('usingRowId')}: {rowId.substring(0,8)}...</p>
-           <p>{t('sensorValue')}: {sensor}</p>
+           <p>Avg. {t('sensorValue')}: {sensor}</p>
            <p>{t('stdValue')}: {std}</p>
            <div className="pt-4 mt-2 border-t border-border-default space-y-2 whitespace-nowrap sm:whitespace-normal">
              <p>{step1}</p>
@@ -82,9 +82,9 @@ export const GroundStep = ({ data, setDataFilter, openAccordionId, toggleAccordi
     </AccordionItem>
   );
 
-  const stdV = 250;
-  const stdP = 512;
-  const stdI = 2.05;
+  const stdV = 240;
+  const stdP = 1992;
+  const stdI = 8.3;
   
   const r = data[0]; // Example row
   if (!r) return null;

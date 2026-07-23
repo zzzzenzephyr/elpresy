@@ -65,9 +65,9 @@ const EditForm = ({ row, onClose }: { row: Row<FirebaseDataRow>, onClose: () => 
   const handleSave = () => {
     if (meta?.updateData) {
       meta.updateData(row.original.id, {
-        voltage,
-        current,
-        power_watt: power,
+        voltage: Number(voltage),
+        current: Number(current),
+        power_watt: Number(power),
         last_updated: timestamp
       });
       onClose();
@@ -78,17 +78,17 @@ const EditForm = ({ row, onClose }: { row: Row<FirebaseDataRow>, onClose: () => 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="flex flex-col gap-2">
           <label className="text-sm font-medium text-heading">{t('voltage')}</label>
-          <Input value={voltage} onChange={(e) => setVoltage(e.target.value)} disabled={editConfig.disableOthers} />
+          <Input type="number" step="any" value={voltage} onChange={(e) => setVoltage(e.target.value)} disabled={editConfig.disableOthers} />
         </div>
         <div className="flex flex-col gap-2">
           <label className="text-sm font-medium text-heading">{t('current')}</label>
-          <Input value={current} onChange={(e) => setCurrent(e.target.value)} disabled={editConfig.disableOthers} />
+          <Input type="number" step="any" value={current} onChange={(e) => setCurrent(e.target.value)} disabled={editConfig.disableOthers} />
         </div>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="flex flex-col gap-2">
           <label className="text-sm font-medium text-heading">{t('power')}</label>
-          <Input value={power} onChange={(e) => setPower(e.target.value)} disabled={editConfig.disableOthers} />
+          <Input type="number" step="any" value={power} onChange={(e) => setPower(e.target.value)} disabled={editConfig.disableOthers} />
         </div>
         {editConfig.showTimestamp !== false && (
           <div className="flex flex-col gap-2">
