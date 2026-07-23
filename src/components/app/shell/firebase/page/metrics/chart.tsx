@@ -20,9 +20,13 @@ const chartConfig = {
 };
 
 export function MetricsChart({ data }: { data: FirebaseData }) {
-  const currentPercent = Math.min(((data.current || 0) / 12) * 100, 100);
-  const voltagePercent = Math.min(((data.voltage || 0) / 300) * 100, 100);
-  const powerPercent = Math.min(((data.power_watt || 0) / 3000) * 100, 100);
+  const CURRENT_MAX = 12;
+  const VOLTAGE_MAX = 300;
+  const POWER_MAX = 3000;
+
+  const currentPercent = Math.min(((data.current || 0) / CURRENT_MAX) * 100, 100);
+  const voltagePercent = Math.min(((data.voltage || 0) / VOLTAGE_MAX) * 100, 100);
+  const powerPercent = Math.min(((data.power_watt || 0) / POWER_MAX) * 100, 100);
 
   const chartData = [
     { name: "Voltage", value: voltagePercent, fill: "var(--color-voltage)", raw: data.voltage },
@@ -32,10 +36,10 @@ export function MetricsChart({ data }: { data: FirebaseData }) {
   return (
     <div className="w-full lg:w-[320px] shrink-0 flex items-center justify-center">
       <ChartContainer config={chartConfig} className="w-full h-full min-h-[250px]">
-        <RadialBarChart 
-          data={chartData} 
-          innerRadius={40} 
-          outerRadius={110} 
+        <RadialBarChart
+          data={chartData}
+          innerRadius={40}
+          outerRadius={110}
           barSize={12}
           startAngle={90}
           endAngle={-270}
