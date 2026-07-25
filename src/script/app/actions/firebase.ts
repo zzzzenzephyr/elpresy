@@ -14,13 +14,14 @@ export async function recordFirebaseData(records: FirebaseData[]) {
       const id = randomUUID();
       // Only inserting existing columns found in table structure
       await db.execute(sql`
-        INSERT INTO firebase (id, current, voltage, power_watt, last_updated)
+        INSERT INTO firebase (id, current, voltage, power_watt, last_updated, "createdAt")
         VALUES (
           ${id}, 
           ${record.current || 0}, 
           ${record.voltage || 0}, 
           ${record.power_watt || 0}, 
-          ${String(record.last_updated || "0")}
+          ${String(record.last_updated || "0")},
+          ${record.createdAt || new Date().toISOString()}
         )
       `);
     }

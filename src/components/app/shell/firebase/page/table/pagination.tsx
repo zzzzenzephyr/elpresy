@@ -1,13 +1,7 @@
 import * as React from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 import { Table } from "@tanstack/react-table";
 
 import { useTranslations } from "next-intl";
@@ -31,23 +25,18 @@ export function TablePagination<TData>({ table }: TablePaginationProps<TData>) {
       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 w-full sm:w-auto justify-between sm:justify-start">
         <div className="flex items-center gap-2">
           <span className="text-sm text-body font-medium">{t("rowsPerPage")}</span>
-          <Select
-            value={`${table.getState().pagination.pageSize}`}
-            onValueChange={(value) => {
-              table.setPageSize(Number(value));
+          <Input
+            type="number"
+            min={1}
+            value={table.getState().pagination.pageSize || ""}
+            onChange={(e) => {
+              const val = Number(e.target.value);
+              if (val > 0) {
+                table.setPageSize(val);
+              }
             }}
-          >
-            <SelectTrigger className="h-8 w-[70px] bg-neutral-primary border-border-default">
-              <SelectValue placeholder={table.getState().pagination.pageSize} />
-            </SelectTrigger>
-            <SelectContent>
-              {[10, 20, 30, 40, 50].map((pageSize) => (
-                <SelectItem key={pageSize} value={`${pageSize}`}>
-                  {pageSize}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+            className="h-8 w-[70px] bg-neutral-primary border-border-default text-sm"
+          />
         </div>
         <span className="text-sm text-body-subtle tabular-nums mt-2 sm:mt-0">
           {t("pageInfo", { start: startRow, end: endRow, total: totalRows })}

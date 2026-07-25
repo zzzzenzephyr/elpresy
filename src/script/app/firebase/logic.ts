@@ -19,7 +19,7 @@ function calcDelta(curr: number, past: number) {
 }
 
 export function generateMetricCells(realtimeData: FirebaseData, pastData: FirebaseData): MetricCell[] {
-  const createMetric = (label: string, key: keyof Omit<FirebaseData, 'last_updated'>, unit: string): MetricCell => {
+  const createMetric = (label: string, key: keyof Omit<FirebaseData, 'last_updated' | 'createdAt'>, unit: string): MetricCell => {
     const curr = realtimeData[key];
     const past = pastData[key];
     

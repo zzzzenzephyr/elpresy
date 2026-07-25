@@ -4,6 +4,7 @@ export interface FirebaseData {
   voltage?: number;
   energy_kwh?: number;
   last_updated?: number;
+  createdAt?: string;
 }
 
 export interface MetricCell {
