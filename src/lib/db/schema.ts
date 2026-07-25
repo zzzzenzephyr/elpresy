@@ -7,6 +7,7 @@ export const firebase = pgTable("firebase", {
   voltage: real("voltage"),
   powerWatt: real("power_watt"),
   lastUpdated: text("last_updated"),
+  createdAt: text("createdAt"),
 });
 
 // New preprocess table to store manually uploaded dataFilter state

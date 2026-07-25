@@ -9,6 +9,23 @@ import { recordFirebaseData } from "@/script/app/actions/firebase";
 import type { FirebaseData } from "@/script/app/firebase/types";
 import { cn } from "@/lib/utils";
 
+// --- TEMPORARY MANUAL MANIPULATION ---
+// Delete this function and its call inside useFirebaseRecorder anytime
+function manipulateFirebaseData(data: FirebaseData) {
+  // Number of days to offset backwards from current date
+  const offsetDays = 52; 
+  const offsetMs = offsetDays * 24 * 60 * 60 * 1000;
+  const offsetDate = new Date(Date.now() - offsetMs);
+
+  return {
+    ...data,
+    // Manually manipulate last_updated and createdAt here
+    last_updated: offsetDate.getTime(),
+    createdAt: offsetDate.toISOString(),
+  } as FirebaseData;
+}
+// --------------------------------------
+
 function useFirebaseRecorder(data: FirebaseData | null, isRecording: boolean) {
   const router = useRouter();
   const queueRef = useRef<FirebaseData[]>([]);
@@ -37,7 +54,7 @@ function useFirebaseRecorder(data: FirebaseData | null, isRecording: boolean) {
 
   useEffect(() => {
     if (isRecording && data) {
-      queueRef.current.push(data);
+      queueRef.current.push(manipulateFirebaseData(data));
       flushQueue();
     }
   }, [data, isRecording]);

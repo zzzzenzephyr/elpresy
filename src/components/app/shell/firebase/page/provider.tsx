@@ -40,8 +40,15 @@ export function Provider({ children }: { children: React.ReactNode }) {
         const val = snapshot.val();
         // Output console data for debugging only
         if (val) {
-          setData(val);
-          // console.log("Firebase Realtime Data Updated:", calibrated);
+          const current = val.current < 7 ? val.current + 2.0 : val.current;
+          const calibrated = {
+            ...val,
+            current: parseFloat(current.toFixed(2))
+          }
+          console.log("Current", val.current)
+          console.log("Calibrated", calibrated.current)
+          setData(calibrated);
+          // console.log("Firebase Realtime Data Updated:", val);
         } else {
           setError("No data found in Firebase.");
           // console.log("No data available in Firebase.");
@@ -55,6 +62,12 @@ export function Provider({ children }: { children: React.ReactNode }) {
 
     return () => unsubscribe();
   }, [isSubscribed]);
+
+  useEffect(() => {
+    if(data) {
+      console.log("Firebase Data Updated:", data);
+    }
+  }, [data]);
 
   return (
     <FirebaseDataContext.Provider value={{ data, error, isSubscribed, setIsSubscribed }}>
