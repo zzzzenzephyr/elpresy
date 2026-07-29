@@ -18,7 +18,9 @@ import {
   MoreHorizontal,
   Edit2,
   Trash2,
-  Zap
+  Zap,
+  ArrowUpAZ,
+  ArrowDownAZ
 } from "lucide-react";
 
 export type FirebaseDataRow = {
@@ -218,16 +220,26 @@ const ActionCell = ({ row }: { row: Row<FirebaseDataRow> }) => {
   );
 };
 
-const SortableHeader = ({ column, title }: { column: Column<FirebaseDataRow, unknown>, title: string }) => (
-  <Button
-    variant="ghost"
-    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-    className="h-8 px-2 hover:bg-neutral-secondary text-body font-medium -ml-2"
-  >
-    {title}
-    <ArrowUpDown className="ml-2 h-4 w-4" />
-  </Button>
-);
+const SortableHeader = ({ column, title }: { column: Column<FirebaseDataRow, unknown>, title: string }) => {
+  const isSorted = column.getIsSorted();
+  
+  return (
+    <Button
+      variant="ghost"
+      onClick={() => column.toggleSorting(isSorted === "asc")}
+      className="h-8 px-2 hover:bg-neutral-secondary text-body font-medium -ml-2"
+    >
+      {title}
+      {isSorted === "asc" ? (
+        <ArrowUpAZ className="ml-2 h-4 w-4" />
+      ) : isSorted === "desc" ? (
+        <ArrowDownAZ className="ml-2 h-4 w-4" />
+      ) : (
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      )}
+    </Button>
+  );
+};
 
 export const columns: ColumnDef<FirebaseDataRow>[] = [
   {
@@ -315,6 +327,24 @@ export const columns: ColumnDef<FirebaseDataRow>[] = [
         <div className="flex items-center gap-2 text-body tabular-nums">
           <Clock className="h-4 w-4 text-body-subtle" />
           {formattedTime || "N/A"}
+        </div>
+      );
+    },
+  },
+  {
+    id: "readable_date",
+    header: ({ column }) => <SortableHeader column={column} title="Date" />,
+    accessorFn: (row) => row.createdAt,
+    cell: ({ row }) => {
+      const createdAtStr = row.getValue("readable_date") as string;
+      const date = new Date(createdAtStr);
+      const formatted = !isNaN(date.getTime()) 
+        ? format(date, "dd/MM/yyyy @ HH:mm:ss.SSS") 
+        : "Invalid Date";
+      return (
+        <div className="flex items-center gap-2 text-body tabular-nums">
+          <CalendarIcon className="h-4 w-4 text-body-subtle" />
+          {formatted}
         </div>
       );
     },
