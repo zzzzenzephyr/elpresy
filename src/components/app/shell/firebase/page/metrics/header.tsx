@@ -30,7 +30,7 @@ function useFirebaseRecorder(data: FirebaseData | null, isRecording: boolean, to
   const queueRef = useRef<FirebaseData[]>([]);
   const isFlushingRef = useRef(false);
   const [counter, setCounter] = useState(0);
-  const [multDate, setMultDate] = useState(36);
+  const [multDate, setMultDate] = useState(15); // 13 = 16 july, 14 = 15 july, 15 = 14 july, etc., 
 
   const decreaseMultDate = () => {
     setMultDate(prev => prev - 1);
