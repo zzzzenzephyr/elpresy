@@ -3,7 +3,7 @@
 import { db } from "@/lib/db";
 import { sql } from "drizzle-orm";
 
-// Helper function to retry DB calls on failure (e.g. Neon scale-to-zero cold start)
+// Helper function to retry DB calls on failure (e.g. Supabase cold start / connection issues)
 // Exact same method as used in firebase/page.tsx
 async function fetchWithRetry<T>(
   operation: () => Promise<T>,
@@ -25,9 +25,9 @@ async function fetchWithRetry<T>(
 export async function fetchFirebaseData() {
   try {
     const result = await fetchWithRetry(() => db.execute(sql`SELECT * FROM firebase`));
-    return result.rows;
+    return result as any[];
   } catch (error) {
-    console.error("Final Neon Database Error after retries:", error);
+    console.error("Final Supabase Database Error after retries:", error);
     return [];
   }
 }
@@ -35,9 +35,9 @@ export async function fetchFirebaseData() {
 export async function fetchPreprocessData() {
   try {
     const result = await fetchWithRetry(() => db.execute(sql`SELECT * FROM preprocess`));
-    return result.rows;
+    return result as any[];
   } catch (error) {
-    console.error("Final Neon Database Error after retries:", error);
+    console.error("Final Supabase Database Error after retries:", error);
     return [];
   }
 }

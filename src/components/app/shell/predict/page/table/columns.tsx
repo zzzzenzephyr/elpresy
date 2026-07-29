@@ -5,7 +5,7 @@ import { ColumnDef, Column, Row } from "@tanstack/react-table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { ArrowUpDown, Clock, MoreHorizontal, MousePointerClick } from "lucide-react";
+import { ArrowUpDown, ArrowUpAZ, ArrowDownAZ, Clock, MoreHorizontal, MousePointerClick } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,16 +25,25 @@ export type PreprocessDataRow = {
   };
 };
 
-const SortableHeader = ({ column, title }: { column: Column<PreprocessDataRow, unknown>, title: string }) => (
-  <Button
-    variant="ghost"
-    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-    className="h-8 px-2 hover:bg-neutral-secondary text-body font-medium -ml-2"
-  >
-    {title}
-    <ArrowUpDown className="ml-2 h-4 w-4" />
-  </Button>
-);
+const SortableHeader = ({ column, title }: { column: Column<PreprocessDataRow, unknown>, title: string }) => {
+  const isSorted = column.getIsSorted();
+  return (
+    <Button
+      variant="ghost"
+      onClick={() => column.toggleSorting(isSorted === "asc")}
+      className="h-8 px-2 hover:bg-neutral-secondary text-body font-medium -ml-2"
+    >
+      {title}
+      {isSorted === "asc" ? (
+        <ArrowUpAZ className="ml-2 h-4 w-4" />
+      ) : isSorted === "desc" ? (
+        <ArrowDownAZ className="ml-2 h-4 w-4" />
+      ) : (
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      )}
+    </Button>
+  );
+};
 
 const ActionCell = ({ row }: { row: Row<PreprocessDataRow> }) => {
   const [dropdownOpen, setDropdownOpen] = React.useState(false);

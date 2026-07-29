@@ -16,6 +16,8 @@ import {
   MoreHorizontal,
   Edit2,
   Trash2,
+  ArrowUpAZ,
+  ArrowDownAZ
 } from "lucide-react";
 
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -38,16 +40,25 @@ import { Input } from "@/components/ui/input";
 
 import { FirebaseDataRow } from "@/components/app/shell/firebase/page/table/columns";
 
-export const SortableHeader = ({ column, title }: { column: Column<any, unknown>, title: string }) => (
-  <Button
-    variant="ghost"
-    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-    className="h-8 px-2 hover:bg-neutral-secondary text-body font-medium -ml-2"
-  >
-    {title}
-    <ArrowUpDown className="ml-2 h-4 w-4" />
-  </Button>
-);
+export const SortableHeader = ({ column, title }: { column: Column<any, unknown>, title: string }) => {
+  const isSorted = column.getIsSorted();
+  return (
+    <Button
+      variant="ghost"
+      onClick={() => column.toggleSorting(isSorted === "asc")}
+      className="h-8 px-2 hover:bg-neutral-secondary text-body font-medium -ml-2"
+    >
+      {title}
+      {isSorted === "asc" ? (
+        <ArrowUpAZ className="ml-2 h-4 w-4" />
+      ) : isSorted === "desc" ? (
+        <ArrowDownAZ className="ml-2 h-4 w-4" />
+      ) : (
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      )}
+    </Button>
+  );
+};
 
 import { useTranslations } from "next-intl";
 

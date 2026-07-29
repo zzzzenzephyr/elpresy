@@ -11,9 +11,6 @@ importers:
       '@base-ui/react':
         specifier: ^1.6.0
         version: 1.6.0(@date-fns/tz@1.5.0)(@types/react@19.2.17)(date-fns@4.4.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
-      '@neondatabase/serverless':
-        specifier: ^0.10.4
-        version: 0.10.4
       '@tanstack/react-table':
         specifier: ^8.21.3
         version: 8.21.3(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -28,7 +25,7 @@ importers:
         version: 4.4.0
       drizzle-orm:
         specifier: 1.0.0-rc.4
-        version: 1.0.0-rc.4(@neondatabase/serverless@0.10.4)(@types/pg@8.11.6)(zod@3.25.76)
+        version: 1.0.0-rc.4(@neondatabase/serverless@0.10.4)(@types/pg@8.11.6)(postgres@3.4.9)(zod@3.25.76)
       firebase:
         specifier: ^12.15.0
         version: 12.15.0
@@ -50,6 +47,9 @@ importers:
       next-themes:
         specifier: ^0.4.6
         version: 0.4.6(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      postgres:
+        specifier: ^3.4.9
+        version: 3.4.9
       react:
         specifier: 19.2.4
         version: 19.2.4
@@ -2794,6 +2794,10 @@ packages:
   postgres-range@1.1.4:
     resolution: {integrity: sha512-i/hbxIE9803Alj/6ytL7UHQxRvZkI9O4Sy+J3HGc4F4oo/2eQAjTSNJ0bfxyse3bH0nuVesCk+3IRLaMtG3H6w==}
 
+  postgres@3.4.9:
+    resolution: {integrity: sha512-GD3qdB0x1z9xgFI6cdRD6xu2Sp2WCOEoe3mtnyB5Ee0XrrL5Pe+e4CCnJrRMnL1zYtRDZmQQVbvOttLnKDLnaw==}
+    engines: {node: '>=12'}
+
   powershell-utils@0.1.0:
     resolution: {integrity: sha512-dM0jVuXJPsDN6DvRpea484tCUaMiXWjuCn++HGTqUWzGDjv5tZkEZldAJ/UMlqRYGFrD/etByo4/xOuC/snX2A==}
     engines: {node: '>=20'}
@@ -4150,6 +4154,7 @@ snapshots:
   '@neondatabase/serverless@0.10.4':
     dependencies:
       '@types/pg': 8.11.6
+    optional: true
 
   '@next/env@16.2.9': {}
 
@@ -4606,6 +4611,7 @@ snapshots:
       '@types/node': 20.19.43
       pg-protocol: 1.15.0
       pg-types: 4.1.0
+    optional: true
 
   '@types/react-dom@19.2.3(@types/react@19.2.17)':
     dependencies:
@@ -4885,10 +4891,11 @@ snapshots:
       get-tsconfig: 4.14.0
       jiti: 2.7.0
 
-  drizzle-orm@1.0.0-rc.4(@neondatabase/serverless@0.10.4)(@types/pg@8.11.6)(zod@3.25.76):
+  drizzle-orm@1.0.0-rc.4(@neondatabase/serverless@0.10.4)(@types/pg@8.11.6)(postgres@3.4.9)(zod@3.25.76):
     optionalDependencies:
       '@neondatabase/serverless': 0.10.4
       '@types/pg': 8.11.6
+      postgres: 3.4.9
       zod: 3.25.76
 
   dunder-proto@1.0.1:
@@ -5526,7 +5533,8 @@ snapshots:
 
   object-treeify@1.1.33: {}
 
-  obuf@1.1.2: {}
+  obuf@1.1.2:
+    optional: true
 
   on-finished@2.4.1:
     dependencies:
@@ -5606,11 +5614,14 @@ snapshots:
 
   path-to-regexp@8.4.2: {}
 
-  pg-int8@1.0.1: {}
+  pg-int8@1.0.1:
+    optional: true
 
-  pg-numeric@1.0.2: {}
+  pg-numeric@1.0.2:
+    optional: true
 
-  pg-protocol@1.15.0: {}
+  pg-protocol@1.15.0:
+    optional: true
 
   pg-types@4.1.0:
     dependencies:
@@ -5621,6 +5632,7 @@ snapshots:
       postgres-date: 2.1.0
       postgres-interval: 3.0.0
       postgres-range: 1.1.4
+    optional: true
 
   picocolors@1.1.1: {}
 
@@ -5653,17 +5665,24 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
-  postgres-array@3.0.4: {}
+  postgres-array@3.0.4:
+    optional: true
 
   postgres-bytea@3.0.0:
     dependencies:
       obuf: 1.1.2
+    optional: true
 
-  postgres-date@2.1.0: {}
+  postgres-date@2.1.0:
+    optional: true
 
-  postgres-interval@3.0.0: {}
+  postgres-interval@3.0.0:
+    optional: true
 
-  postgres-range@1.1.4: {}
+  postgres-range@1.1.4:
+    optional: true
+
+  postgres@3.4.9: {}
 
   powershell-utils@0.1.0: {}
 
