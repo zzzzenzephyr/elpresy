@@ -72,8 +72,9 @@
     "avgCurrent": "Avg. Current (A)",
     "avgVoltage": "Avg. Voltage (V)",
     "avgPower": "Avg. Power (W)",
-    "avgUpdateFreq": "Update Frequency",
-    "vsRealtime": "vs realtime"
+    "avgUpdateFreq": "Time Frequency",
+    "vsRealtime": "vs realtime",
+    "vsTodayAvg": "vs today's avg"
   },
   "PreprocessingPage": {
     "title": "Data Preprocessing",
@@ -126,11 +127,12 @@
       "gapDuration": "Gap duration",
       "seconds": "seconds",
       "formula": "Formula",
-      "exampleMidpoint": "For example, finding Voltage (V) at the midpoint of the gap (x = {mid}):",
+      "exampleMidpoint": "For example, finding the Real Data Timestamp at the midpoint of the gap:",
       "result": "Result",
+      "averageGap": "Average Gap",
       "allNormalTitle": "All data in sequence is normal!",
       "allNormalDesc": "Interval between data < 60 seconds. No interpolation calculation is needed.",
-      "sampleInterpolationTitle": "Linear Interpolation Example (Small Gap)",
+      "sampleInterpolationTitle": "Linear Interpolation",
       "normalConditionTitle": "Normal Condition (No gap)",
       "sequenceTableTitle": "Data Sequence with Gap Estimation",
       "simError": "Error Simulation ({name})",
@@ -221,26 +223,73 @@
       "prev": "Previous",
       "next": "Next",
       "steps": {
+        "selection": {
+          "label": "Data Selection",
+          "question": "Data Selection",
+          "p1": "Select preprocessed data from the database to be used for model training and testing."
+        },
         "specification": {
           "label": "Data Specification",
           "question": "Data Specification",
-          "p1": "Select preprocessed data and determine input variables (time per day or per date, voltage, and current) as well as the target variable (power)."
+          "p1": "Explicitly identify input attributes (Current and Operational Time) and the target variable (Active Power)."
         },
         "tuning": {
           "label": "Hyperparameter Tuning",
           "question": "Parameter Configuration",
-          "p1": "Configure the hyperparameters for the CART Decision Tree model."
+          "p1": "Configure the hyperparameters for the CART Decision Tree model (max depth, min samples, gain function) and view the best combination from validation."
         },
         "split": {
           "label": "Recursive Splitting",
           "question": "Tree Splitting",
-          "p1": "Observe how the model partitions the feature space recursively."
+          "p1": "Visualize how the decision tree is built based on the largest MSE reduction at each node."
         },
-        "upload": {
-          "label": "Data Generation",
-          "question": "Generate Data",
-          "p1": "Upload the final configuration and data to the predict table.",
-          "uploadButton": "Upload Data"
+        "result": {
+          "label": "Prediction Result",
+          "question": "Inference Output",
+          "p1": "Generate predictions on test data and save the results into the predict table.",
+          "uploadButton": "Submit Predictions"
+        }
+      }
+      }
+    }
+  },
+  "EvaluationPage": {
+    "title": "Evaluation",
+    "description": "Model evaluation and validation.",
+    "Process": {
+      "prev": "Previous",
+      "next": "Next",
+      "steps": {
+        "selection": {
+          "label": "Data Selection",
+          "question": "Data Selection",
+          "p1": "Select predicted data from the database to evaluate."
+        },
+        "evaluation": {
+          "label": "Model Evaluation",
+          "question": "Evaluation Metrics",
+          "p1": "Calculate MAE, RMSE, and R-squared numerically."
+        },
+        "scatter": {
+          "label": "Scatter Plot Residual",
+          "question": "Residual Analysis",
+          "p1": "Visual comparison of actual vs predicted values."
+        },
+        "comparison": {
+          "label": "Model Comparison",
+          "question": "1-Feature vs 2-Feature",
+          "p1": "Compare the performance of models with different feature sets."
+        },
+        "checklist": {
+          "label": "Success Criteria",
+          "question": "Validation Checklist",
+          "p1": "Verify if the model meets all success criteria."
+        },
+        "tree": {
+          "label": "Decision Tree",
+          "question": "Tree Visualization & Save",
+          "p1": "View the final structure and save the evaluation to the database.",
+          "uploadButton": "Save Evaluation"
         }
       }
     }

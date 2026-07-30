@@ -4,24 +4,24 @@ import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { ChevronLeft, ChevronRight, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { FirebaseDataRow } from '@/components/app/shell/firebase/page/table/columns';
 
 import { SelectionStep } from './process/step/selection';
-import { SpecificationStep } from './process/step/specification';
-import { TuningStep } from './process/step/tuning';
-import { SplitStep } from './process/step/split';
-import { ResultStep } from './process/step/result';
+import { EvaluationStep } from './process/step/evaluation';
+import { ScatterStep } from './process/step/scatter';
+import { ComparisonStep } from './process/step/comparison';
+import { ChecklistStep } from './process/step/checklist';
+import { TreeStep } from './process/step/tree';
 import { useProcessStepsData } from './process/step/data';
 
-export function Process({ data = [] }: { data?: FirebaseDataRow[] }) {
-  const tRoot = useTranslations('PredictPage');
-  const t = useTranslations('PredictPage.Process');
+export function Process() {
+  const tRoot = useTranslations('EvaluationPage');
+  const t = useTranslations('EvaluationPage.Process');
   const [activeIndex, setActiveIndex] = useState(0);
   const [openAccordionId, setOpenAccordionId] = useState<string>('0');
 
-  const [trainData, setTrainData] = useState<any[]>([]);
-  const [testData, setTestData] = useState<any[]>([]);
-  const [trainedModel, setTrainedModel] = useState<any>(null);
+  const [predictedData, setPredictedData] = useState<any[]>([]);
+  const [evalMetrics, setEvalMetrics] = useState<any>(null); // MAE, RMSE, R2
+  const [modelComparison, setModelComparison] = useState<any>(null); // comparison results
 
   // Automatically open the first accordion item when changing steps
   useEffect(() => {
@@ -39,26 +39,27 @@ export function Process({ data = [] }: { data?: FirebaseDataRow[] }) {
       openAccordionId,
       toggleAccordion,
       answerContent: steps[index].answer,
-      data,
-      trainData,
-      setTrainData,
-      testData,
-      setTestData,
-      trainedModel,
-      setTrainedModel
+      predictedData,
+      setPredictedData,
+      evalMetrics,
+      setEvalMetrics,
+      modelComparison,
+      setModelComparison
     };
 
     switch (index) {
       case 0:
         return <SelectionStep {...commonProps} />;
       case 1:
-        return <SpecificationStep {...commonProps} />;
+        return <EvaluationStep {...commonProps} />;
       case 2:
-        return <TuningStep {...commonProps} />;
+        return <ScatterStep {...commonProps} />;
       case 3:
-        return <SplitStep {...commonProps} />;
+        return <ComparisonStep {...commonProps} />;
       case 4:
-        return <ResultStep {...commonProps} />;
+        return <ChecklistStep {...commonProps} />;
+      case 5:
+        return <TreeStep {...commonProps} />;
       default:
         return null;
     }
@@ -74,10 +75,8 @@ export function Process({ data = [] }: { data?: FirebaseDataRow[] }) {
 
   return (
     <section className="w-full min-h-[calc(100vh-5rem)] p-2 sm:p-4 md:p-6 lg:p-8 bg-neutral-primary-soft flex flex-col">
-      {/* Widget shell: Full Canvas */}
       <div className="flex-1 w-full mx-auto flex flex-col p-4 sm:p-6 lg:p-[40px] rounded-[16px] sm:rounded-[20px] bg-neutral-primary shadow-xl border border-border-default overflow-hidden">
           
-          {/* Header row */}
           <div className="flex-none flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0">
             <h2 className="text-[20px] sm:text-[24px] font-semibold text-body-subtle">
               {tRoot('title')}
@@ -104,7 +103,6 @@ export function Process({ data = [] }: { data?: FirebaseDataRow[] }) {
             </div>
           </div>
 
-          {/* Stepper track */}
           <div className="flex-none mt-[24px] w-full relative">
             <div className="w-full h-[64px] rounded-[16px] md:rounded-full bg-neutral-secondary-soft flex items-center px-2 border border-border-default overflow-x-auto no-scrollbar snap-x snap-mandatory">
               {steps.map((step, idx) => {
@@ -132,10 +130,8 @@ export function Process({ data = [] }: { data?: FirebaseDataRow[] }) {
             </div>
           </div>
 
-          {/* Success state (Body Content) - Single Column Layout */}
           <div className="flex-1 mt-[24px] sm:mt-[32px] md:mt-[48px] overflow-y-auto pr-1 sm:pr-2 custom-scrollbar">
             <div className="flex flex-col gap-6 sm:gap-8 h-full">
-              {/* Accordion Stack */}
               <div className="w-full max-w-5xl mx-auto flex flex-col justify-start pb-4">
                  {renderColumn(activeIndex)}
               </div>

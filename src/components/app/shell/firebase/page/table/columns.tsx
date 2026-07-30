@@ -58,7 +58,7 @@ import { cn } from "@/lib/utils";
 const EditForm = ({ row }: { row: Row<FirebaseDataRow> }) => {
   const initialTimestamp = Number(row.getValue("last_updated"));
   const initialDate = !isNaN(initialTimestamp) && initialTimestamp > 0 
-    ? new Date(initialTimestamp * 1000) 
+    ? new Date(initialTimestamp) 
     : new Date();
 
   const [date, setDate] = React.useState<Date | undefined>(initialDate);
@@ -296,47 +296,13 @@ export const columns: ColumnDef<FirebaseDataRow>[] = [
       </Badge>
     ),
   },
+
   {
     id: "date",
     header: ({ column }) => <SortableHeader column={column} title="Date" />,
-    accessorFn: (row) => row.last_updated,
-    cell: ({ row }) => {
-      const createdAtStr = row.getValue("date") as number;
-      const date = new Date(createdAtStr * 1000);
-      const formatted = date.toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-        year: "numeric",
-      });
-      return (
-        <div className="flex items-center gap-2 text-body tabular-nums">
-          <CalendarIcon className="h-4 w-4 text-body-subtle" />
-          {formatted !== "Invalid Date" ? formatted : `${date}`}
-        </div>
-      );
-    },
-  },
-  {
-    id: "time",
-    header: ({ column }) => <SortableHeader column={column} title="Time" />,
-    accessorFn: (row) => row.last_updated,
-    cell: ({ row }) => {
-      const createdAtStr = row.getValue("last_updated") as number;
-      const formattedTime = new Date(createdAtStr * 1000).toLocaleTimeString();
-      return (
-        <div className="flex items-center gap-2 text-body tabular-nums">
-          <Clock className="h-4 w-4 text-body-subtle" />
-          {formattedTime || "N/A"}
-        </div>
-      );
-    },
-  },
-  {
-    id: "readable_date",
-    header: ({ column }) => <SortableHeader column={column} title="Date" />,
     accessorFn: (row) => row.createdAt,
     cell: ({ row }) => {
-      const createdAtStr = row.getValue("readable_date") as string;
+      const createdAtStr = row.getValue("date") as string;
       const date = new Date(createdAtStr);
       const formatted = !isNaN(date.getTime()) 
         ? format(date, "dd/MM/yyyy @ HH:mm:ss.SSS") 

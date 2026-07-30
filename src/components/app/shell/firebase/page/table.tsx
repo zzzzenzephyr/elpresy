@@ -31,8 +31,6 @@ export function RTable({ data }: { data: FirebaseDataRow[] }) {
   const [globalFilter, setGlobalFilter] = React.useState({ query: "", columns: [] as string[] });
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({
     id: false,
-    date: false,
-    time: false,
     select: true,
     actions: true,
   });

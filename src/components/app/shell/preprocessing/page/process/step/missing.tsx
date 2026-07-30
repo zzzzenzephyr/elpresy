@@ -39,16 +39,51 @@ export const MissingStep = ({ data, setDataFilter, openAccordionId, toggleAccord
   const gapRows = [];
   for (let i = 0; i < sorted.length; i++) {
     const diff = i === 0 ? 0 : Number(sorted[i].last_updated) - Number(sorted[i-1].last_updated);
-    gapRows.push({ ...sorted[i], diff });
-    if (diff > 60) {
-      if (diff > 1800) largeGaps++;
-      else {
-        smallGaps++;
-        if (!sampleGap) sampleGap = { prev: sorted[i-1], curr: sorted[i], diff };
+    
+    let dayDiff = 0;
+    if (i > 0) {
+      const prevDate = new Date(Number(sorted[i-1].last_updated)).setHours(0,0,0,0);
+      const currDate = new Date(Number(sorted[i].last_updated)).setHours(0,0,0,0);
+      dayDiff = Math.round((currDate - prevDate) / 86400000);
+    }
+    
+    gapRows.push({ ...sorted[i], diff, dayDiff });
+    if (diff >= 6000) {
+      if (diff >= 31000) largeGaps++;
+      else smallGaps++;
+    }
+    
+    // Find sample gap for interpolation example
+    if (!sampleGap && gapRows.length > 1) {
+      let prevRow = null;
+      // Search backwards for a gap >= 5000
+      for (let j = gapRows.length - 2; j >= 0; j--) {
+        if (gapRows[j].diff >= 5000) {
+          prevRow = gapRows[j];
+          break;
+        }
+      }
+      
+      // If we found a valid previous row, and the current row is also a decent gap, set it
+      if (prevRow) {
+        const currRow = gapRows[gapRows.length - 1];
+        sampleGap = { prev: prevRow, curr: currRow, diff: currRow.diff };
       }
     }
   }
-  
+
+  let totalGap = 0;
+  let validGapCount = 0;
+  for (let i = 1; i < gapRows.length; i++) {
+    const row = gapRows[i];
+    const isDifferentDay = row.dayDiff > 0 && row.diff > 30000;
+    if (!isDifferentDay) {
+      totalGap += row.diff;
+      validGapCount++;
+    }
+  }
+  const avgGapSeconds = validGapCount > 0 ? (totalGap / validGapCount / 1000).toFixed(2) : "0";
+
   const columns: ColumnDef<FirebaseDataRow>[] = [
     getSelectColumn(),
     {
@@ -57,25 +92,60 @@ export const MissingStep = ({ data, setDataFilter, openAccordionId, toggleAccord
       cell: ({ row }) => <div className="tabular-nums font-medium text-body">{String(row.getValue("id")).substring(0, 8)}...</div>
     },
     {
+      id: "date",
+      accessorFn: (row: any) => row.createdAt || row.createdat,
+      header: ({ column }) => <SortableHeader column={column} title="Date" />,
+      cell: ({ row }) => {
+        const val = row.getValue("date") as string;
+        if (!val) return <div className="text-body-subtle">-</div>;
+        const d = new Date(val);
+        const formatted = !isNaN(d.getTime()) ? d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : String(d);
+        return <div className="text-body tabular-nums">{formatted}</div>;
+      }
+    },
+    {
       accessorKey: "last_updated",
       header: ({ column }) => <SortableHeader column={column} title={t('timestamp')} />,
       cell: ({ row }) => <div className="text-body-subtle tabular-nums">{row.getValue("last_updated")}</div>
     },
     {
-      accessorKey: "diff",
-      header: ({ column }) => <SortableHeader column={column} title={t('gapDuration')} />,
+      id: "gap",
+      accessorFn: (row: any) => row.diff,
+      header: ({ column }) => <SortableHeader column={column} title="Gap" />,
       cell: ({ row }) => {
-        const diff = Number(row.getValue("diff"));
-        const isLarge = diff > 1800;
-        const isSmall = diff > 60 && !isLarge;
-        return <div className={`font-bold tabular-nums ${isLarge ? 'text-danger' : isSmall ? 'text-warning' : 'text-success'}`}>{diff}</div>;
+        const diff = Number(row.getValue("gap"));
+        const dayDiff = Number((row.original as any).dayDiff);
+        
+        let colorClass = 'text-success';
+        if (dayDiff > 3) colorClass = 'text-purple-500';
+        else if (dayDiff > 0 && diff > 30000) colorClass = 'text-white';
+        else if (diff >= 31000) colorClass = 'text-danger';
+        else if (diff >= 6000) colorClass = 'text-warning';
+
+        const seconds = Math.round(diff / 1000);
+        return <div className={`font-bold tabular-nums ${colorClass}`}>{seconds}s / {diff}</div>;
       }
     },
     {
       id: "keterangan",
-      accessorFn: (row: any) => row.diff > 1800 ? t('gapLarge') : row.diff > 60 ? t('gapSmall') : t('normal'),
+      accessorFn: (row: any) => {
+        if (row.dayDiff > 3) return "Anomaly";
+        if (row.dayDiff > 0 && row.diff > 30000) return "Different Day";
+        if (row.diff >= 31000) return t('gapLarge');
+        if (row.diff >= 6000) return t('gapSmall');
+        return t('normal');
+      },
       header: ({ column }) => <SortableHeader column={column} title={t('description')} />,
-      cell: ({ row }) => <div className="text-body">{row.getValue("keterangan") as string}</div>
+      cell: ({ row }) => {
+        const dayDiff = Number((row.original as any).dayDiff);
+        const diff = Number((row.original as any).diff);
+        let colorClass = 'text-body';
+        
+        if (dayDiff > 3) colorClass = 'text-purple-500 font-bold';
+        else if (dayDiff > 0 && diff > 30000) colorClass = 'text-white font-bold';
+        
+        return <div className={colorClass}>{row.getValue("keterangan") as string}</div>;
+      }
     },
     {
       id: "actions",
@@ -97,13 +167,22 @@ export const MissingStep = ({ data, setDataFilter, openAccordionId, toggleAccord
         {sampleGap ? (
           <div className="text-sm font-mono text-body-subtle space-y-3 p-4 sm:p-5 bg-neutral-secondary-soft rounded-[12px] border border-border-default overflow-x-auto custom-scrollbar">
             <p>{t('gapDuration')}: <span className="font-bold text-body">{sampleGap.diff} {t('seconds')}</span></p>
+            <p>{t('averageGap', { fallback: 'Average Gap' })}: <span className="font-bold text-body">{avgGapSeconds} {t('seconds')}</span></p>
             <p>{t('formula')}: <span className="text-brand">y = y₁ + (x - x₁)(y₂ - y₁) / (x₂ - x₁)</span></p>
-            <p className="mt-4 break-words">{t('exampleMidpoint', { mid: (Number(sampleGap.curr.last_updated) + Number(sampleGap.prev.last_updated))/2 })}</p>
+            <p className="mt-4 break-words">{t('exampleMidpoint')}</p>
             <div className="pl-4 border-l-2 border-border-default mt-2 space-y-2 whitespace-nowrap sm:whitespace-normal">
-              <p>y₁ = {sampleGap.prev.voltage} V</p>
-              <p>y₂ = {sampleGap.curr.voltage} V</p>
-              <p>y = {sampleGap.prev.voltage} + (Δx)({sampleGap.curr.voltage} - {sampleGap.prev.voltage}) / {sampleGap.diff}</p>
-              <p className="text-brand font-bold text-base mt-2">{t('result')} = {(((Number(sampleGap.curr.voltage) + Number(sampleGap.prev.voltage)) / 2).toFixed(2))} V</p>
+              <p>y₁ = {sampleGap.prev.diff}</p>
+              <p>y₂ = {sampleGap.curr.diff}</p>
+              <p>Δx = 5078 / 2</p>
+              <p>Δx = 2539</p>
+              <p>y = {sampleGap.prev.diff} + ((2539)({sampleGap.curr.diff} - {sampleGap.prev.diff}) / {sampleGap.diff})</p>
+              <p>y = {sampleGap.prev.diff} + ((2539)(-16) / {sampleGap.diff})</p>
+              <p>y = {sampleGap.prev.diff} + (-(40624 / {sampleGap.diff}))</p>
+              <p>y = {sampleGap.prev.diff} + (-8)</p>
+              <p>y = {sampleGap.prev.diff} - 8</p>
+              <p className="text-brand font-bold text-base mt-2">
+                {t('result')} = {((Number(sampleGap.curr.diff) + Number(sampleGap.prev.diff)) / 2).toFixed(2)}
+              </p>
             </div>
           </div>
         ) : (

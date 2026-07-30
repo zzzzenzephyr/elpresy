@@ -63,6 +63,18 @@ export const OutlierStep = ({ data, setDataFilter, openAccordionId, toggleAccord
       cell: ({ row }) => <div className="tabular-nums font-medium text-body">{String(row.getValue("id")).substring(0, 8)}...</div>
     },
     {
+      id: "date",
+      accessorFn: (row: any) => row.createdAt || row.createdat,
+      header: ({ column }) => <SortableHeader column={column} title="Date" />,
+      cell: ({ row }) => {
+        const val = row.getValue("date") as string;
+        if (!val) return <div className="text-body-subtle">-</div>;
+        const d = new Date(val);
+        const formatted = !isNaN(d.getTime()) ? d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : String(d);
+        return <div className="text-body tabular-nums">{formatted}</div>;
+      }
+    },
+    {
       accessorKey: "voltage",
       header: ({ column }) => <SortableHeader column={column} title={t('voltage')} />,
       cell: ({ row }) => {

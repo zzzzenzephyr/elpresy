@@ -25,7 +25,10 @@ async function fetchWithRetry<T>(
 export async function fetchFirebaseData() {
   try {
     const result = await fetchWithRetry(() => db.execute(sql`SELECT * FROM firebase`));
-    return result as any[];
+    return result.map((row: any) => ({
+      ...row,
+      createdAt: row.createdAt || row.createdat
+    })) as any[];
   } catch (error) {
     console.error("Final Supabase Database Error after retries:", error);
     return [];
@@ -35,7 +38,10 @@ export async function fetchFirebaseData() {
 export async function fetchPreprocessData() {
   try {
     const result = await fetchWithRetry(() => db.execute(sql`SELECT * FROM preprocess`));
-    return result as any[];
+    return result.map((row: any) => ({
+      ...row,
+      createdAt: row.createdAt || row.created_at || row.createdat
+    })) as any[];
   } catch (error) {
     console.error("Final Supabase Database Error after retries:", error);
     return [];
