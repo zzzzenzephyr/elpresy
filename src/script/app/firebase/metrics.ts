@@ -55,11 +55,15 @@ export function calculateAverages(validData: FirebaseDataRow[]) {
 }
 
 export function isSameDateAsRealtime(timestamp: number, context: TrendContext) {
-  return new Date(timestamp * 1000).toDateString() === context.rtDateString;
+  return new Date(timestamp).toDateString() === context.rtDateString;
 }
 
 export function areValidConsecutiveDates(pair: TimePointPair, context: TrendContext) {
   return isSameDateAsRealtime(pair.current, context) && isSameDateAsRealtime(pair.next, context);
+}
+
+export function isSameDate(current: number, next: number) {
+  return new Date(current).toDateString() === new Date(next).toDateString();
 }
 
 export function isValidTimeDiff(diff: number) {
@@ -86,16 +90,38 @@ export function calculateAverageTimeDiff(validData: FirebaseDataRow[], context: 
   return timeDiffCount > 0 ? timeDiffSum / timeDiffCount : 0;
 }
 
+export function calculateOverallAverageTimeDiff(validData: FirebaseDataRow[]) {
+  let timeDiffSum = 0;
+  let timeDiffCount = 0;
+
+  for (let i = 0; i < validData.length - 1; i++) {
+    const current = Number(validData[i].last_updated);
+    const next = Number(validData[i+1].last_updated);
+    
+    if (isSameDate(current, next)) {
+      const diff = current - next;
+      if (isValidTimeDiff(diff)) {
+        timeDiffSum += diff;
+        timeDiffCount++;
+      }
+    }
+  }
+
+  return timeDiffCount > 0 ? timeDiffSum / timeDiffCount : 0;
+}
+
 export function calculateTrendStats(data: FirebaseDataRow[], context: TrendContext) {
   const validData = getValidDataPoints(data);
   const avgs = calculateAverages(validData);
   const avgTimeDiff = calculateAverageTimeDiff(validData, context);
+  const overallAvgTimeDiff = calculateOverallAverageTimeDiff(validData);
   
   return { 
     avgCurrent: avgs.current, 
     avgVoltage: avgs.voltage, 
     avgPower: avgs.power, 
-    avgTimeDiff 
+    avgTimeDiff,
+    overallAvgTimeDiff
   };
 }
 
@@ -107,7 +133,7 @@ export function calcPct(params: PctCalculation) {
 
 export function getRealtimeDateString(rtLastUpdated: number | undefined | null) {
   return rtLastUpdated 
-    ? new Date(rtLastUpdated * 1000).toDateString() 
+    ? new Date(rtLastUpdated).toDateString() 
     : new Date().toDateString();
 }
 

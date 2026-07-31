@@ -8,8 +8,6 @@ import {
   getCoreRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  getFilteredRowModel,
-  FilterFn,
   useReactTable,
 } from "@tanstack/react-table";
 import {
@@ -21,34 +19,24 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { FirebaseDataRow, columns } from "@/components/app/shell/firebase/page/table/columns";
+import { PredictDataRow, columns } from "@/components/app/shell/predict/page/row-table/columns";
 import { TableHeader as TableTopBar } from "@/components/app/shell/firebase/page/table/header";
 import { TablePagination } from "@/components/app/shell/firebase/page/table/pagination";
 
-export function RTable({ data }: { data: FirebaseDataRow[] }) {
-  const [sorting, setSorting] = React.useState<SortingState>([{ id: "date", desc: true }]);
-  const [rowSelection, setRowSelection] = React.useState({});
-  const [globalFilter, setGlobalFilter] = React.useState({ query: "", columns: [] as string[] });
+export function RowTable({ data, headerAction }: { data: PredictDataRow[], headerAction?: React.ReactNode }) {
+  const [sorting, setSorting] = React.useState<SortingState>([{ id: "Timestamp", desc: true }]);
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({
     id: false,
-    select: true,
-    actions: true,
+    predictedPowerWatt: data.some(d => d.predictedPowerWatt !== undefined),
   });
 
-  const customGlobalFilterFn: FilterFn<FirebaseDataRow> = (row, columnId, filterValue) => {
-    const { query, columns } = filterValue as { query: string; columns: string[] };
-    if (!query) return true;
-
-    if (columns && columns.length > 0) {
-      if (!columns.includes(columnId)) {
-        return false;
-      }
-    }
-
-    const value = row.getValue(columnId);
-    if (value == null) return false;
-    return String(value).toLowerCase().includes(String(query).toLowerCase());
-  };
+  // Update visibility if data changes (e.g. from train data to predicted data)
+  React.useEffect(() => {
+    setColumnVisibility(prev => ({
+      ...prev,
+      predictedPowerWatt: data.some(d => d.predictedPowerWatt !== undefined)
+    }));
+  }, [data]);
 
   const table = useReactTable({
     data,
@@ -57,26 +45,23 @@ export function RTable({ data }: { data: FirebaseDataRow[] }) {
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
-    onRowSelectionChange: setRowSelection,
-    getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
-    onGlobalFilterChange: setGlobalFilter,
-    globalFilterFn: customGlobalFilterFn,
     state: {
       sorting,
-      rowSelection,
       columnVisibility,
-      globalFilter,
     },
   });
 
   return (
     <div className="w-full bg-neutral-primary rounded-[12px] border border-border-default shadow-sm overflow-hidden flex flex-col">
-      <TableTopBar table={table} />
+      <div className="flex justify-between items-center p-4 border-b border-border-default">
+        {headerAction ? headerAction : <div />}
+        <TablePagination table={table as any} />
+      </div>
 
       {/* Table Content */}
       <div className="w-full overflow-x-auto">
-        <ShadcnTable className="w-full min-w-[900px]">
+        <ShadcnTable className="w-full min-w-[700px]">
           <TableHeader className="bg-neutral-secondary-soft">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id} className="border-border-default hover:bg-transparent">
@@ -100,8 +85,7 @@ export function RTable({ data }: { data: FirebaseDataRow[] }) {
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                  className="border-border-default hover:bg-neutral-secondary-soft transition-colors data-[state=selected]:bg-brand-softer"
+                  className="border-border-default hover:bg-neutral-secondary-soft transition-colors"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id} className="px-4 py-3 whitespace-nowrap">
@@ -121,7 +105,9 @@ export function RTable({ data }: { data: FirebaseDataRow[] }) {
         </ShadcnTable>
       </div>
 
-      <TablePagination table={table} />
+      <div className="p-4 border-t border-border-default">
+        <TablePagination table={table as any} />
+      </div>
     </div>
   );
 }

@@ -82,11 +82,11 @@ function useTrendMetrics(data: FirebaseDataRow[], realtimeData: any) {
     avgCurrent: stats.avgCurrent,
     avgVoltage: stats.avgVoltage,
     avgPower: stats.avgPower,
-    avgTimeDiff: stats.avgTimeDiff,
+    avgTimeDiff: stats.overallAvgTimeDiff,
     pctCurrent: calcPct({ realtime: rtCurrent, avg: stats.avgCurrent }),
     pctVoltage: calcPct({ realtime: rtVoltage, avg: stats.avgVoltage }),
     pctPower: calcPct({ realtime: rtPower, avg: stats.avgPower }),
-    pctTimeDiff: calcPct({ realtime: rtTimeDiff, avg: stats.avgTimeDiff })
+    pctTimeDiff: calcPct({ realtime: stats.avgTimeDiff, avg: stats.overallAvgTimeDiff })
   };
 }
 
@@ -116,10 +116,10 @@ export function TrendBadgesGrid({ data = [] }: { data: FirebaseDataRow[] }) {
         comparisonText={t("vsRealtime")}
       />
       <TrendBadge
-        value={`~${metrics.avgTimeDiff.toFixed(0)}s`}
+        value={`~${(metrics.avgTimeDiff / 1000).toFixed(1)}s`}
         label={t("avgUpdateFreq")}
         percentage={metrics.pctTimeDiff}
-        comparisonText={t("vsRealtime")}
+        comparisonText={t("vsTodayAvg", { fallback: "vs today's avg" })}
       />
     </div>
   );

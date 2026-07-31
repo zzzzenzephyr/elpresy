@@ -21,6 +21,7 @@ export function Sidebar() {
     { href: '/firebase', label: 'Firebase', icon: Flame },
     { href: '/preprocessing', label: 'Preprocessing', icon: Layers },
     { href: '/predict', label: 'Predict', icon: Brain },
+    { href: '/evaluation', label: 'Evaluation', icon: LineChart },
   ];
 
   return (

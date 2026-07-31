@@ -72,8 +72,9 @@
     "avgCurrent": "Rata-rata Arus (A)",
     "avgVoltage": "Rata-rata Tegangan (V)",
     "avgPower": "Rata-rata Daya (W)",
-    "avgUpdateFreq": "Frekuensi Pembaruan",
-    "vsRealtime": "vs saat ini"
+    "avgUpdateFreq": "Frekuensi Waktu",
+    "vsRealtime": "vs saat ini",
+    "vsTodayAvg": "vs rata-rata hari ini"
   },
   "PreprocessingPage": {
     "title": "Prapemrosesan Data",
@@ -126,11 +127,12 @@
       "gapDuration": "Durasi gap",
       "seconds": "detik",
       "formula": "Rumus",
-      "exampleMidpoint": "Misal mencari Tegangan (V) di pertengahan gap (x = {mid}):",
+      "exampleMidpoint": "Misal mencari Real Data Timestamp di pertengahan gap:",
       "result": "Hasil",
+      "averageGap": "Rata-rata Gap",
       "allNormalTitle": "Semua data normal berurutan!",
       "allNormalDesc": "Interval antar data < 60 detik. Tidak ada perhitungan interpolasi yang perlu dilakukan.",
-      "sampleInterpolationTitle": "Contoh Interpolasi Linier (Gap Kecil)",
+      "sampleInterpolationTitle": "Linear Interpolation",
       "normalConditionTitle": "Kondisi Normal (Tidak ada gap)",
       "sequenceTableTitle": "Data Sequence dengan Estimasi Gap",
       "simError": "Simulasi Error ({name})",
@@ -221,26 +223,72 @@
       "prev": "Sebelumnya",
       "next": "Selanjutnya",
       "steps": {
+        "selection": {
+          "label": "Seleksi Data",
+          "question": "Seleksi Data",
+          "p1": "Pilih data praproses dari database yang akan digunakan untuk pelatihan dan pengujian model."
+        },
         "specification": {
-          "label": "Penetapan Data",
-          "question": "Penetapan Data",
-          "p1": "Memilih data praproses dan menentukan variabel masukan (waktu perhari atau pertanggal, voltage dan current) serta target (power)."
+          "label": "Spesifikasi Data",
+          "question": "Spesifikasi Data",
+          "p1": "Menampilkan atribut masukan (Arus dan Waktu Operasional) serta variabel target (Daya Aktif) secara eksplisit."
         },
         "tuning": {
-          "label": "Konfigurasi Parameter",
+          "label": "Tuning Hyperparameter",
           "question": "Konfigurasi Parameter",
-          "p1": "Konfigurasi hyperparameter untuk model pohon keputusan CART."
+          "p1": "Menampilkan max depth, min number samples, dan gain function beserta hasil pencarian kombinasi terbaik dari validasi."
         },
         "split": {
-          "label": "Pembelahan Pohon",
+          "label": "Recursive Splitting",
           "question": "Pembelahan Pohon",
-          "p1": "Mengamati bagaimana model mempartisi ruang fitur secara rekursif."
+          "p1": "Visualisasi proses pembangunan pohon keputusan berdasarkan penurunan MSE terbesar pada setiap node."
         },
-        "upload": {
-          "label": "Pembentukan Data",
-          "question": "Pembentukan Data",
-          "p1": "Unggah data ke tabel baru bernama 'predict'.",
-          "uploadButton": "Unggah Data"
+        "result": {
+          "label": "Hasil Prediksi",
+          "question": "Keluaran Inferensi",
+          "p1": "Hasilkan prediksi pada data uji dan simpan hasilnya ke tabel predict.",
+          "uploadButton": "Simpan Prediksi"
+        }
+      }
+    }
+  },
+  "EvaluationPage": {
+    "title": "Evaluasi",
+    "description": "Evaluasi dan validasi model.",
+    "Process": {
+      "prev": "Sebelumnya",
+      "next": "Selanjutnya",
+      "steps": {
+        "selection": {
+          "label": "Seleksi Data",
+          "question": "Seleksi Data",
+          "p1": "Pilih data prediksi dari database untuk dievaluasi."
+        },
+        "evaluation": {
+          "label": "Evaluasi Model",
+          "question": "Metrik Evaluasi",
+          "p1": "Menghitung MAE, RMSE, dan R-squared secara numerik."
+        },
+        "scatter": {
+          "label": "Scatter Plot Residual",
+          "question": "Analisis Residual",
+          "p1": "Perbandingan visual nilai aktual vs nilai prediksi."
+        },
+        "comparison": {
+          "label": "Perbandingan Model",
+          "question": "1-Feature vs 2-Feature",
+          "p1": "Membandingkan performa model dengan fitur berbeda."
+        },
+        "checklist": {
+          "label": "Kriteria Sukses",
+          "question": "Checklist Validasi",
+          "p1": "Memverifikasi apakah model memenuhi kriteria kesuksesan."
+        },
+        "tree": {
+          "label": "Struktur Pohon",
+          "question": "Visualisasi & Simpan",
+          "p1": "Melihat struktur akhir pohon keputusan dan menyimpan hasil evaluasi.",
+          "uploadButton": "Simpan Evaluasi"
         }
       }
     }

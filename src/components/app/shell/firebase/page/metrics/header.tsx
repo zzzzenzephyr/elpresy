@@ -86,6 +86,14 @@ export function MetricsHeader() {
   const t = useTranslations("FirebaseMonitoring");
   const { data } = useFirebaseData();
   const [isRecording, setIsRecording] = useState(false);
+  const [now, setNow] = useState(Date.now());
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setNow(Date.now());
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   const toggleRecording = () => {
     setIsRecording(prev => !prev);
@@ -98,6 +106,23 @@ export function MetricsHeader() {
       <div className="flex flex-col gap-1">
         <div className="flex items-center gap-3">
           <h2 className="text-xl font-bold text-heading">{t("metricsTitle")}</h2>
+          {data?.last_updated && (
+            <div className="flex items-center gap-2 border px-2 py-1 rounded-full bg-neutral-secondary-soft">
+              <div className="relative flex h-2 w-2">
+                <span className={cn(
+                  "animate-ping absolute inline-flex h-full w-full rounded-full opacity-75",
+                  (now - Number(data.last_updated)) <= 30000 ? "bg-success" : "bg-danger"
+                )}></span>
+                <span className={cn(
+                  "relative inline-flex rounded-full h-2 w-2",
+                  (now - Number(data.last_updated)) <= 30000 ? "bg-success" : "bg-danger"
+                )}></span>
+              </div>
+              <span className="text-[10px] font-medium uppercase tracking-wider text-body-subtle">
+                {(now - Number(data.last_updated)) <= 30000 ? "Online" : "Offline"}
+              </span>
+            </div>
+          )}
         </div>
         <p className="text-sm text-body-subtle">{t("metricsSubtitle")}</p>
       </div>

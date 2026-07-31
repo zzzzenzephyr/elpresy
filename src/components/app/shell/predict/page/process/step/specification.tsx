@@ -26,22 +26,25 @@ export const SpecificationStep = ({ openAccordionId, toggleAccordion, answerCont
       </AccordionItem>
       <AccordionItem 
         id="1" 
-        title="Preprocessed Data Table" 
+        title="Input Features (Attributes)" 
         numberSeq={2} 
         isOpen={openAccordionId === '1'} 
         onToggle={() => toggleAccordion('1')}
       >
-        <PredictTable data={data} />
+        <div className="p-4 bg-neutral-secondary-soft border border-border-default rounded flex flex-col gap-2 text-sm text-body-subtle">
+          <p><strong>1. Current (Arus):</strong> Ampere measurements reflecting the load.</p>
+          <p><strong>2. Operational Time (Waktu Operasional):</strong> Time elapsed (in hours) affecting temperature and efficiency.</p>
+        </div>
       </AccordionItem>
       <AccordionItem 
         id="2" 
-        title="Variables Selection (Placeholder)" 
+        title="Target Variable" 
         numberSeq={3} 
         isOpen={openAccordionId === '2'} 
         onToggle={() => toggleAccordion('2')}
       >
-        <div className="h-32 bg-neutral-secondary-soft border border-dashed border-border-default rounded flex items-center justify-center text-body-subtle">
-          UI Form Placeholder
+        <div className="p-4 bg-neutral-secondary-soft border border-border-default rounded flex flex-col gap-2 text-sm text-body-subtle">
+          <p><strong>Active Power (Daya Aktif):</strong> The output power in Watts to be predicted by the model.</p>
         </div>
       </AccordionItem>
     </div>

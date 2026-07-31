@@ -31,7 +31,7 @@ interface PredictItem {
   data: Array<{ current?: number; voltage?: number; power_watt?: number }>;
 }
 
-export function PredictTable({ data }: { data: PredictItem[] }) {
+export function PredictTable({ data, onSelect }: { data: PredictItem[], onSelect?: (id: string) => void }) {
   const tableData = React.useMemo(() => {
     return data
       .filter((item: any) => {
@@ -73,6 +73,15 @@ export function PredictTable({ data }: { data: PredictItem[] }) {
     id: false,
     select: true,
   });
+
+  React.useEffect(() => {
+    const selectedKeys = Object.keys(rowSelection);
+    if (selectedKeys.length > 0 && onSelect) {
+      const selectedIndex = parseInt(selectedKeys[0], 10);
+      const selectedId = tableData[selectedIndex]?.id;
+      if (selectedId) onSelect(selectedId);
+    }
+  }, [rowSelection, tableData, onSelect]);
 
   const customGlobalFilterFn: FilterFn<PreprocessDataRow> = (row, columnId, filterValue) => {
     const { query, columns } = filterValue as { query: string; columns: string[] };

@@ -16,3 +16,15 @@ export const preprocess = pgTable("preprocess", {
   data: jsonb("data").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
+
+export const predict = pgTable("predict", {
+  id: text("id").primaryKey(),
+  data: jsonb("data").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const evaluation = pgTable("evaluation", {
+  id: text("id").primaryKey(),
+  data: jsonb("data").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
