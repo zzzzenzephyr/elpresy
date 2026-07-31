@@ -3,8 +3,6 @@ import { useTranslations } from 'next-intl';
 import { AccordionItem } from '../accordion';
 import { Button } from '@/components/ui/button';
 import { fetchPreprocessDataList, fetchPreprocessDataById } from '@/script/app/actions/predict';
-import { PredictTable } from '../../table';
-import { RowTable } from '../../row-table';
 
 interface StepProps {
   openAccordionId: string;
@@ -83,7 +81,37 @@ export const SelectionStep = ({ openAccordionId, toggleAccordion, answerContent,
           ) : dataList.length === 0 ? (
             <div className="text-sm text-body-subtle">No preprocessed data found.</div>
           ) : (
-            <PredictTable data={dataList} onSelect={handleSelect} />
+            <div className="border border-border-default rounded overflow-hidden">
+              <table className="w-full text-sm text-left">
+                <thead className="bg-neutral-secondary-soft text-body-subtle">
+                  <tr>
+                    <th className="px-4 py-2 font-medium">ID</th>
+                    <th className="px-4 py-2 font-medium">Created At</th>
+                    <th className="px-4 py-2 font-medium w-[100px]">Action</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-border-default">
+                  {dataList.map((item) => (
+                    <tr key={item.id} className="bg-neutral-primary hover:bg-neutral-primary/80 transition-colors">
+                      <td className="px-4 py-3 text-body truncate max-w-[200px]" title={item.id}>{item.id}</td>
+                      <td className="px-4 py-3 text-body">
+                        {new Date(item.created_at).toLocaleString()}
+                      </td>
+                      <td className="px-4 py-2">
+                        <Button 
+                          variant={selectedId === item.id ? "default" : "outline"} 
+                          size="sm"
+                          onClick={() => handleSelect(item.id)}
+                          disabled={loadingData}
+                        >
+                          {selectedId === item.id ? "Selected" : "Select"}
+                        </Button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
       </AccordionItem>
@@ -100,11 +128,63 @@ export const SelectionStep = ({ openAccordionId, toggleAccordion, answerContent,
           <div className="flex flex-col gap-8">
             <div>
               <h3 className="text-sm font-semibold mb-2">Training Data (70% - {trainData.length} rows)</h3>
-              <RowTable data={trainData} />
+              <div className="border border-border-default rounded overflow-hidden max-h-[400px] overflow-y-auto custom-scrollbar">
+                <table className="w-full text-sm text-left">
+                  <thead className="bg-neutral-secondary-soft text-body-subtle sticky top-0">
+                    <tr>
+                      <th className="px-4 py-2 font-medium">Timestamp</th>
+                      <th className="px-4 py-2 font-medium">Current (A)</th>
+                      <th className="px-4 py-2 font-medium">Voltage (V)</th>
+                      <th className="px-4 py-2 font-medium text-brand">Power (W)</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-border-default">
+                    {trainData.slice(0, 50).map((row, idx) => (
+                      <tr key={idx} className="bg-neutral-primary/50">
+                        <td className="px-4 py-2 text-body">{new Date(row.timestamp || row.created_at || Date.now()).toLocaleString()}</td>
+                        <td className="px-4 py-2 text-body">{row.current}</td>
+                        <td className="px-4 py-2 text-body">{row.voltage}</td>
+                        <td className="px-4 py-2 text-brand font-semibold">{row.power_watt}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                {trainData.length > 50 && (
+                  <div className="p-2 text-center text-xs text-body-subtle bg-neutral-secondary-soft">
+                    Showing first 50 rows.
+                  </div>
+                )}
+              </div>
             </div>
             <div>
               <h3 className="text-sm font-semibold mb-2">Testing Data (30% - {testData.length} rows)</h3>
-              <RowTable data={testData} />
+              <div className="border border-border-default rounded overflow-hidden max-h-[400px] overflow-y-auto custom-scrollbar">
+                <table className="w-full text-sm text-left">
+                  <thead className="bg-neutral-secondary-soft text-body-subtle sticky top-0">
+                    <tr>
+                      <th className="px-4 py-2 font-medium">Timestamp</th>
+                      <th className="px-4 py-2 font-medium">Current (A)</th>
+                      <th className="px-4 py-2 font-medium">Voltage (V)</th>
+                      <th className="px-4 py-2 font-medium text-brand">Power (W)</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-border-default">
+                    {testData.slice(0, 50).map((row, idx) => (
+                      <tr key={idx} className="bg-neutral-primary/50">
+                        <td className="px-4 py-2 text-body">{new Date(row.timestamp || row.created_at || Date.now()).toLocaleString()}</td>
+                        <td className="px-4 py-2 text-body">{row.current}</td>
+                        <td className="px-4 py-2 text-body">{row.voltage}</td>
+                        <td className="px-4 py-2 text-brand font-semibold">{row.power_watt}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                {testData.length > 50 && (
+                  <div className="p-2 text-center text-xs text-body-subtle bg-neutral-secondary-soft">
+                    Showing first 50 rows.
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         ) : (

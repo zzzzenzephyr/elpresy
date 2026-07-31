@@ -3,7 +3,6 @@ import { useTranslations } from 'next-intl';
 import { AccordionItem } from '../accordion';
 import { Button } from '@/components/ui/button';
 import { savePredictData } from '@/script/app/actions/predict';
-import { RowTable } from '../../row-table';
 
 interface StepProps {
   openAccordionId: string;
@@ -108,17 +107,38 @@ export const ResultStep = ({ openAccordionId, toggleAccordion, answerContent, te
               Predictions generated successfully. Below is a preview of the results:
             </div>
             
-            <RowTable 
-              data={predictions} 
-              headerAction={
-                <div className="flex items-center gap-4">
-                  {saveSuccess && <span className="text-success text-sm font-medium">Saved to database successfully!</span>}
-                  <Button onClick={handleSave} disabled={isSaving || saveSuccess} size="sm">
-                    {isSaving ? "Saving..." : t('steps.result.uploadButton')}
-                  </Button>
+            <div className="border border-border-default rounded overflow-hidden max-h-[400px] overflow-y-auto custom-scrollbar">
+              <table className="w-full text-sm text-left">
+                <thead className="bg-neutral-secondary-soft text-body-subtle sticky top-0">
+                  <tr>
+                    <th className="px-4 py-2 font-medium">Timestamp</th>
+                    <th className="px-4 py-2 font-medium">Actual Power (W)</th>
+                    <th className="px-4 py-2 font-medium text-brand">Predicted (W)</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-border-default">
+                  {predictions.slice(0, 50).map((row, idx) => (
+                    <tr key={idx} className="bg-neutral-primary/50 hover:bg-neutral-primary/80 transition-colors">
+                      <td className="px-4 py-2 text-body">{new Date(row.timestamp || row.created_at || Date.now()).toLocaleString()}</td>
+                      <td className="px-4 py-2 text-body">{row.power_watt}</td>
+                      <td className="px-4 py-2 text-brand font-semibold">{Number(row.predictedPowerWatt).toFixed(2)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              {predictions.length > 50 && (
+                <div className="p-2 text-center text-xs text-body-subtle bg-neutral-secondary-soft">
+                  Showing first 50 rows.
                 </div>
-              } 
-            />
+              )}
+            </div>
+            
+            <div className="flex justify-end items-center gap-4 mt-2">
+              {saveSuccess && <span className="text-success text-sm font-medium">Saved to database successfully!</span>}
+              <Button onClick={handleSave} disabled={isSaving || saveSuccess} size="sm">
+                {isSaving ? "Saving..." : t('steps.result.uploadButton')}
+              </Button>
+            </div>
           </div>
         </AccordionItem>
       )}

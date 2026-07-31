@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Home, Flame, Settings, FileText, HelpCircle, LineChart, Layers, Brain } from 'lucide-react';
+import { LogOut, Home, Flame, Settings, LineChart, Layers, Brain } from 'lucide-react';
 import { Link, usePathname } from '@/i18n/routing';
 import { Sidebar as ShadcnSidebar, SidebarContent, SidebarFooter } from '@/components/ui/sidebar';
 import {
@@ -90,17 +90,9 @@ export function Sidebar() {
         })}
       </SidebarContent>
       <SidebarFooter className="p-4 border-t border-border-default flex flex-col gap-1 !bg-transparent">
-        <a href="#" className="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium text-body hover:bg-neutral-primary-soft hover:text-heading transition-colors overflow-hidden">
-          <FileText className="w-4 h-4 shrink-0" />
-          <span className="group-data-[collapsible=icon]:hidden whitespace-nowrap">Docs</span>
-        </a>
-        <a href="#" className="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium text-body hover:bg-neutral-primary-soft hover:text-heading transition-colors overflow-hidden">
-          <HelpCircle className="w-4 h-4 shrink-0" />
-          <span className="group-data-[collapsible=icon]:hidden whitespace-nowrap">Help</span>
-        </a>
-        <a href="#" className="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium text-body hover:bg-neutral-primary-soft hover:text-heading transition-colors overflow-hidden">
-          <Settings className="w-4 h-4 shrink-0" />
-          <span className="group-data-[collapsible=icon]:hidden whitespace-nowrap">Settings</span>
+        <a href="/" className="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium text-body hover:bg-danger-soft text-fg-danger hover:text-fg-danger-strong transition-colors overflow-hidden">
+          <LogOut className="w-4 h-4 shrink-0" /> 
+          <span className="group-data-[collapsible=icon]:hidden whitespace-nowrap">Sign out</span>
         </a>
       </SidebarFooter>
     </ShadcnSidebar>

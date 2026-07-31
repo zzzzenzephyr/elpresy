@@ -17,37 +17,39 @@ export const EvaluationStep = ({ openAccordionId, toggleAccordion, answerContent
   
   const calculateMetrics = () => {
     if (predictedData.length === 0) return;
-    
+
+    let n = predictedData.length;
     let sumAbsError = 0;
-    let sumSqrError = 0;
-    let sumY = 0;
-    const n = predictedData.length;
-    
-    // First pass for MAE, RMSE and sumY
+    let sumSqError = 0;
+    let sumActual = 0;
+
+    // 1. Calculate MAE, MSE, and the mean of actual values
     for (let i = 0; i < n; i++) {
-      const yTrue = parseFloat(predictedData[i].power_watt) || 0;
-      const yPred = parseFloat(predictedData[i].predictedPowerWatt) || 0;
+      let actual = parseFloat(predictedData[i].power_watt) || 0;
+      let predicted = parseFloat(predictedData[i].predictedPowerWatt) || 0;
       
-      const error = yTrue - yPred;
+      let error = actual - predicted;
       sumAbsError += Math.abs(error);
-      sumSqrError += (error * error);
-      sumY += yTrue;
+      sumSqError += error * error;
+      sumActual += actual;
     }
-    
-    const mae = sumAbsError / n;
-    const rmse = Math.sqrt(sumSqrError / n);
-    const meanY = sumY / n;
-    
-    // Second pass for Total Sum of Squares (TSS) for R2
-    let tss = 0;
+
+    let mae = sumAbsError / n;
+    let mse = sumSqError / n;
+    let rmse = Math.sqrt(mse);
+    let meanActual = sumActual / n;
+
+    // 2. Calculate R-squared (R2)
+    let totalSumOfSquares = 0; // Variance in the actual data
     for (let i = 0; i < n; i++) {
-      const yTrue = parseFloat(predictedData[i].power_watt) || 0;
-      tss += Math.pow(yTrue - meanY, 2);
+      let actual = parseFloat(predictedData[i].power_watt) || 0;
+      totalSumOfSquares += Math.pow(actual - meanActual, 2);
     }
+
+    // R2 = 1 - (Residual Sum of Squares / Total Sum of Squares)
+    let r2 = totalSumOfSquares === 0 ? 1 : 1 - (sumSqError / totalSumOfSquares);
     
-    const r2 = 1 - (sumSqrError / (tss || 1));
-    
-    setEvalMetrics({ mae, rmse, r2, n });
+    setEvalMetrics({ mae, rmse, r2, n, meanY: meanActual });
     toggleAccordion('2');
   };
 
@@ -87,19 +89,23 @@ export const EvaluationStep = ({ openAccordionId, toggleAccordion, answerContent
           onToggle={() => toggleAccordion('2')}
         >
           <div className="p-4 bg-neutral-secondary-soft border border-border-default rounded flex flex-col gap-6">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div className="bg-neutral-primary border border-border-default rounded p-4 flex flex-col items-center justify-center">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="bg-neutral-primary border border-border-default rounded p-4 flex flex-col items-center justify-center text-center">
+                <span className="text-body-subtle text-xs font-semibold uppercase tracking-wider mb-2">Avg Actual Power<br/>(Testing Data 30%)</span>
+                <span className="text-2xl font-bold text-heading">{evalMetrics.meanY.toFixed(2)} W</span>
+              </div>
+              <div className="bg-neutral-primary border border-border-default rounded p-4 flex flex-col items-center justify-center text-center">
                 <span className="text-body-subtle text-xs font-semibold uppercase tracking-wider mb-2">Mean Absolute Error (MAE)</span>
-                <span className="text-2xl font-bold text-heading">{evalMetrics.mae.toFixed(4)} W</span>
+                <span className="text-2xl font-bold text-heading">{evalMetrics.mae.toFixed(2)} W</span>
               </div>
-              <div className="bg-neutral-primary border border-border-default rounded p-4 flex flex-col items-center justify-center">
+              <div className="bg-neutral-primary border border-border-default rounded p-4 flex flex-col items-center justify-center text-center">
                 <span className="text-body-subtle text-xs font-semibold uppercase tracking-wider mb-2">Root Mean Sq Error (RMSE)</span>
-                <span className="text-2xl font-bold text-heading">{evalMetrics.rmse.toFixed(4)} W</span>
+                <span className="text-2xl font-bold text-heading">{evalMetrics.rmse.toFixed(2)} W</span>
               </div>
-              <div className="bg-neutral-primary border border-border-default rounded p-4 flex flex-col items-center justify-center">
+              <div className="bg-neutral-primary border border-border-default rounded p-4 flex flex-col items-center justify-center text-center">
                 <span className="text-body-subtle text-xs font-semibold uppercase tracking-wider mb-2">R-Squared (R²)</span>
                 <span className={`text-2xl font-bold ${evalMetrics.r2 >= 0.75 ? 'text-success' : 'text-danger'}`}>
-                  {evalMetrics.r2.toFixed(4)}
+                  {evalMetrics.r2.toFixed(2)}
                 </span>
               </div>
             </div>
