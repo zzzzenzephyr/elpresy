@@ -9,48 +9,10 @@ import { recordFirebaseData } from "@/script/app/actions/firebase";
 import type { FirebaseData } from "@/script/app/firebase/types";
 import { cn } from "@/lib/utils";
 
-// --- TEMPORARY MANUAL MANIPULATION ---
-// Delete this function and its call inside useFirebaseRecorder anytime
-function manipulateFirebaseData(data: FirebaseData, offsetDays: number) {
-  // Number of days to offset backwards from current date
-  const offsetMs = offsetDays * 24 * 60 * 60 * 1000;
-  const offsetDate = new Date(Date.now() - offsetMs);
-
-  return {
-    ...data,
-    // Manually manipulate last_updated and createdAt here
-    last_updated: offsetDate.getTime(),
-    createdAt: offsetDate.toISOString(),
-  } as FirebaseData;
-}
-// --------------------------------------
-
 function useFirebaseRecorder(data: FirebaseData | null, isRecording: boolean, toggleRecording: () => void) {
   const router = useRouter();
   const queueRef = useRef<FirebaseData[]>([]);
   const isFlushingRef = useRef(false);
-  const [counter, setCounter] = useState(0);
-  const [multDate, setMultDate] = useState(15); // 13 = 16 july, 14 = 15 july, 15 = 14 july, etc., 
-
-  const decreaseMultDate = () => {
-    setMultDate(prev => prev - 1);
-  };
-
-  const addCounter = () => {
-    setCounter(prev => prev + 1);
-  };
-
-  useEffect(() => {
-    if (multDate === 0 && isRecording) {
-      toggleRecording();
-    }
-    if (isRecording && counter >= 200) {
-      if (counter === 200) {
-        decreaseMultDate();
-      }
-      setCounter(0);
-    }
-  }, [counter, isRecording, toggleRecording, multDate]);
 
   const flushQueue = async () => {
     if (isFlushingRef.current || queueRef.current.length === 0) return;
@@ -74,9 +36,8 @@ function useFirebaseRecorder(data: FirebaseData | null, isRecording: boolean, to
   };
 
   useEffect(() => {
-    if (isRecording && data && counter < 200) {
-      queueRef.current.push(manipulateFirebaseData(data, multDate));
-      addCounter();
+    if (isRecording && data) {
+      queueRef.current.push(data);
       flushQueue();
     }
   }, [data, isRecording]);

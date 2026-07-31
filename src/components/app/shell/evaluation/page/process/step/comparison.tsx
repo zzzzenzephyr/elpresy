@@ -162,13 +162,7 @@ export const ComparisonStep = ({ openAccordionId, toggleAccordion, answerContent
               </tbody>
             </table>
 
-            <div className="flex flex-col gap-2 p-3 bg-brand/10 border border-brand/20 rounded text-brand-strong">
-              <strong>Thesis Success Criteria Thresholds:</strong>
-              <ul className="list-disc pl-5">
-                <li>R² increase &ge; 0.05</li>
-                <li>MAE decrease &ge; 10%</li>
-              </ul>
-            </div>
+
           </div>
         </AccordionItem>
       )}
