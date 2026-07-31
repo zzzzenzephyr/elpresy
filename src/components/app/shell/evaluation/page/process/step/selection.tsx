@@ -126,7 +126,7 @@ export const SelectionStep = ({ openAccordionId, toggleAccordion, answerContent,
                   {predictedData.slice(0, 50).map((row, idx) => (
                     <tr key={idx} className="bg-neutral-primary/50">
                       <td className="px-4 py-2 text-body">{row.current}</td>
-                      <td className="px-4 py-2 text-body">{row.powerWatt}</td>
+                      <td className="px-4 py-2 text-body">{row.power_watt || row.powerWatt}</td>
                       <td className="px-4 py-2 text-brand font-semibold">{Number(row.predictedPowerWatt).toFixed(2)}</td>
                     </tr>
                   ))}

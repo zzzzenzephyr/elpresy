@@ -8,7 +8,7 @@ import { FirebaseDataRow } from '@/components/app/shell/firebase/page/table/colu
 
 import { SelectionStep } from './process/step/selection';
 import { SpecificationStep } from './process/step/specification';
-import { TuningStep } from './process/step/tuning';
+
 import { SplitStep } from './process/step/split';
 import { ResultStep } from './process/step/result';
 import { useProcessStepsData } from './process/step/data';
@@ -54,10 +54,8 @@ export function Process({ data = [] }: { data?: FirebaseDataRow[] }) {
       case 1:
         return <SpecificationStep {...commonProps} />;
       case 2:
-        return <TuningStep {...commonProps} />;
-      case 3:
         return <SplitStep {...commonProps} />;
-      case 4:
+      case 3:
         return <ResultStep {...commonProps} />;
       default:
         return null;

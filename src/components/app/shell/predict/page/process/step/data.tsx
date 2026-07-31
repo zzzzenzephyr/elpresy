@@ -23,15 +23,7 @@ export function useProcessStepsData() {
         </div>
       )
     },
-    {
-      label: t('steps.tuning.label'),
-      question: t('steps.tuning.question'),
-      answer: (
-        <div className="space-y-4 text-body text-sm leading-relaxed">
-          <p>{t('steps.tuning.p1')}</p>
-        </div>
-      )
-    },
+
     {
       label: t('steps.split.label'),
       question: t('steps.split.question'),
