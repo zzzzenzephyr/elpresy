@@ -30,7 +30,7 @@ export const ComparisonStep = ({ openAccordionId, toggleAccordion, answerContent
       try {
         // Train 1-feature model (Current only) using the test dataset for demonstration purposes
         const X1 = predictedData.map(d => [parseFloat(d.current) || 0]);
-        const y = predictedData.map(d => parseFloat(d.powerWatt) || 0);
+        const y = predictedData.map(d => parseFloat(d.power_watt) || 0);
 
         const reg1 = new DTRegression({ maxDepth: 10, minNumSamples: 3 });
         reg1.train(X1, y);
@@ -136,24 +136,27 @@ export const ComparisonStep = ({ openAccordionId, toggleAccordion, answerContent
                   <td className="p-3 font-medium">R-Squared (R²)</td>
                   <td className="p-3">{modelComparison.feature1.r2.toFixed(4)}</td>
                   <td className="p-3 font-semibold text-brand">{modelComparison.feature2.r2.toFixed(4)}</td>
-                  <td className="p-3 text-success">
-                    +{Math.max(0, modelComparison.feature2.r2 - modelComparison.feature1.r2).toFixed(4)}
+                  <td className={`p-3 font-medium ${modelComparison.feature2.r2 >= modelComparison.feature1.r2 ? 'text-success' : 'text-danger'}`}>
+                    {(modelComparison.feature2.r2 - modelComparison.feature1.r2) > 0 ? '+' : ''}
+                    {(modelComparison.feature2.r2 - modelComparison.feature1.r2).toFixed(4)}
                   </td>
                 </tr>
                 <tr className="border-b border-border-default">
                   <td className="p-3 font-medium">MAE</td>
                   <td className="p-3">{modelComparison.feature1.mae.toFixed(4)}</td>
                   <td className="p-3 font-semibold text-brand">{modelComparison.feature2.mae.toFixed(4)}</td>
-                  <td className="p-3 text-success">
-                    -{Math.max(0, modelComparison.feature1.mae - modelComparison.feature2.mae).toFixed(4)}
+                  <td className={`p-3 font-medium ${modelComparison.feature2.mae <= modelComparison.feature1.mae ? 'text-success' : 'text-danger'}`}>
+                    {(modelComparison.feature1.mae - modelComparison.feature2.mae) > 0 ? '+' : ''}
+                    {(modelComparison.feature1.mae - modelComparison.feature2.mae).toFixed(4)}
                   </td>
                 </tr>
                 <tr>
                   <td className="p-3 font-medium">RMSE</td>
                   <td className="p-3">{modelComparison.feature1.rmse.toFixed(4)}</td>
                   <td className="p-3 font-semibold text-brand">{modelComparison.feature2.rmse.toFixed(4)}</td>
-                  <td className="p-3 text-success">
-                    -{Math.max(0, modelComparison.feature1.rmse - modelComparison.feature2.rmse).toFixed(4)}
+                  <td className={`p-3 font-medium ${modelComparison.feature2.rmse <= modelComparison.feature1.rmse ? 'text-success' : 'text-danger'}`}>
+                    {(modelComparison.feature1.rmse - modelComparison.feature2.rmse) > 0 ? '+' : ''}
+                    {(modelComparison.feature1.rmse - modelComparison.feature2.rmse).toFixed(4)}
                   </td>
                 </tr>
               </tbody>

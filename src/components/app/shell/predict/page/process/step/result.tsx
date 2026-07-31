@@ -3,6 +3,7 @@ import { useTranslations } from 'next-intl';
 import { AccordionItem } from '../accordion';
 import { Button } from '@/components/ui/button';
 import { savePredictData } from '@/script/app/actions/predict';
+import { RowTable } from '../../row-table';
 
 interface StepProps {
   openAccordionId: string;
@@ -97,44 +98,27 @@ export const ResultStep = ({ openAccordionId, toggleAccordion, answerContent, te
       {predictions.length > 0 && (
         <AccordionItem 
           id="2" 
-          title="Save Results to Database" 
+          title="Generated Predictions" 
           numberSeq={3} 
           isOpen={openAccordionId === '2'} 
           onToggle={() => toggleAccordion('2')}
         >
-          <div className="p-4 bg-neutral-secondary-soft border border-border-default rounded flex flex-col gap-4">
+          <div className="flex flex-col gap-4">
             <div className="text-sm text-body-subtle">
-              Predictions generated successfully. Below is a preview of the first 5 results:
+              Predictions generated successfully. Below is a preview of the results:
             </div>
-            <div className="border border-border-default rounded overflow-hidden">
-              <table className="w-full text-sm text-left">
-                <thead className="bg-neutral-primary text-body-subtle">
-                  <tr>
-                    <th className="px-4 py-2 font-medium">ID</th>
-                    <th className="px-4 py-2 font-medium">Current (A)</th>
-                    <th className="px-4 py-2 font-medium">Actual Power (W)</th>
-                    <th className="px-4 py-2 font-medium text-brand">Predicted (W)</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-border-default">
-                  {predictions.slice(0, 5).map((p, i) => (
-                    <tr key={p.id || i} className="bg-neutral-primary/50">
-                      <td className="px-4 py-2 text-body truncate max-w-[150px]">{p.id}</td>
-                      <td className="px-4 py-2 text-body">{p.current}</td>
-                      <td className="px-4 py-2 text-body">{p.powerWatt}</td>
-                      <td className="px-4 py-2 text-brand font-semibold">{Number(p.predictedPowerWatt).toFixed(2)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-
-            <div className="flex justify-end items-center mt-2 border-t border-border-default pt-4 gap-4">
-              {saveSuccess && <span className="text-success text-sm font-medium">Saved to database successfully!</span>}
-              <Button onClick={handleSave} disabled={isSaving || saveSuccess}>
-                {isSaving ? "Saving..." : t('steps.result.uploadButton')}
-              </Button>
-            </div>
+            
+            <RowTable 
+              data={predictions} 
+              headerAction={
+                <div className="flex items-center gap-4">
+                  {saveSuccess && <span className="text-success text-sm font-medium">Saved to database successfully!</span>}
+                  <Button onClick={handleSave} disabled={isSaving || saveSuccess} size="sm">
+                    {isSaving ? "Saving..." : t('steps.result.uploadButton')}
+                  </Button>
+                </div>
+              } 
+            />
           </div>
         </AccordionItem>
       )}

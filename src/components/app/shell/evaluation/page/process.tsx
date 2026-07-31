@@ -10,7 +10,6 @@ import { EvaluationStep } from './process/step/evaluation';
 import { ScatterStep } from './process/step/scatter';
 import { ComparisonStep } from './process/step/comparison';
 import { ChecklistStep } from './process/step/checklist';
-import { TreeStep } from './process/step/tree';
 import { useProcessStepsData } from './process/step/data';
 
 export function Process() {
@@ -58,8 +57,6 @@ export function Process() {
         return <ComparisonStep {...commonProps} />;
       case 4:
         return <ChecklistStep {...commonProps} />;
-      case 5:
-        return <TreeStep {...commonProps} />;
       default:
         return null;
     }

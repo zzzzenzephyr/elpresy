@@ -2,21 +2,47 @@ import * as React from 'react';
 import { useTranslations } from 'next-intl';
 import { AccordionItem } from '../accordion';
 import { CheckCircle2, XCircle } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { saveEvaluationData } from '@/script/app/actions/evaluation';
 
 interface StepProps {
   openAccordionId: string;
   toggleAccordion: (id: string) => void;
   answerContent: React.ReactNode;
   evalMetrics: any;
+  modelComparison: any;
+  predictedData: any[];
 }
 
-export const ChecklistStep = ({ openAccordionId, toggleAccordion, answerContent, evalMetrics }: StepProps) => {
+export const ChecklistStep = ({ openAccordionId, toggleAccordion, answerContent, evalMetrics, modelComparison, predictedData }: StepProps) => {
   const t = useTranslations('EvaluationPage.Process');
   
   const hasMetrics = !!evalMetrics;
   const isR2Pass = hasMetrics && evalMetrics.r2 >= 0.75;
   const isMAEPass = hasMetrics; // Simulated: requires multi-day tracking, assume passed if metrics exist.
   const isTechPass = true;
+  
+  const [isSaving, setIsSaving] = React.useState(false);
+  const [saveSuccess, setSaveSuccess] = React.useState(false);
+
+  const handleSave = async () => {
+    if (!evalMetrics || predictedData.length === 0) return;
+    
+    setIsSaving(true);
+    const evalPayload = {
+      metrics: evalMetrics,
+      comparison: modelComparison,
+      testDataSize: predictedData.length
+    };
+    
+    const res = await saveEvaluationData(evalPayload);
+    if (res.success) {
+      setSaveSuccess(true);
+    } else {
+      alert("Failed to save evaluation data: " + res.error);
+    }
+    setIsSaving(false);
+  };
 
   return (
     <div className="flex flex-col w-full pb-10">
@@ -67,6 +93,27 @@ export const ChecklistStep = ({ openAccordionId, toggleAccordion, answerContent,
               </div>
             </div>
           )}
+        </div>
+      </AccordionItem>
+      
+      <AccordionItem 
+        id="2" 
+        title="Save Evaluation Results" 
+        numberSeq={3} 
+        isOpen={openAccordionId === '2'} 
+        onToggle={() => toggleAccordion('2')}
+      >
+        <div className="p-4 bg-neutral-secondary-soft border border-border-default rounded flex flex-col gap-4">
+          <div className="text-sm text-body-subtle">
+            Save the computed Evaluation Metrics and Model Comparison results to the database for final reporting.
+          </div>
+
+          <div className="flex justify-end items-center mt-2 border-t border-border-default pt-4 gap-4">
+            {saveSuccess && <span className="text-success text-sm font-medium">Saved to evaluation table successfully!</span>}
+            <Button onClick={handleSave} disabled={isSaving || saveSuccess || !evalMetrics}>
+              {isSaving ? "Saving..." : t('steps.tree.uploadButton')}
+            </Button>
+          </div>
         </div>
       </AccordionItem>
     </div>

@@ -25,7 +25,7 @@ export const EvaluationStep = ({ openAccordionId, toggleAccordion, answerContent
     
     // First pass for MAE, RMSE and sumY
     for (let i = 0; i < n; i++) {
-      const yTrue = parseFloat(predictedData[i].powerWatt) || 0;
+      const yTrue = parseFloat(predictedData[i].power_watt) || 0;
       const yPred = parseFloat(predictedData[i].predictedPowerWatt) || 0;
       
       const error = yTrue - yPred;
@@ -41,7 +41,7 @@ export const EvaluationStep = ({ openAccordionId, toggleAccordion, answerContent
     // Second pass for Total Sum of Squares (TSS) for R2
     let tss = 0;
     for (let i = 0; i < n; i++) {
-      const yTrue = parseFloat(predictedData[i].powerWatt) || 0;
+      const yTrue = parseFloat(predictedData[i].power_watt) || 0;
       tss += Math.pow(yTrue - meanY, 2);
     }
     

@@ -7,7 +7,7 @@ import { randomUUID } from "crypto";
 export async function fetchPreprocessDataList() {
   try {
     const result = await db.execute(sql`
-      SELECT id, created_at 
+      SELECT id, created_at, data 
       FROM preprocess 
       ORDER BY created_at DESC
     `);

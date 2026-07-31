@@ -48,7 +48,7 @@ export const TuningStep = ({ openAccordionId, toggleAccordion, answerContent, tr
           return [current, opTime];
         });
         
-        const y = trainData.map(d => parseFloat(d.powerWatt) || 0);
+        const y = trainData.map(d => parseFloat(d.power_watt) || 0);
 
         const options = {
           maxDepth: maxDepth,

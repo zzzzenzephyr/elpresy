@@ -9,6 +9,8 @@ interface StepProps {
   trainedModel: any;
 }
 
+import { TreeECharts } from './tree-echarts';
+
 export const SplitStep = ({ openAccordionId, toggleAccordion, answerContent, trainedModel }: StepProps) => {
   const t = useTranslations('PredictPage.Process');
   
@@ -39,6 +41,23 @@ export const SplitStep = ({ openAccordionId, toggleAccordion, answerContent, tra
         ) : (
           <div className="h-32 bg-neutral-secondary-soft border border-dashed border-border-default rounded flex items-center justify-center text-body-subtle text-sm">
             Please train the model in the previous step to see the split tree.
+          </div>
+        )}
+      </AccordionItem>
+      <AccordionItem 
+        id="2" 
+        title="Decision Tree Structure" 
+        numberSeq={3} 
+        isOpen={openAccordionId === '2'} 
+        onToggle={() => toggleAccordion('2')}
+      >
+        {trainedModel ? (
+          <div className="p-6 bg-neutral-secondary-soft border border-border-default rounded flex items-start text-sm text-body overflow-x-auto overflow-y-auto max-h-[600px] custom-scrollbar">
+            <TreeECharts modelNode={trainedModel.toJSON().root || trainedModel.toJSON()} />
+          </div>
+        ) : (
+          <div className="h-32 bg-neutral-secondary-soft border border-dashed border-border-default rounded flex items-center justify-center text-body-subtle text-sm">
+            Please train the model first to generate the tree structure.
           </div>
         )}
       </AccordionItem>

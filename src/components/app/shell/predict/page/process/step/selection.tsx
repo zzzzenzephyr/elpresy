@@ -4,6 +4,7 @@ import { AccordionItem } from '../accordion';
 import { Button } from '@/components/ui/button';
 import { fetchPreprocessDataList, fetchPreprocessDataById } from '@/script/app/actions/predict';
 import { PredictTable } from '../../table';
+import { RowTable } from '../../row-table';
 
 interface StepProps {
   openAccordionId: string;
@@ -82,43 +83,13 @@ export const SelectionStep = ({ openAccordionId, toggleAccordion, answerContent,
           ) : dataList.length === 0 ? (
             <div className="text-sm text-body-subtle">No preprocessed data found.</div>
           ) : (
-            <div className="border border-border-default rounded overflow-hidden">
-              <table className="w-full text-sm text-left">
-                <thead className="bg-neutral-secondary-soft text-body-subtle">
-                  <tr>
-                    <th className="px-4 py-2 font-medium">ID</th>
-                    <th className="px-4 py-2 font-medium">Created At</th>
-                    <th className="px-4 py-2 font-medium w-[100px]">Action</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-border-default">
-                  {dataList.map((item) => (
-                    <tr key={item.id} className="bg-neutral-primary hover:bg-neutral-primary/80 transition-colors">
-                      <td className="px-4 py-3 text-body truncate max-w-[200px]" title={item.id}>{item.id}</td>
-                      <td className="px-4 py-3 text-body">
-                        {new Date(item.created_at).toLocaleString()}
-                      </td>
-                      <td className="px-4 py-2">
-                        <Button 
-                          variant={selectedId === item.id ? "default" : "outline"} 
-                          size="sm"
-                          onClick={() => handleSelect(item.id)}
-                          disabled={loadingData}
-                        >
-                          {selectedId === item.id ? "Selected" : "Select"}
-                        </Button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            <PredictTable data={dataList} onSelect={handleSelect} />
           )}
         </div>
       </AccordionItem>
       <AccordionItem 
         id="2" 
-        title="Training & Testing Data Split (70:30)" 
+        title="Training & Testing Data Split" 
         numberSeq={3} 
         isOpen={openAccordionId === '2'} 
         onToggle={() => toggleAccordion('2')}
@@ -129,15 +100,11 @@ export const SelectionStep = ({ openAccordionId, toggleAccordion, answerContent,
           <div className="flex flex-col gap-8">
             <div>
               <h3 className="text-sm font-semibold mb-2">Training Data (70% - {trainData.length} rows)</h3>
-              <div className="border border-border-default rounded overflow-hidden max-h-[400px] overflow-y-auto">
-                <PredictTable data={trainData} />
-              </div>
+              <RowTable data={trainData} />
             </div>
             <div>
               <h3 className="text-sm font-semibold mb-2">Testing Data (30% - {testData.length} rows)</h3>
-              <div className="border border-border-default rounded overflow-hidden max-h-[400px] overflow-y-auto">
-                <PredictTable data={testData} />
-              </div>
+              <RowTable data={testData} />
             </div>
           </div>
         ) : (

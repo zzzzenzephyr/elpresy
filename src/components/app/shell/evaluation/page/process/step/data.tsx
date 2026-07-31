@@ -49,15 +49,6 @@ export function useProcessStepsData() {
           <p>{t('steps.checklist.p1')}</p>
         </div>
       )
-    },
-    {
-      label: t('steps.tree.label'),
-      question: t('steps.tree.question'),
-      answer: (
-        <div className="space-y-4 text-body text-sm leading-relaxed">
-          <p>{t('steps.tree.p1')}</p>
-        </div>
-      )
     }
   ];
 }

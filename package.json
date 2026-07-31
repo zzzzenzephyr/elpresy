@@ -17,6 +17,8 @@
     "clsx": "^2.1.1",
     "date-fns": "^4.4.0",
     "drizzle-orm": "1.0.0-rc.4",
+    "echarts": "^6.1.0",
+    "echarts-for-react": "^3.0.6",
     "firebase": "^12.15.0",
     "flag-icons": "^7.5.0",
     "framer-motion": "^12.42.2",
