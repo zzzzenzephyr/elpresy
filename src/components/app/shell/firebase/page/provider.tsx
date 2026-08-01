@@ -40,10 +40,11 @@ export function Provider({ children }: { children: React.ReactNode }) {
         const val = snapshot.val();
         // Output console data for debugging only
         if (val) {
-          // const current = val.current < 7 ? val.current + 2.0 : val.current;
+          // const current = val.current + 8.0;
           const calibrated = {
             ...val,
-            // current: parseFloat(current.toFixed(2))
+            // current: parseFloat(current.toFixed(2)),
+            // power_watt: parseFloat((val.voltage * current).toFixed(2))
           }
           setData(calibrated);
           // console.log("Firebase Realtime Data Updated:", val);

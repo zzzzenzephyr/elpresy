@@ -3,6 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { signIn } from '@/lib/auth/client';
+import { Link } from '@/i18n/routing';
 
 export function LoginForm() {
   const t = useTranslations('HomePage');
@@ -39,12 +40,12 @@ export function LoginForm() {
       </h2>
       <p className="text-body-sm text-body mb-6">
         {t('noAccount')}{" "}
-        <a
-          href="register"
+        <Link
+          href="/register"
           className="text-brand hover:underline font-medium"
         >
           {t('signUp')}
-        </a>
+        </Link>
       </p>
 
       <div className="relative mb-6">
