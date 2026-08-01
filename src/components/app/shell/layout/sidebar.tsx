@@ -3,6 +3,7 @@
 import * as React from "react";
 import { LogOut, Home, Flame, Settings, LineChart, Layers, Brain } from 'lucide-react';
 import { Link, usePathname } from '@/i18n/routing';
+import { signOut } from '@/lib/auth/client';
 import { Sidebar as ShadcnSidebar, SidebarContent, SidebarFooter } from '@/components/ui/sidebar';
 import {
   Breadcrumb,
@@ -90,10 +91,21 @@ export function Sidebar() {
         })}
       </SidebarContent>
       <SidebarFooter className="p-4 border-t border-border-default flex flex-col gap-1 !bg-transparent">
-        <a href="/" className="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium text-body hover:bg-danger-soft text-fg-danger hover:text-fg-danger-strong transition-colors overflow-hidden">
+        <button 
+          onClick={async () => {
+            await signOut({
+              fetchOptions: {
+                onSuccess: () => {
+                  window.location.href = '/';
+                }
+              }
+            });
+          }}
+          className="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium text-body hover:bg-danger-soft text-fg-danger hover:text-fg-danger-strong transition-colors overflow-hidden"
+        >
           <LogOut className="w-4 h-4 shrink-0" /> 
           <span className="group-data-[collapsible=icon]:hidden whitespace-nowrap">Sign out</span>
-        </a>
+        </button>
       </SidebarFooter>
     </ShadcnSidebar>
   );

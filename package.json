@@ -8,7 +8,10 @@
     "start": "next start -p 3001",
     "lint": "biome check",
     "exe": "pnpm build && pnpm start",
-    "format": "biome format --write"
+    "format": "biome format --write",
+    "cypress:install": "pnpm exec cypress install",
+    "cypress:open": "pnpm exec cypress open",
+    "cypress:run": "pnpm exec cypress run"
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
@@ -45,6 +48,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "cypress": "^15.19.0",
     "drizzle-kit": "1.0.0-rc.4",
     "tailwindcss": "^4",
     "typescript": "^5"
