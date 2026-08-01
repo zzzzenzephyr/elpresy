@@ -79,8 +79,8 @@ export const ChecklistStep = ({ openAccordionId, toggleAccordion, answerContent,
               <div className="flex items-start gap-3 p-3 bg-neutral-primary border border-border-default rounded">
                 {isMAEPass ? <CheckCircle2 className="w-5 h-5 text-success mt-0.5" /> : <XCircle className="w-5 h-5 text-danger mt-0.5" />}
                 <div className="flex flex-col">
-                  <span className="font-semibold text-body">2. Stabilitas MAE antar hari &lt; 20%</span>
-                  <span className="text-body-subtle text-xs">Based on continuous time-series tracking.</span>
+                  <span className="font-semibold text-body">2. Stabilitas MAE antar hari &lt; 10%</span>
+                  <span className="text-body-subtle text-xs">Based on continuous time-series tracking. Current MAE: {evalMetrics.mae.toFixed(2)} W</span>
                 </div>
               </div>
 

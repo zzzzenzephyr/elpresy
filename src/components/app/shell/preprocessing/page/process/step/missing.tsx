@@ -117,8 +117,8 @@ export const MissingStep = ({ data, setDataFilter, openAccordionId, toggleAccord
         const dayDiff = Number((row.original as any).dayDiff);
         
         let colorClass = 'text-success';
-        if (dayDiff > 3) colorClass = 'text-purple-500';
-        else if (dayDiff > 0 && diff > 30000) colorClass = 'text-white';
+        if (dayDiff > 3) colorClass = 'text-fuchsia-500';
+        else if (dayDiff > 0 && diff > 30000) colorClass = 'text-cyan-500';
         else if (diff >= 31000) colorClass = 'text-danger';
         else if (diff >= 6000) colorClass = 'text-warning';
 
@@ -141,8 +141,8 @@ export const MissingStep = ({ data, setDataFilter, openAccordionId, toggleAccord
         const diff = Number((row.original as any).diff);
         let colorClass = 'text-body';
         
-        if (dayDiff > 3) colorClass = 'text-purple-500 font-bold';
-        else if (dayDiff > 0 && diff > 30000) colorClass = 'text-white font-bold';
+        if (dayDiff > 3) colorClass = 'text-fuchsia-500 font-bold';
+        else if (dayDiff > 0 && diff > 30000) colorClass = 'text-cyan-500 font-bold';
         
         return <div className={colorClass}>{row.getValue("keterangan") as string}</div>;
       }
@@ -170,20 +170,33 @@ export const MissingStep = ({ data, setDataFilter, openAccordionId, toggleAccord
             <p>{t('averageGap', { fallback: 'Average Gap' })}: <span className="font-bold text-body">{avgGapSeconds} {t('seconds')}</span></p>
             <p>{t('formula')}: <span className="text-brand">y = y₁ + (x - x₁)(y₂ - y₁) / (x₂ - x₁)</span></p>
             <p className="mt-4 break-words">{t('exampleMidpoint')}</p>
-            <div className="pl-4 border-l-2 border-border-default mt-2 space-y-2 whitespace-nowrap sm:whitespace-normal">
-              <p>y₁ = {sampleGap.prev.diff}</p>
-              <p>y₂ = {sampleGap.curr.diff}</p>
-              <p>Δx = 5078 / 2</p>
-              <p>Δx = 2539</p>
-              <p>y = {sampleGap.prev.diff} + ((2539)({sampleGap.curr.diff} - {sampleGap.prev.diff}) / {sampleGap.diff})</p>
-              <p>y = {sampleGap.prev.diff} + ((2539)(-16) / {sampleGap.diff})</p>
-              <p>y = {sampleGap.prev.diff} + (-(40624 / {sampleGap.diff}))</p>
-              <p>y = {sampleGap.prev.diff} + (-8)</p>
-              <p>y = {sampleGap.prev.diff} - 8</p>
-              <p className="text-brand font-bold text-base mt-2">
-                {t('result')} = {((Number(sampleGap.curr.diff) + Number(sampleGap.prev.diff)) / 2).toFixed(2)}
-              </p>
-            </div>
+            {(() => {
+              const y1 = Number(sampleGap.prev.diff);
+              const y2 = Number(sampleGap.curr.diff);
+              const dx_total = Number(sampleGap.diff);
+              const mid_dx = dx_total / 2;
+              const dy = y2 - y1;
+              const numerator = mid_dx * dy;
+              const term2 = numerator / dx_total;
+              const final_y = y1 + term2;
+              
+              return (
+                <div className="pl-4 border-l-2 border-border-default mt-2 space-y-2 whitespace-nowrap sm:whitespace-normal tabular-nums">
+                  <p>y₁ = {y1}</p>
+                  <p>y₂ = {y2}</p>
+                  <p>Δx = {dx_total} / 2</p>
+                  <p>Δx = {mid_dx}</p>
+                  <p>y = {y1} + (({mid_dx})({y2} - {y1}) / {dx_total})</p>
+                  <p>y = {y1} + (({mid_dx})({dy}) / {dx_total})</p>
+                  <p>y = {y1} + ({numerator} / {dx_total})</p>
+                  <p>y = {y1} + ({term2})</p>
+                  {term2 < 0 && <p>y = {y1} - {Math.abs(term2)}</p>}
+                  <p className="text-brand font-bold text-base mt-2">
+                    {t('result')} = {final_y.toFixed(2)}
+                  </p>
+                </div>
+              );
+            })()}
           </div>
         ) : (
           <div className="bg-success-soft p-5 rounded-[12px] border border-success flex flex-col items-start gap-2">

@@ -1,12 +1,11 @@
 import { setRequestLocale } from 'next-intl/server';
 import { Header } from '@/components/app/page/header';
 import { Hero } from '@/components/app/page/hero';
-import { LoginForm } from '@/components/app/page/login';
-import { Process } from '@/components/app/page/process';
+import { RegisterForm } from '@/components/app/page/register';
 import { Footer } from '@/components/app/page/footer';
 
 
-export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
+export default async function RegisterPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
 
   // Enable static rendering
@@ -18,9 +17,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
 
       <main className="flex-1 w-full">
         <Hero>
-          <LoginForm />
+          <RegisterForm />
         </Hero>
-        <Process />
       </main>
 
       <Footer />

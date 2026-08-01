@@ -12,15 +12,15 @@ function Sparkline({ title, color, data, labels, unit }: { title: string, color:
       trigger: 'axis',
       formatter: `{b}<br />{a}: {c} ${unit}`
     },
-    grid: { left: '2%', right: '2%', bottom: '5%', top: '10%', containLabel: false },
+    grid: { left: '2%', right: '2%', bottom: '5%', top: '10%', containLabel: true },
     xAxis: {
       type: 'category',
       data: labels,
-      show: false
+      show: true
     },
     yAxis: {
       type: 'value',
-      show: false,
+      show: true,
       min: 'dataMin',
       max: 'dataMax'
     },
@@ -51,7 +51,7 @@ function Sparkline({ title, color, data, labels, unit }: { title: string, color:
           {data[data.length - 1]?.toFixed(2) || 0} <span className="text-xs font-normal text-body-subtle">{unit}</span>
         </span>
       </div>
-      <ReactECharts option={option} style={{ height: '100px', width: '100%' }} />
+      <ReactECharts option={option} style={{ height: '140px', width: '100%' }} />
     </div>
   );
 }
@@ -87,8 +87,8 @@ export function PreprocessChart({ data }: { data: any[] }) {
     <div className="w-full mb-2">
       <h3 className="text-heading text-lg font-medium mb-4">Real-time Electrical Data</h3>
       <div className="flex flex-col gap-4">
-        <Sparkline title="Voltage" color="#0ea5e9" data={voltageData} labels={labels} unit="V" />
-        <Sparkline title="Current" color="#f59e0b" data={currentData} labels={labels} unit="A" />
+        <Sparkline title="Voltage" color="#f59e0b" data={voltageData} labels={labels} unit="V" />
+        <Sparkline title="Current" color="#0ea5e9" data={currentData} labels={labels} unit="A" />
         <Sparkline title="Power" color="#10b981" data={powerData} labels={labels} unit="W" />
       </div>
     </div>

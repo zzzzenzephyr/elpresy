@@ -2,22 +2,23 @@
 
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
-import { signIn } from '@/lib/auth/client';
+import { signUp } from '@/lib/auth/client';
 
-export function LoginForm() {
+export function RegisterForm() {
   const t = useTranslations('HomePage');
-
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setLoading(true);
 
-    await signIn.email({
+    await signUp.email({
+      name,
       email,
       password,
       fetchOptions: {
@@ -26,7 +27,8 @@ export function LoginForm() {
           setLoading(false);
         },
         onSuccess: () => {
-          window.location.href = '/en/overview';
+          const locale = window.location.pathname.split('/')[1] || 'en';
+          window.location.href = `/${locale}/overview`;
         },
       },
     });
@@ -35,15 +37,15 @@ export function LoginForm() {
   return (
     <div className="bg-neutral-primary border border-border-default rounded-base shadow-lg p-8 w-full flex flex-col">
       <h2 className="text-heading text-h4 font-semibold mb-1">
-        {t('loginTitle')}
+        {t('registerTitle')}
       </h2>
       <p className="text-body-sm text-body mb-6">
-        {t('noAccount')}{" "}
+        {t('alreadyHaveAccount')}{" "}
         <a
-          href="register"
+          href="/"
           className="text-brand hover:underline font-medium"
         >
-          {t('signUp')}
+          {t('signIn')}
         </a>
       </p>
 
@@ -61,10 +63,27 @@ export function LoginForm() {
         </div>
       </div>
 
-      <form className="flex flex-col gap-4" onSubmit={handleLogin}>
+      <form className="flex flex-col gap-4" onSubmit={handleRegister}>
         {error && (
           <div className="text-red-500 text-sm font-medium px-1">{error}</div>
         )}
+        <div className="flex flex-col gap-1.5">
+          <label
+            className="text-body-sm font-medium text-heading"
+            htmlFor="name"
+          >
+            {t('nameLabel')}
+          </label>
+          <input
+            id="name"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="w-full rounded-base border border-border-default bg-neutral-primary-soft px-3 py-2 text-body-sm focus:outline-none focus:ring-2 focus:ring-brand-subtle focus:border-brand"
+            placeholder="John Doe"
+            required
+          />
+        </div>
         <div className="flex flex-col gap-1.5">
           <label
             className="text-body-sm font-medium text-heading"
@@ -79,6 +98,7 @@ export function LoginForm() {
             onChange={(e) => setEmail(e.target.value)}
             className="w-full rounded-base border border-border-default bg-neutral-primary-soft px-3 py-2 text-body-sm focus:outline-none focus:ring-2 focus:ring-brand-subtle focus:border-brand"
             placeholder="name@example.com"
+            required
           />
         </div>
         <div className="flex flex-col gap-1.5 mb-2">
@@ -95,6 +115,7 @@ export function LoginForm() {
             onChange={(e) => setPassword(e.target.value)}
             className="w-full rounded-base border border-border-default bg-neutral-primary-soft px-3 py-2 text-body-sm focus:outline-none focus:ring-2 focus:ring-brand-subtle focus:border-brand"
             placeholder="••••••••"
+            required
           />
         </div>
 
@@ -107,7 +128,7 @@ export function LoginForm() {
               "var(--shadow-xs), inset var(--color-1-400) 0 6px 0px -5px, var(--color-1-700) 0 4px 10px -5px",
           }}
         >
-          {loading ? 'Signing in...' : t('signIn')}
+          {loading ? 'Processing...' : t('createAccount')}
         </button>
       </form>
 
