@@ -105,7 +105,7 @@ export const EvaluationStep = ({ openAccordionId, toggleAccordion, answerContent
               <div className="bg-neutral-primary border border-border-default rounded p-4 flex flex-col items-center justify-center text-center">
                 <span className="text-body-subtle text-xs font-semibold uppercase tracking-wider mb-2">R-Squared (R²)</span>
                 <span className={`text-2xl font-bold ${evalMetrics.r2 >= 0.75 ? 'text-success' : 'text-danger'}`}>
-                  {evalMetrics.r2.toFixed(2)}
+                  {evalMetrics.r2.toFixed(5)}
                 </span>
               </div>
             </div>
