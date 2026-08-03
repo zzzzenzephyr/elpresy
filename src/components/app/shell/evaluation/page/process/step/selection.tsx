@@ -117,6 +117,7 @@ export const SelectionStep = ({ openAccordionId, toggleAccordion, answerContent,
               <table className="w-full text-sm text-left">
                 <thead className="bg-neutral-secondary-soft text-body-subtle sticky top-0">
                   <tr>
+                    <th className="px-4 py-2 font-medium">Date</th>
                     <th className="px-4 py-2 font-medium">Current (A)</th>
                     <th className="px-4 py-2 font-medium">Actual Power (W)</th>
                     <th className="px-4 py-2 font-medium text-brand">Predicted (W)</th>
@@ -125,6 +126,9 @@ export const SelectionStep = ({ openAccordionId, toggleAccordion, answerContent,
                 <tbody className="divide-y divide-border-default">
                   {predictedData.slice(0, 50).map((row, idx) => (
                     <tr key={idx} className="bg-neutral-primary/50">
+                      <td className="px-4 py-2 text-body">
+                        {row.createdAt ? new Date(row.createdAt).toLocaleString() : '-'}
+                      </td>
                       <td className="px-4 py-2 text-body">{row.current}</td>
                       <td className="px-4 py-2 text-body">{row.power_watt || row.powerWatt}</td>
                       <td className="px-4 py-2 text-brand font-semibold">{Number(row.predictedPowerWatt).toFixed(2)}</td>

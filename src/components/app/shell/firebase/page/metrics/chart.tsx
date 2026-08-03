@@ -20,9 +20,9 @@ const chartConfig = {
 };
 
 export function MetricsChart({ data }: { data: FirebaseData }) {
-  const CURRENT_MAX = 12;
-  const VOLTAGE_MAX = 300;
-  const POWER_MAX = 3000;
+  const CURRENT_MAX = 4;
+  const VOLTAGE_MAX = 250;
+  const POWER_MAX = 1000;
 
   const currentPercent = Math.min(((data.current || 0) / CURRENT_MAX) * 100, 100);
   const voltagePercent = Math.min(((data.voltage || 0) / VOLTAGE_MAX) * 100, 100);
