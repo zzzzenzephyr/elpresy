@@ -68,7 +68,7 @@ export const TreeECharts = ({ modelNode }: TreeEChartsProps) => {
         symbolSize: 10,
         edgeShape: 'polyline',
         edgeForkPosition: '50%',
-        initialTreeDepth: 3,
+        initialTreeDepth: -1,
         lineStyle: {
           color: '#cbd5e1', // border-default
           width: 2
