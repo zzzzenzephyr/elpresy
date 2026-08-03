@@ -1,4 +1,5 @@
 import { pgTable, text, timestamp, real, jsonb } from "drizzle-orm/pg-core";
+export * from "../auth/schema";
 
 // Existing firebase table representation
 export const firebase = pgTable("firebase", {

@@ -26,43 +26,78 @@ export function EvaluationChart({ data }: { data: any }) {
   const f1 = comp.feature1 || { r2: 0, mae: 0, rmse: 0 };
   const f2 = comp.feature2 || { r2: 0, mae: 0, rmse: 0 };
 
-  const option = {
-    tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
-    legend: {
-      data: ['1-Feature (Arus)', '2-Feature (Arus + Waktu)'],
-      textStyle: { color: theme === 'dark' ? '#9CA3AF' : '#4B5563' }
-    },
-    grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true },
-    xAxis: {
-      type: 'category',
-      data: ['R² Score', 'MAE', 'RMSE'],
-      axisLabel: { color: theme === 'dark' ? '#9CA3AF' : '#4B5563' }
-    },
-    yAxis: {
-      type: 'value',
-      axisLabel: { color: theme === 'dark' ? '#9CA3AF' : '#4B5563' },
-      splitLine: { lineStyle: { color: theme === 'dark' ? '#374151' : '#E5E7EB' } }
-    },
-    series: [
-      {
-        name: '1-Feature (Arus)',
-        type: 'bar',
-        data: [f1.r2, f1.mae, f1.rmse],
-        color: '#0ea5e9'
+  const createOption = (title: string, dataF1: number, dataF2: number, isR2: boolean) => {
+    let d1 = isR2 ? dataF1 * 100 : dataF1;
+    let d2 = isR2 ? dataF2 * 100 : dataF2;
+    
+    d1 = Number(d1.toFixed(2));
+    d2 = Number(d2.toFixed(2));
+
+    return {
+      tooltip: { 
+        trigger: 'axis', 
+        axisPointer: { type: 'shadow' },
+        formatter: (params: any) => {
+          return `${params[0].axisValue}<br/>` + params.map((p: any) => `${p.marker} ${p.seriesName}: <b>${p.value}${isR2 ? '%' : ''}</b>`).join('<br/>');
+        }
       },
-      {
-        name: '2-Feature (Arus + Waktu)',
-        type: 'bar',
-        data: [f2.r2, f2.mae, f2.rmse],
-        color: '#A855F7'
-      }
-    ]
+      legend: {
+        bottom: 0,
+        data: ['1-Feature', '2-Feature'],
+        textStyle: { color: theme === 'dark' ? '#9CA3AF' : '#4B5563', fontSize: 10 },
+        itemWidth: 10,
+        itemHeight: 10
+      },
+      grid: { left: '18%', right: '5%', bottom: '20%', top: '15%' },
+      xAxis: {
+        type: 'category',
+        data: [title],
+        axisLabel: { color: theme === 'dark' ? '#E5E7EB' : '#1F2937', fontWeight: 'bold' },
+        axisTick: { show: false }
+      },
+      yAxis: {
+        type: 'value',
+        max: isR2 ? 100 : undefined,
+        axisLabel: { color: theme === 'dark' ? '#9CA3AF' : '#4B5563', fontSize: 10 },
+        splitLine: { lineStyle: { color: theme === 'dark' ? '#374151' : '#E5E7EB' } }
+      },
+      series: [
+        {
+          name: '1-Feature',
+          type: 'bar',
+          data: [d1],
+          color: '#0ea5e9',
+          label: { show: true, position: 'top', color: theme === 'dark' ? '#9CA3AF' : '#4B5563', formatter: isR2 ? '{c}%' : '{c}' }
+        },
+        {
+          name: '2-Feature',
+          type: 'bar',
+          data: [d2],
+          color: '#A855F7',
+          label: { show: true, position: 'top', color: theme === 'dark' ? '#9CA3AF' : '#4B5563', formatter: isR2 ? '{c}%' : '{c}' }
+        }
+      ]
+    };
   };
+
+  const optionR2 = createOption('R² Score', f1.r2, f2.r2, true);
+  const optionMAE = createOption('MAE', f1.mae, f2.mae, false);
+  const optionRMSE = createOption('RMSE', f1.rmse, f2.rmse, false);
 
   return (
     <div className="bg-neutral-primary border border-border-default rounded-xl p-4 shadow-xs">
       <h3 className="text-heading text-lg font-medium mb-4">Model Evaluation Comparison</h3>
-      <ReactECharts option={option} style={{ height: '350px', width: '100%' }} />
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="bg-neutral-secondary-soft rounded-lg border border-border-default pt-2">
+          <ReactECharts option={optionR2} style={{ height: '280px', width: '100%' }} />
+        </div>
+        <div className="bg-neutral-secondary-soft rounded-lg border border-border-default pt-2">
+          <ReactECharts option={optionMAE} style={{ height: '280px', width: '100%' }} />
+        </div>
+        <div className="bg-neutral-secondary-soft rounded-lg border border-border-default pt-2">
+          <ReactECharts option={optionRMSE} style={{ height: '280px', width: '100%' }} />
+        </div>
+      </div>
     </div>
   );
 }

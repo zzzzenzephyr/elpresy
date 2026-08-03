@@ -24,58 +24,6 @@ export function Hero({ children }: { children: React.ReactNode }) {
           <p className="text-body text-body-lg max-w-lg mb-8">
             {t('subtitle')}
           </p>
-
-          <a
-            href={`/${locale}/overview`}
-            className="inline-flex items-center justify-center px-4 py-2.5 bg-brand text-white font-medium rounded-base transition-colors hover:bg-brand-strong w-auto mb-16"
-            style={{
-              boxShadow:
-                "var(--shadow-xs), inset var(--color-1-400) 0 6px 0px -5px, var(--color-1-700) 0 4px 10px -5px",
-            }}
-          >
-            <svg
-              className="w-5 h-5 mr-2"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              aria-hidden="true"
-            >
-              <title>Play</title>
-              <path
-                fillRule="evenodd"
-                d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
-                clipRule="evenodd"
-              />
-            </svg>
-            {t('watchDemo')}
-          </a>
-
-          {/* Stat Row */}
-          <div className="hidden xl:flex w-full pt-8 border-t border-border-default gap-8">
-            <div className="flex items-center gap-3">
-              <div className="text-[30px] font-extrabold tracking-tight text-heading leading-none">
-                99%
-              </div>
-              <div className="text-body-sm leading-tight text-body-subtle">
-                {t('accuracyLabel')}
-              </div>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="text-[30px] font-extrabold tracking-tight text-heading leading-none">
-                10k+
-              </div>
-              <div className="text-body-sm leading-tight text-body-subtle">
-                {t('activeModelsLabel')}
-              </div>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="text-[30px] font-extrabold tracking-tight text-heading leading-none">
-                24/7
-              </div>
-              <div className="text-body-sm leading-tight text-body-subtle">
-                {t('uptimeLabel')}
-              </div>
-            </div>
-          </div>
         </div>
 
         {/* Right Column (5 columns) */}

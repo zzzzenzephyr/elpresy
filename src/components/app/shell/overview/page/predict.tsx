@@ -21,6 +21,17 @@ export function PredictChart({ data }: { data: any[] }) {
 
   const timeData = data.map(formatTime);
 
+  const allValues = [
+    ...data.map(d => Number(d.power_watt)),
+    ...data.map(d => Number(d.predictedPowerWatt))
+  ].filter(v => !isNaN(v));
+
+  const minVal = allValues.length ? Math.min(...allValues) : 0;
+  const maxVal = allValues.length ? Math.max(...allValues) : 2000;
+
+  const yMin = Math.max(0, Math.floor(minVal * 0.85));
+  const yMax = Math.ceil(maxVal * 1.15);
+
   const option = {
     tooltip: { trigger: 'axis', axisPointer: { type: 'cross' } },
     legend: {
@@ -36,6 +47,8 @@ export function PredictChart({ data }: { data: any[] }) {
     },
     yAxis: {
       type: 'value',
+      min: yMin,
+      max: yMax,
       axisLabel: { formatter: '{value} W', color: theme === 'dark' ? '#9CA3AF' : '#4B5563' },
       axisPointer: { snap: true },
       splitLine: { lineStyle: { color: theme === 'dark' ? '#374151' : '#E5E7EB' } }
@@ -71,7 +84,7 @@ export function PredictChart({ data }: { data: any[] }) {
         name: 'Predicted Power (W)', 
         type: 'line', 
         smooth: true,
-        data: data.map(d => d.predictedPowerWatt), 
+        data: data.map(d => Number(Number(d.predictedPowerWatt).toFixed(2))),  
         color: '#A855F7', 
         symbol: 'none' 
       }

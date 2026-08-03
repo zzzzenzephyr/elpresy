@@ -83,8 +83,8 @@ export const GroundStep = ({ data, setDataFilter, openAccordionId, toggleAccordi
   );
 
   const stdV = 240;
-  const stdP = 1992;
-  const stdI = 8.3;
+  const stdP = 660;
+  const stdI = 2.75;
   
   const r = data[0]; // Example row
   if (!r) return null;

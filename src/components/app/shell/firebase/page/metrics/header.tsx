@@ -9,48 +9,10 @@ import { recordFirebaseData } from "@/script/app/actions/firebase";
 import type { FirebaseData } from "@/script/app/firebase/types";
 import { cn } from "@/lib/utils";
 
-// --- TEMPORARY MANUAL MANIPULATION ---
-// Delete this function and its call inside useFirebaseRecorder anytime
-function manipulateFirebaseData(data: FirebaseData, offsetDays: number) {
-  // Number of days to offset backwards from current date
-  const offsetMs = offsetDays * 24 * 60 * 60 * 1000;
-  const offsetDate = new Date(Date.now() - offsetMs);
-
-  return {
-    ...data,
-    // Manually manipulate last_updated and createdAt here
-    last_updated: offsetDate.getTime(),
-    createdAt: offsetDate.toISOString(),
-  } as FirebaseData;
-}
-// --------------------------------------
-
 function useFirebaseRecorder(data: FirebaseData | null, isRecording: boolean, toggleRecording: () => void) {
   const router = useRouter();
   const queueRef = useRef<FirebaseData[]>([]);
   const isFlushingRef = useRef(false);
-  const [counter, setCounter] = useState(0);
-  const [multDate, setMultDate] = useState(15); // 13 = 16 july, 14 = 15 july, 15 = 14 july, etc., 
-
-  const decreaseMultDate = () => {
-    setMultDate(prev => prev - 1);
-  };
-
-  const addCounter = () => {
-    setCounter(prev => prev + 1);
-  };
-
-  useEffect(() => {
-    if (multDate === 0 && isRecording) {
-      toggleRecording();
-    }
-    if (isRecording && counter >= 200) {
-      if (counter === 200) {
-        decreaseMultDate();
-      }
-      setCounter(0);
-    }
-  }, [counter, isRecording, toggleRecording, multDate]);
 
   const flushQueue = async () => {
     if (isFlushingRef.current || queueRef.current.length === 0) return;
@@ -74,9 +36,8 @@ function useFirebaseRecorder(data: FirebaseData | null, isRecording: boolean, to
   };
 
   useEffect(() => {
-    if (isRecording && data && counter < 200) {
-      queueRef.current.push(manipulateFirebaseData(data, multDate));
-      addCounter();
+    if (isRecording && data) {
+      queueRef.current.push(data);
       flushQueue();
     }
   }, [data, isRecording]);
@@ -106,23 +67,6 @@ export function MetricsHeader() {
       <div className="flex flex-col gap-1">
         <div className="flex items-center gap-3">
           <h2 className="text-xl font-bold text-heading">{t("metricsTitle")}</h2>
-          {data?.last_updated && (
-            <div className="flex items-center gap-2 border px-2 py-1 rounded-full bg-neutral-secondary-soft">
-              <div className="relative flex h-2 w-2">
-                <span className={cn(
-                  "animate-ping absolute inline-flex h-full w-full rounded-full opacity-75",
-                  (now - Number(data.last_updated)) <= 30000 ? "bg-success" : "bg-danger"
-                )}></span>
-                <span className={cn(
-                  "relative inline-flex rounded-full h-2 w-2",
-                  (now - Number(data.last_updated)) <= 30000 ? "bg-success" : "bg-danger"
-                )}></span>
-              </div>
-              <span className="text-[10px] font-medium uppercase tracking-wider text-body-subtle">
-                {(now - Number(data.last_updated)) <= 30000 ? "Online" : "Offline"}
-              </span>
-            </div>
-          )}
         </div>
         <p className="text-sm text-body-subtle">{t("metricsSubtitle")}</p>
       </div>
